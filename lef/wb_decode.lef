@@ -1,0 +1,465 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO wb_decode
+  CLASS BLOCK ;
+  FOREIGN wb_decode ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 80.000 BY 45.000 ;
+  PIN ram_adrb[0]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 18.950 0.000 19.230 4.000 ;
+    END
+  END ram_adrb[0]
+  PIN ram_adrb[1]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 25.850 0.000 26.130 4.000 ;
+    END
+  END ram_adrb[1]
+  PIN ram_adrb[2]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 32.750 0.000 33.030 4.000 ;
+    END
+  END ram_adrb[2]
+  PIN ram_adrb[3]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 39.650 0.000 39.930 4.000 ;
+    END
+  END ram_adrb[3]
+  PIN ram_adrb[4]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 46.550 0.000 46.830 4.000 ;
+    END
+  END ram_adrb[4]
+  PIN ram_adrb[5]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 53.450 0.000 53.730 4.000 ;
+    END
+  END ram_adrb[5]
+  PIN ram_adrb[6]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 60.350 0.000 60.630 4.000 ;
+    END
+  END ram_adrb[6]
+  PIN ram_adrb[7]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 67.250 0.000 67.530 4.000 ;
+    END
+  END ram_adrb[7]
+  PIN ram_adrb[8]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 74.150 0.000 74.430 4.000 ;
+    END
+  END ram_adrb[8]
+  PIN ram_csb
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 5.150 0.000 5.430 4.000 ;
+    END
+  END ram_csb
+  PIN ram_web
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 12.050 0.000 12.330 4.000 ;
+    END
+  END ram_web
+  PIN vccd1
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER met4 ;
+        RECT 13.285 10.640 14.885 32.880 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 30.420 10.640 32.020 32.880 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 47.555 10.640 49.155 32.880 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 64.690 10.640 66.290 32.880 ;
+    END
+  END vccd1
+  PIN vssd1
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER met4 ;
+        RECT 21.850 10.640 23.450 32.880 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 38.985 10.640 40.585 32.880 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 56.120 10.640 57.720 32.880 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 73.255 10.640 74.855 32.880 ;
+    END
+  END vssd1
+  PIN wb_clk_i
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 1.930 41.000 2.210 45.000 ;
+    END
+  END wb_clk_i
+  PIN wbs_adr_i[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 6.530 41.000 6.810 45.000 ;
+    END
+  END wbs_adr_i[0]
+  PIN wbs_adr_i[10]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 29.530 41.000 29.810 45.000 ;
+    END
+  END wbs_adr_i[10]
+  PIN wbs_adr_i[11]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 31.830 41.000 32.110 45.000 ;
+    END
+  END wbs_adr_i[11]
+  PIN wbs_adr_i[12]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 34.130 41.000 34.410 45.000 ;
+    END
+  END wbs_adr_i[12]
+  PIN wbs_adr_i[13]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 36.430 41.000 36.710 45.000 ;
+    END
+  END wbs_adr_i[13]
+  PIN wbs_adr_i[14]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 38.730 41.000 39.010 45.000 ;
+    END
+  END wbs_adr_i[14]
+  PIN wbs_adr_i[15]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 41.030 41.000 41.310 45.000 ;
+    END
+  END wbs_adr_i[15]
+  PIN wbs_adr_i[16]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 43.330 41.000 43.610 45.000 ;
+    END
+  END wbs_adr_i[16]
+  PIN wbs_adr_i[17]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 45.630 41.000 45.910 45.000 ;
+    END
+  END wbs_adr_i[17]
+  PIN wbs_adr_i[18]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 47.930 41.000 48.210 45.000 ;
+    END
+  END wbs_adr_i[18]
+  PIN wbs_adr_i[19]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 50.230 41.000 50.510 45.000 ;
+    END
+  END wbs_adr_i[19]
+  PIN wbs_adr_i[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 8.830 41.000 9.110 45.000 ;
+    END
+  END wbs_adr_i[1]
+  PIN wbs_adr_i[20]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 52.530 41.000 52.810 45.000 ;
+    END
+  END wbs_adr_i[20]
+  PIN wbs_adr_i[21]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 54.830 41.000 55.110 45.000 ;
+    END
+  END wbs_adr_i[21]
+  PIN wbs_adr_i[22]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 57.130 41.000 57.410 45.000 ;
+    END
+  END wbs_adr_i[22]
+  PIN wbs_adr_i[23]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 59.430 41.000 59.710 45.000 ;
+    END
+  END wbs_adr_i[23]
+  PIN wbs_adr_i[24]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 61.730 41.000 62.010 45.000 ;
+    END
+  END wbs_adr_i[24]
+  PIN wbs_adr_i[25]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 64.030 41.000 64.310 45.000 ;
+    END
+  END wbs_adr_i[25]
+  PIN wbs_adr_i[26]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 66.330 41.000 66.610 45.000 ;
+    END
+  END wbs_adr_i[26]
+  PIN wbs_adr_i[27]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 68.630 41.000 68.910 45.000 ;
+    END
+  END wbs_adr_i[27]
+  PIN wbs_adr_i[28]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 70.930 41.000 71.210 45.000 ;
+    END
+  END wbs_adr_i[28]
+  PIN wbs_adr_i[29]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 73.230 41.000 73.510 45.000 ;
+    END
+  END wbs_adr_i[29]
+  PIN wbs_adr_i[2]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 11.130 41.000 11.410 45.000 ;
+    END
+  END wbs_adr_i[2]
+  PIN wbs_adr_i[30]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 75.530 41.000 75.810 45.000 ;
+    END
+  END wbs_adr_i[30]
+  PIN wbs_adr_i[31]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 77.830 41.000 78.110 45.000 ;
+    END
+  END wbs_adr_i[31]
+  PIN wbs_adr_i[3]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 13.430 41.000 13.710 45.000 ;
+    END
+  END wbs_adr_i[3]
+  PIN wbs_adr_i[4]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 15.730 41.000 16.010 45.000 ;
+    END
+  END wbs_adr_i[4]
+  PIN wbs_adr_i[5]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 18.030 41.000 18.310 45.000 ;
+    END
+  END wbs_adr_i[5]
+  PIN wbs_adr_i[6]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 20.330 41.000 20.610 45.000 ;
+    END
+  END wbs_adr_i[6]
+  PIN wbs_adr_i[7]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 22.630 41.000 22.910 45.000 ;
+    END
+  END wbs_adr_i[7]
+  PIN wbs_adr_i[8]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 24.930 41.000 25.210 45.000 ;
+    END
+  END wbs_adr_i[8]
+  PIN wbs_adr_i[9]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 27.230 41.000 27.510 45.000 ;
+    END
+  END wbs_adr_i[9]
+  PIN wbs_we_i
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 4.230 41.000 4.510 45.000 ;
+    END
+  END wbs_we_i
+  OBS
+      LAYER li1 ;
+        RECT 5.520 10.795 74.060 32.725 ;
+      LAYER met1 ;
+        RECT 4.210 10.640 74.855 32.880 ;
+      LAYER met2 ;
+        RECT 4.790 40.720 6.250 41.000 ;
+        RECT 7.090 40.720 8.550 41.000 ;
+        RECT 9.390 40.720 10.850 41.000 ;
+        RECT 11.690 40.720 13.150 41.000 ;
+        RECT 13.990 40.720 15.450 41.000 ;
+        RECT 16.290 40.720 17.750 41.000 ;
+        RECT 18.590 40.720 20.050 41.000 ;
+        RECT 20.890 40.720 22.350 41.000 ;
+        RECT 23.190 40.720 24.650 41.000 ;
+        RECT 25.490 40.720 26.950 41.000 ;
+        RECT 27.790 40.720 29.250 41.000 ;
+        RECT 30.090 40.720 31.550 41.000 ;
+        RECT 32.390 40.720 33.850 41.000 ;
+        RECT 34.690 40.720 36.150 41.000 ;
+        RECT 36.990 40.720 38.450 41.000 ;
+        RECT 39.290 40.720 40.750 41.000 ;
+        RECT 41.590 40.720 43.050 41.000 ;
+        RECT 43.890 40.720 45.350 41.000 ;
+        RECT 46.190 40.720 47.650 41.000 ;
+        RECT 48.490 40.720 49.950 41.000 ;
+        RECT 50.790 40.720 52.250 41.000 ;
+        RECT 53.090 40.720 54.550 41.000 ;
+        RECT 55.390 40.720 56.850 41.000 ;
+        RECT 57.690 40.720 59.150 41.000 ;
+        RECT 59.990 40.720 61.450 41.000 ;
+        RECT 62.290 40.720 63.750 41.000 ;
+        RECT 64.590 40.720 66.050 41.000 ;
+        RECT 66.890 40.720 68.350 41.000 ;
+        RECT 69.190 40.720 70.650 41.000 ;
+        RECT 71.490 40.720 72.950 41.000 ;
+        RECT 73.790 40.720 74.825 41.000 ;
+        RECT 4.240 4.280 74.825 40.720 ;
+        RECT 4.240 3.670 4.870 4.280 ;
+        RECT 5.710 3.670 11.770 4.280 ;
+        RECT 12.610 3.670 18.670 4.280 ;
+        RECT 19.510 3.670 25.570 4.280 ;
+        RECT 26.410 3.670 32.470 4.280 ;
+        RECT 33.310 3.670 39.370 4.280 ;
+        RECT 40.210 3.670 46.270 4.280 ;
+        RECT 47.110 3.670 53.170 4.280 ;
+        RECT 54.010 3.670 60.070 4.280 ;
+        RECT 60.910 3.670 66.970 4.280 ;
+        RECT 67.810 3.670 73.870 4.280 ;
+        RECT 74.710 3.670 74.825 4.280 ;
+      LAYER met3 ;
+        RECT 13.295 10.715 74.845 32.805 ;
+  END
+END wb_decode
+END LIBRARY
+

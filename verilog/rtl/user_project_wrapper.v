@@ -82,7 +82,7 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
-user_proj_example mprj (
+/*user_proj_example mprj (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
 	.vssd1(vssd1),	// User area 1 digital ground
@@ -116,6 +116,60 @@ user_proj_example mprj (
 
     // IRQ
     .irq(user_irq)
+);*/
+
+wire [8:0] oram_addr;
+wire [31:0] oram_value;
+wire ram_csb;
+wire ram_web;
+wire [8:0] ram_adrb;
+
+wb_decode wb_decode(
+    `ifdef USE_POWER_PINS
+        .vccd1 (vccd1),
+        .vssd1 (vssd1),
+    `endif
+    .wb_clk_i(wb_clk_i),
+    .wbs_adr_i(wbs_adr_i),
+    .wbs_we_i(wbs_we_i),
+
+    .ram_csb(ram_csb),
+    .ram_web(ram_web),
+    .ram_adrb(ram_adrb)
+);
+
+sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
+    `ifdef USE_POWER_PINS
+        .vccd1 (vccd1),
+        .vssd1 (vssd1),
+    `endif
+    .clk0 (wb_clk_i),
+    .csb0 (ram_csb),
+    .web0 (ram_web),
+
+    .wmask0 (4'b1111),
+    .addr0 (ram_adrb),
+    .din0 (wbs_dat_i),
+    .dout0 (wbs_dat_o),
+
+    .clk1 (wb_clk_i),
+    .csb1 (1'b0),
+    .addr1 (oram_addr),
+    .dout1 (oram_value)
+);
+
+wrapped_tms1x00 wrapped_tms1x00 (
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .wb_rst_i(wb_rst_i),
+    .io_in (io_in),
+    .io_out(io_out),
+    .io_oeb(io_oeb),
+    .oram_addr(oram_addr),
+    .oram_value(oram_value)
 );
 
 endmodule	// user_project_wrapper

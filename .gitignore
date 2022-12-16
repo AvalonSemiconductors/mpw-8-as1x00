@@ -6,3 +6,10 @@
 *.lst
 *.vcd
 *.gtkw
+*.gltf
+/caravel/
+/mgmt_core_wrapper/
+/venv/
+mgmt_core_wrapper
+mgmt_core_wrapper
+/deps/timing-scripts/
