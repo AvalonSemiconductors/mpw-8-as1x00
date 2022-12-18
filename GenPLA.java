@@ -23,7 +23,7 @@ public class GenPLA {
 			for(int j = 0; j < in_size * 2; j++) {
 				System.out.print("    ");
 				if(j != 0) System.out.print("    ");
-				System.out.print("pla_ins[" + j + "] & " + ands_name + "[" + i + "][" + j + "]");
+				System.out.print("(pla_ins[" + j + "] | ~" + ands_name + "[" + i + "][" + j + "])");
 				if(j == in_size * 2 - 1) {
 					if(i != and_terms - 1) System.out.print(",");
 					System.out.println();

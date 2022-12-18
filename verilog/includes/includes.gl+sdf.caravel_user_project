@@ -2,4 +2,3 @@
 $USER_PROJECT_VERILOG/gl/user_project_wrapper.v	     
 $USER_PROJECT_VERILOG/gl/wrapped_tms1x00.v
 $USER_PROJECT_VERILOG/gl/tms1x00.v
-$USER_PROJECT_VERILOG/gl/wb_decode.v

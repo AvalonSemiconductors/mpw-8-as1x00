@@ -23,10 +23,8 @@
     `include "gl/user_project_wrapper.v"
     `include "gl/wrapped_tms1x00.v"
     `include "gl/tms1x00.v"
-    `include "gl/wb_decode.v"
 `else
     `include "user_project_wrapper.v"
     `include "wrapped_tms1x00.v"
     `include "tms1x00.v"
-    `include "wb_decode.v"
 `endif

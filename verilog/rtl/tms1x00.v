@@ -76,487 +76,503 @@ wire [15:0] pla_ins = {
     ~ins_in[7]
 };
 
-wire [29:0] and_outs = {
-    pla_ins[0] & ins_pla_ands[0][0] &
-        pla_ins[1] & ins_pla_ands[0][1] &
-        pla_ins[2] & ins_pla_ands[0][2] &
-        pla_ins[3] & ins_pla_ands[0][3] &
-        pla_ins[4] & ins_pla_ands[0][4] &
-        pla_ins[5] & ins_pla_ands[0][5] &
-        pla_ins[6] & ins_pla_ands[0][6] &
-        pla_ins[7] & ins_pla_ands[0][7] &
-        pla_ins[8] & ins_pla_ands[0][8] &
-        pla_ins[9] & ins_pla_ands[0][9] &
-        pla_ins[10] & ins_pla_ands[0][10] &
-        pla_ins[11] & ins_pla_ands[0][11] &
-        pla_ins[12] & ins_pla_ands[0][12] &
-        pla_ins[13] & ins_pla_ands[0][13] &
-        pla_ins[14] & ins_pla_ands[0][14] &
-        pla_ins[15] & ins_pla_ands[0][15],
-    pla_ins[0] & ins_pla_ands[1][0] &
-        pla_ins[1] & ins_pla_ands[1][1] &
-        pla_ins[2] & ins_pla_ands[1][2] &
-        pla_ins[3] & ins_pla_ands[1][3] &
-        pla_ins[4] & ins_pla_ands[1][4] &
-        pla_ins[5] & ins_pla_ands[1][5] &
-        pla_ins[6] & ins_pla_ands[1][6] &
-        pla_ins[7] & ins_pla_ands[1][7] &
-        pla_ins[8] & ins_pla_ands[1][8] &
-        pla_ins[9] & ins_pla_ands[1][9] &
-        pla_ins[10] & ins_pla_ands[1][10] &
-        pla_ins[11] & ins_pla_ands[1][11] &
-        pla_ins[12] & ins_pla_ands[1][12] &
-        pla_ins[13] & ins_pla_ands[1][13] &
-        pla_ins[14] & ins_pla_ands[1][14] &
-        pla_ins[15] & ins_pla_ands[1][15],
-    pla_ins[0] & ins_pla_ands[2][0] &
-        pla_ins[1] & ins_pla_ands[2][1] &
-        pla_ins[2] & ins_pla_ands[2][2] &
-        pla_ins[3] & ins_pla_ands[2][3] &
-        pla_ins[4] & ins_pla_ands[2][4] &
-        pla_ins[5] & ins_pla_ands[2][5] &
-        pla_ins[6] & ins_pla_ands[2][6] &
-        pla_ins[7] & ins_pla_ands[2][7] &
-        pla_ins[8] & ins_pla_ands[2][8] &
-        pla_ins[9] & ins_pla_ands[2][9] &
-        pla_ins[10] & ins_pla_ands[2][10] &
-        pla_ins[11] & ins_pla_ands[2][11] &
-        pla_ins[12] & ins_pla_ands[2][12] &
-        pla_ins[13] & ins_pla_ands[2][13] &
-        pla_ins[14] & ins_pla_ands[2][14] &
-        pla_ins[15] & ins_pla_ands[2][15],
-    pla_ins[0] & ins_pla_ands[3][0] &
-        pla_ins[1] & ins_pla_ands[3][1] &
-        pla_ins[2] & ins_pla_ands[3][2] &
-        pla_ins[3] & ins_pla_ands[3][3] &
-        pla_ins[4] & ins_pla_ands[3][4] &
-        pla_ins[5] & ins_pla_ands[3][5] &
-        pla_ins[6] & ins_pla_ands[3][6] &
-        pla_ins[7] & ins_pla_ands[3][7] &
-        pla_ins[8] & ins_pla_ands[3][8] &
-        pla_ins[9] & ins_pla_ands[3][9] &
-        pla_ins[10] & ins_pla_ands[3][10] &
-        pla_ins[11] & ins_pla_ands[3][11] &
-        pla_ins[12] & ins_pla_ands[3][12] &
-        pla_ins[13] & ins_pla_ands[3][13] &
-        pla_ins[14] & ins_pla_ands[3][14] &
-        pla_ins[15] & ins_pla_ands[3][15],
-    pla_ins[0] & ins_pla_ands[4][0] &
-        pla_ins[1] & ins_pla_ands[4][1] &
-        pla_ins[2] & ins_pla_ands[4][2] &
-        pla_ins[3] & ins_pla_ands[4][3] &
-        pla_ins[4] & ins_pla_ands[4][4] &
-        pla_ins[5] & ins_pla_ands[4][5] &
-        pla_ins[6] & ins_pla_ands[4][6] &
-        pla_ins[7] & ins_pla_ands[4][7] &
-        pla_ins[8] & ins_pla_ands[4][8] &
-        pla_ins[9] & ins_pla_ands[4][9] &
-        pla_ins[10] & ins_pla_ands[4][10] &
-        pla_ins[11] & ins_pla_ands[4][11] &
-        pla_ins[12] & ins_pla_ands[4][12] &
-        pla_ins[13] & ins_pla_ands[4][13] &
-        pla_ins[14] & ins_pla_ands[4][14] &
-        pla_ins[15] & ins_pla_ands[4][15],
-    pla_ins[0] & ins_pla_ands[5][0] &
-        pla_ins[1] & ins_pla_ands[5][1] &
-        pla_ins[2] & ins_pla_ands[5][2] &
-        pla_ins[3] & ins_pla_ands[5][3] &
-        pla_ins[4] & ins_pla_ands[5][4] &
-        pla_ins[5] & ins_pla_ands[5][5] &
-        pla_ins[6] & ins_pla_ands[5][6] &
-        pla_ins[7] & ins_pla_ands[5][7] &
-        pla_ins[8] & ins_pla_ands[5][8] &
-        pla_ins[9] & ins_pla_ands[5][9] &
-        pla_ins[10] & ins_pla_ands[5][10] &
-        pla_ins[11] & ins_pla_ands[5][11] &
-        pla_ins[12] & ins_pla_ands[5][12] &
-        pla_ins[13] & ins_pla_ands[5][13] &
-        pla_ins[14] & ins_pla_ands[5][14] &
-        pla_ins[15] & ins_pla_ands[5][15],
-    pla_ins[0] & ins_pla_ands[6][0] &
-        pla_ins[1] & ins_pla_ands[6][1] &
-        pla_ins[2] & ins_pla_ands[6][2] &
-        pla_ins[3] & ins_pla_ands[6][3] &
-        pla_ins[4] & ins_pla_ands[6][4] &
-        pla_ins[5] & ins_pla_ands[6][5] &
-        pla_ins[6] & ins_pla_ands[6][6] &
-        pla_ins[7] & ins_pla_ands[6][7] &
-        pla_ins[8] & ins_pla_ands[6][8] &
-        pla_ins[9] & ins_pla_ands[6][9] &
-        pla_ins[10] & ins_pla_ands[6][10] &
-        pla_ins[11] & ins_pla_ands[6][11] &
-        pla_ins[12] & ins_pla_ands[6][12] &
-        pla_ins[13] & ins_pla_ands[6][13] &
-        pla_ins[14] & ins_pla_ands[6][14] &
-        pla_ins[15] & ins_pla_ands[6][15],
-    pla_ins[0] & ins_pla_ands[7][0] &
-        pla_ins[1] & ins_pla_ands[7][1] &
-        pla_ins[2] & ins_pla_ands[7][2] &
-        pla_ins[3] & ins_pla_ands[7][3] &
-        pla_ins[4] & ins_pla_ands[7][4] &
-        pla_ins[5] & ins_pla_ands[7][5] &
-        pla_ins[6] & ins_pla_ands[7][6] &
-        pla_ins[7] & ins_pla_ands[7][7] &
-        pla_ins[8] & ins_pla_ands[7][8] &
-        pla_ins[9] & ins_pla_ands[7][9] &
-        pla_ins[10] & ins_pla_ands[7][10] &
-        pla_ins[11] & ins_pla_ands[7][11] &
-        pla_ins[12] & ins_pla_ands[7][12] &
-        pla_ins[13] & ins_pla_ands[7][13] &
-        pla_ins[14] & ins_pla_ands[7][14] &
-        pla_ins[15] & ins_pla_ands[7][15],
-    pla_ins[0] & ins_pla_ands[8][0] &
-        pla_ins[1] & ins_pla_ands[8][1] &
-        pla_ins[2] & ins_pla_ands[8][2] &
-        pla_ins[3] & ins_pla_ands[8][3] &
-        pla_ins[4] & ins_pla_ands[8][4] &
-        pla_ins[5] & ins_pla_ands[8][5] &
-        pla_ins[6] & ins_pla_ands[8][6] &
-        pla_ins[7] & ins_pla_ands[8][7] &
-        pla_ins[8] & ins_pla_ands[8][8] &
-        pla_ins[9] & ins_pla_ands[8][9] &
-        pla_ins[10] & ins_pla_ands[8][10] &
-        pla_ins[11] & ins_pla_ands[8][11] &
-        pla_ins[12] & ins_pla_ands[8][12] &
-        pla_ins[13] & ins_pla_ands[8][13] &
-        pla_ins[14] & ins_pla_ands[8][14] &
-        pla_ins[15] & ins_pla_ands[8][15],
-    pla_ins[0] & ins_pla_ands[9][0] &
-        pla_ins[1] & ins_pla_ands[9][1] &
-        pla_ins[2] & ins_pla_ands[9][2] &
-        pla_ins[3] & ins_pla_ands[9][3] &
-        pla_ins[4] & ins_pla_ands[9][4] &
-        pla_ins[5] & ins_pla_ands[9][5] &
-        pla_ins[6] & ins_pla_ands[9][6] &
-        pla_ins[7] & ins_pla_ands[9][7] &
-        pla_ins[8] & ins_pla_ands[9][8] &
-        pla_ins[9] & ins_pla_ands[9][9] &
-        pla_ins[10] & ins_pla_ands[9][10] &
-        pla_ins[11] & ins_pla_ands[9][11] &
-        pla_ins[12] & ins_pla_ands[9][12] &
-        pla_ins[13] & ins_pla_ands[9][13] &
-        pla_ins[14] & ins_pla_ands[9][14] &
-        pla_ins[15] & ins_pla_ands[9][15],
-    pla_ins[0] & ins_pla_ands[10][0] &
-        pla_ins[1] & ins_pla_ands[10][1] &
-        pla_ins[2] & ins_pla_ands[10][2] &
-        pla_ins[3] & ins_pla_ands[10][3] &
-        pla_ins[4] & ins_pla_ands[10][4] &
-        pla_ins[5] & ins_pla_ands[10][5] &
-        pla_ins[6] & ins_pla_ands[10][6] &
-        pla_ins[7] & ins_pla_ands[10][7] &
-        pla_ins[8] & ins_pla_ands[10][8] &
-        pla_ins[9] & ins_pla_ands[10][9] &
-        pla_ins[10] & ins_pla_ands[10][10] &
-        pla_ins[11] & ins_pla_ands[10][11] &
-        pla_ins[12] & ins_pla_ands[10][12] &
-        pla_ins[13] & ins_pla_ands[10][13] &
-        pla_ins[14] & ins_pla_ands[10][14] &
-        pla_ins[15] & ins_pla_ands[10][15],
-    pla_ins[0] & ins_pla_ands[11][0] &
-        pla_ins[1] & ins_pla_ands[11][1] &
-        pla_ins[2] & ins_pla_ands[11][2] &
-        pla_ins[3] & ins_pla_ands[11][3] &
-        pla_ins[4] & ins_pla_ands[11][4] &
-        pla_ins[5] & ins_pla_ands[11][5] &
-        pla_ins[6] & ins_pla_ands[11][6] &
-        pla_ins[7] & ins_pla_ands[11][7] &
-        pla_ins[8] & ins_pla_ands[11][8] &
-        pla_ins[9] & ins_pla_ands[11][9] &
-        pla_ins[10] & ins_pla_ands[11][10] &
-        pla_ins[11] & ins_pla_ands[11][11] &
-        pla_ins[12] & ins_pla_ands[11][12] &
-        pla_ins[13] & ins_pla_ands[11][13] &
-        pla_ins[14] & ins_pla_ands[11][14] &
-        pla_ins[15] & ins_pla_ands[11][15],
-    pla_ins[0] & ins_pla_ands[12][0] &
-        pla_ins[1] & ins_pla_ands[12][1] &
-        pla_ins[2] & ins_pla_ands[12][2] &
-        pla_ins[3] & ins_pla_ands[12][3] &
-        pla_ins[4] & ins_pla_ands[12][4] &
-        pla_ins[5] & ins_pla_ands[12][5] &
-        pla_ins[6] & ins_pla_ands[12][6] &
-        pla_ins[7] & ins_pla_ands[12][7] &
-        pla_ins[8] & ins_pla_ands[12][8] &
-        pla_ins[9] & ins_pla_ands[12][9] &
-        pla_ins[10] & ins_pla_ands[12][10] &
-        pla_ins[11] & ins_pla_ands[12][11] &
-        pla_ins[12] & ins_pla_ands[12][12] &
-        pla_ins[13] & ins_pla_ands[12][13] &
-        pla_ins[14] & ins_pla_ands[12][14] &
-        pla_ins[15] & ins_pla_ands[12][15],
-    pla_ins[0] & ins_pla_ands[13][0] &
-        pla_ins[1] & ins_pla_ands[13][1] &
-        pla_ins[2] & ins_pla_ands[13][2] &
-        pla_ins[3] & ins_pla_ands[13][3] &
-        pla_ins[4] & ins_pla_ands[13][4] &
-        pla_ins[5] & ins_pla_ands[13][5] &
-        pla_ins[6] & ins_pla_ands[13][6] &
-        pla_ins[7] & ins_pla_ands[13][7] &
-        pla_ins[8] & ins_pla_ands[13][8] &
-        pla_ins[9] & ins_pla_ands[13][9] &
-        pla_ins[10] & ins_pla_ands[13][10] &
-        pla_ins[11] & ins_pla_ands[13][11] &
-        pla_ins[12] & ins_pla_ands[13][12] &
-        pla_ins[13] & ins_pla_ands[13][13] &
-        pla_ins[14] & ins_pla_ands[13][14] &
-        pla_ins[15] & ins_pla_ands[13][15],
-    pla_ins[0] & ins_pla_ands[14][0] &
-        pla_ins[1] & ins_pla_ands[14][1] &
-        pla_ins[2] & ins_pla_ands[14][2] &
-        pla_ins[3] & ins_pla_ands[14][3] &
-        pla_ins[4] & ins_pla_ands[14][4] &
-        pla_ins[5] & ins_pla_ands[14][5] &
-        pla_ins[6] & ins_pla_ands[14][6] &
-        pla_ins[7] & ins_pla_ands[14][7] &
-        pla_ins[8] & ins_pla_ands[14][8] &
-        pla_ins[9] & ins_pla_ands[14][9] &
-        pla_ins[10] & ins_pla_ands[14][10] &
-        pla_ins[11] & ins_pla_ands[14][11] &
-        pla_ins[12] & ins_pla_ands[14][12] &
-        pla_ins[13] & ins_pla_ands[14][13] &
-        pla_ins[14] & ins_pla_ands[14][14] &
-        pla_ins[15] & ins_pla_ands[14][15],
-    pla_ins[0] & ins_pla_ands[15][0] &
-        pla_ins[1] & ins_pla_ands[15][1] &
-        pla_ins[2] & ins_pla_ands[15][2] &
-        pla_ins[3] & ins_pla_ands[15][3] &
-        pla_ins[4] & ins_pla_ands[15][4] &
-        pla_ins[5] & ins_pla_ands[15][5] &
-        pla_ins[6] & ins_pla_ands[15][6] &
-        pla_ins[7] & ins_pla_ands[15][7] &
-        pla_ins[8] & ins_pla_ands[15][8] &
-        pla_ins[9] & ins_pla_ands[15][9] &
-        pla_ins[10] & ins_pla_ands[15][10] &
-        pla_ins[11] & ins_pla_ands[15][11] &
-        pla_ins[12] & ins_pla_ands[15][12] &
-        pla_ins[13] & ins_pla_ands[15][13] &
-        pla_ins[14] & ins_pla_ands[15][14] &
-        pla_ins[15] & ins_pla_ands[15][15],
-    pla_ins[0] & ins_pla_ands[16][0] &
-        pla_ins[1] & ins_pla_ands[16][1] &
-        pla_ins[2] & ins_pla_ands[16][2] &
-        pla_ins[3] & ins_pla_ands[16][3] &
-        pla_ins[4] & ins_pla_ands[16][4] &
-        pla_ins[5] & ins_pla_ands[16][5] &
-        pla_ins[6] & ins_pla_ands[16][6] &
-        pla_ins[7] & ins_pla_ands[16][7] &
-        pla_ins[8] & ins_pla_ands[16][8] &
-        pla_ins[9] & ins_pla_ands[16][9] &
-        pla_ins[10] & ins_pla_ands[16][10] &
-        pla_ins[11] & ins_pla_ands[16][11] &
-        pla_ins[12] & ins_pla_ands[16][12] &
-        pla_ins[13] & ins_pla_ands[16][13] &
-        pla_ins[14] & ins_pla_ands[16][14] &
-        pla_ins[15] & ins_pla_ands[16][15],
-    pla_ins[0] & ins_pla_ands[17][0] &
-        pla_ins[1] & ins_pla_ands[17][1] &
-        pla_ins[2] & ins_pla_ands[17][2] &
-        pla_ins[3] & ins_pla_ands[17][3] &
-        pla_ins[4] & ins_pla_ands[17][4] &
-        pla_ins[5] & ins_pla_ands[17][5] &
-        pla_ins[6] & ins_pla_ands[17][6] &
-        pla_ins[7] & ins_pla_ands[17][7] &
-        pla_ins[8] & ins_pla_ands[17][8] &
-        pla_ins[9] & ins_pla_ands[17][9] &
-        pla_ins[10] & ins_pla_ands[17][10] &
-        pla_ins[11] & ins_pla_ands[17][11] &
-        pla_ins[12] & ins_pla_ands[17][12] &
-        pla_ins[13] & ins_pla_ands[17][13] &
-        pla_ins[14] & ins_pla_ands[17][14] &
-        pla_ins[15] & ins_pla_ands[17][15],
-    pla_ins[0] & ins_pla_ands[18][0] &
-        pla_ins[1] & ins_pla_ands[18][1] &
-        pla_ins[2] & ins_pla_ands[18][2] &
-        pla_ins[3] & ins_pla_ands[18][3] &
-        pla_ins[4] & ins_pla_ands[18][4] &
-        pla_ins[5] & ins_pla_ands[18][5] &
-        pla_ins[6] & ins_pla_ands[18][6] &
-        pla_ins[7] & ins_pla_ands[18][7] &
-        pla_ins[8] & ins_pla_ands[18][8] &
-        pla_ins[9] & ins_pla_ands[18][9] &
-        pla_ins[10] & ins_pla_ands[18][10] &
-        pla_ins[11] & ins_pla_ands[18][11] &
-        pla_ins[12] & ins_pla_ands[18][12] &
-        pla_ins[13] & ins_pla_ands[18][13] &
-        pla_ins[14] & ins_pla_ands[18][14] &
-        pla_ins[15] & ins_pla_ands[18][15],
-    pla_ins[0] & ins_pla_ands[19][0] &
-        pla_ins[1] & ins_pla_ands[19][1] &
-        pla_ins[2] & ins_pla_ands[19][2] &
-        pla_ins[3] & ins_pla_ands[19][3] &
-        pla_ins[4] & ins_pla_ands[19][4] &
-        pla_ins[5] & ins_pla_ands[19][5] &
-        pla_ins[6] & ins_pla_ands[19][6] &
-        pla_ins[7] & ins_pla_ands[19][7] &
-        pla_ins[8] & ins_pla_ands[19][8] &
-        pla_ins[9] & ins_pla_ands[19][9] &
-        pla_ins[10] & ins_pla_ands[19][10] &
-        pla_ins[11] & ins_pla_ands[19][11] &
-        pla_ins[12] & ins_pla_ands[19][12] &
-        pla_ins[13] & ins_pla_ands[19][13] &
-        pla_ins[14] & ins_pla_ands[19][14] &
-        pla_ins[15] & ins_pla_ands[19][15],
-    pla_ins[0] & ins_pla_ands[20][0] &
-        pla_ins[1] & ins_pla_ands[20][1] &
-        pla_ins[2] & ins_pla_ands[20][2] &
-        pla_ins[3] & ins_pla_ands[20][3] &
-        pla_ins[4] & ins_pla_ands[20][4] &
-        pla_ins[5] & ins_pla_ands[20][5] &
-        pla_ins[6] & ins_pla_ands[20][6] &
-        pla_ins[7] & ins_pla_ands[20][7] &
-        pla_ins[8] & ins_pla_ands[20][8] &
-        pla_ins[9] & ins_pla_ands[20][9] &
-        pla_ins[10] & ins_pla_ands[20][10] &
-        pla_ins[11] & ins_pla_ands[20][11] &
-        pla_ins[12] & ins_pla_ands[20][12] &
-        pla_ins[13] & ins_pla_ands[20][13] &
-        pla_ins[14] & ins_pla_ands[20][14] &
-        pla_ins[15] & ins_pla_ands[20][15],
-    pla_ins[0] & ins_pla_ands[21][0] &
-        pla_ins[1] & ins_pla_ands[21][1] &
-        pla_ins[2] & ins_pla_ands[21][2] &
-        pla_ins[3] & ins_pla_ands[21][3] &
-        pla_ins[4] & ins_pla_ands[21][4] &
-        pla_ins[5] & ins_pla_ands[21][5] &
-        pla_ins[6] & ins_pla_ands[21][6] &
-        pla_ins[7] & ins_pla_ands[21][7] &
-        pla_ins[8] & ins_pla_ands[21][8] &
-        pla_ins[9] & ins_pla_ands[21][9] &
-        pla_ins[10] & ins_pla_ands[21][10] &
-        pla_ins[11] & ins_pla_ands[21][11] &
-        pla_ins[12] & ins_pla_ands[21][12] &
-        pla_ins[13] & ins_pla_ands[21][13] &
-        pla_ins[14] & ins_pla_ands[21][14] &
-        pla_ins[15] & ins_pla_ands[21][15],
-    pla_ins[0] & ins_pla_ands[22][0] &
-        pla_ins[1] & ins_pla_ands[22][1] &
-        pla_ins[2] & ins_pla_ands[22][2] &
-        pla_ins[3] & ins_pla_ands[22][3] &
-        pla_ins[4] & ins_pla_ands[22][4] &
-        pla_ins[5] & ins_pla_ands[22][5] &
-        pla_ins[6] & ins_pla_ands[22][6] &
-        pla_ins[7] & ins_pla_ands[22][7] &
-        pla_ins[8] & ins_pla_ands[22][8] &
-        pla_ins[9] & ins_pla_ands[22][9] &
-        pla_ins[10] & ins_pla_ands[22][10] &
-        pla_ins[11] & ins_pla_ands[22][11] &
-        pla_ins[12] & ins_pla_ands[22][12] &
-        pla_ins[13] & ins_pla_ands[22][13] &
-        pla_ins[14] & ins_pla_ands[22][14] &
-        pla_ins[15] & ins_pla_ands[22][15],
-    pla_ins[0] & ins_pla_ands[23][0] &
-        pla_ins[1] & ins_pla_ands[23][1] &
-        pla_ins[2] & ins_pla_ands[23][2] &
-        pla_ins[3] & ins_pla_ands[23][3] &
-        pla_ins[4] & ins_pla_ands[23][4] &
-        pla_ins[5] & ins_pla_ands[23][5] &
-        pla_ins[6] & ins_pla_ands[23][6] &
-        pla_ins[7] & ins_pla_ands[23][7] &
-        pla_ins[8] & ins_pla_ands[23][8] &
-        pla_ins[9] & ins_pla_ands[23][9] &
-        pla_ins[10] & ins_pla_ands[23][10] &
-        pla_ins[11] & ins_pla_ands[23][11] &
-        pla_ins[12] & ins_pla_ands[23][12] &
-        pla_ins[13] & ins_pla_ands[23][13] &
-        pla_ins[14] & ins_pla_ands[23][14] &
-        pla_ins[15] & ins_pla_ands[23][15],
-    pla_ins[0] & ins_pla_ands[24][0] &
-        pla_ins[1] & ins_pla_ands[24][1] &
-        pla_ins[2] & ins_pla_ands[24][2] &
-        pla_ins[3] & ins_pla_ands[24][3] &
-        pla_ins[4] & ins_pla_ands[24][4] &
-        pla_ins[5] & ins_pla_ands[24][5] &
-        pla_ins[6] & ins_pla_ands[24][6] &
-        pla_ins[7] & ins_pla_ands[24][7] &
-        pla_ins[8] & ins_pla_ands[24][8] &
-        pla_ins[9] & ins_pla_ands[24][9] &
-        pla_ins[10] & ins_pla_ands[24][10] &
-        pla_ins[11] & ins_pla_ands[24][11] &
-        pla_ins[12] & ins_pla_ands[24][12] &
-        pla_ins[13] & ins_pla_ands[24][13] &
-        pla_ins[14] & ins_pla_ands[24][14] &
-        pla_ins[15] & ins_pla_ands[24][15],
-    pla_ins[0] & ins_pla_ands[25][0] &
-        pla_ins[1] & ins_pla_ands[25][1] &
-        pla_ins[2] & ins_pla_ands[25][2] &
-        pla_ins[3] & ins_pla_ands[25][3] &
-        pla_ins[4] & ins_pla_ands[25][4] &
-        pla_ins[5] & ins_pla_ands[25][5] &
-        pla_ins[6] & ins_pla_ands[25][6] &
-        pla_ins[7] & ins_pla_ands[25][7] &
-        pla_ins[8] & ins_pla_ands[25][8] &
-        pla_ins[9] & ins_pla_ands[25][9] &
-        pla_ins[10] & ins_pla_ands[25][10] &
-        pla_ins[11] & ins_pla_ands[25][11] &
-        pla_ins[12] & ins_pla_ands[25][12] &
-        pla_ins[13] & ins_pla_ands[25][13] &
-        pla_ins[14] & ins_pla_ands[25][14] &
-        pla_ins[15] & ins_pla_ands[25][15],
-    pla_ins[0] & ins_pla_ands[26][0] &
-        pla_ins[1] & ins_pla_ands[26][1] &
-        pla_ins[2] & ins_pla_ands[26][2] &
-        pla_ins[3] & ins_pla_ands[26][3] &
-        pla_ins[4] & ins_pla_ands[26][4] &
-        pla_ins[5] & ins_pla_ands[26][5] &
-        pla_ins[6] & ins_pla_ands[26][6] &
-        pla_ins[7] & ins_pla_ands[26][7] &
-        pla_ins[8] & ins_pla_ands[26][8] &
-        pla_ins[9] & ins_pla_ands[26][9] &
-        pla_ins[10] & ins_pla_ands[26][10] &
-        pla_ins[11] & ins_pla_ands[26][11] &
-        pla_ins[12] & ins_pla_ands[26][12] &
-        pla_ins[13] & ins_pla_ands[26][13] &
-        pla_ins[14] & ins_pla_ands[26][14] &
-        pla_ins[15] & ins_pla_ands[26][15],
-    pla_ins[0] & ins_pla_ands[27][0] &
-        pla_ins[1] & ins_pla_ands[27][1] &
-        pla_ins[2] & ins_pla_ands[27][2] &
-        pla_ins[3] & ins_pla_ands[27][3] &
-        pla_ins[4] & ins_pla_ands[27][4] &
-        pla_ins[5] & ins_pla_ands[27][5] &
-        pla_ins[6] & ins_pla_ands[27][6] &
-        pla_ins[7] & ins_pla_ands[27][7] &
-        pla_ins[8] & ins_pla_ands[27][8] &
-        pla_ins[9] & ins_pla_ands[27][9] &
-        pla_ins[10] & ins_pla_ands[27][10] &
-        pla_ins[11] & ins_pla_ands[27][11] &
-        pla_ins[12] & ins_pla_ands[27][12] &
-        pla_ins[13] & ins_pla_ands[27][13] &
-        pla_ins[14] & ins_pla_ands[27][14] &
-        pla_ins[15] & ins_pla_ands[27][15],
-    pla_ins[0] & ins_pla_ands[28][0] &
-        pla_ins[1] & ins_pla_ands[28][1] &
-        pla_ins[2] & ins_pla_ands[28][2] &
-        pla_ins[3] & ins_pla_ands[28][3] &
-        pla_ins[4] & ins_pla_ands[28][4] &
-        pla_ins[5] & ins_pla_ands[28][5] &
-        pla_ins[6] & ins_pla_ands[28][6] &
-        pla_ins[7] & ins_pla_ands[28][7] &
-        pla_ins[8] & ins_pla_ands[28][8] &
-        pla_ins[9] & ins_pla_ands[28][9] &
-        pla_ins[10] & ins_pla_ands[28][10] &
-        pla_ins[11] & ins_pla_ands[28][11] &
-        pla_ins[12] & ins_pla_ands[28][12] &
-        pla_ins[13] & ins_pla_ands[28][13] &
-        pla_ins[14] & ins_pla_ands[28][14] &
-        pla_ins[15] & ins_pla_ands[28][15],
-    pla_ins[0] & ins_pla_ands[29][0] &
-        pla_ins[1] & ins_pla_ands[29][1] &
-        pla_ins[2] & ins_pla_ands[29][2] &
-        pla_ins[3] & ins_pla_ands[29][3] &
-        pla_ins[4] & ins_pla_ands[29][4] &
-        pla_ins[5] & ins_pla_ands[29][5] &
-        pla_ins[6] & ins_pla_ands[29][6] &
-        pla_ins[7] & ins_pla_ands[29][7] &
-        pla_ins[8] & ins_pla_ands[29][8] &
-        pla_ins[9] & ins_pla_ands[29][9] &
-        pla_ins[10] & ins_pla_ands[29][10] &
-        pla_ins[11] & ins_pla_ands[29][11] &
-        pla_ins[12] & ins_pla_ands[29][12] &
-        pla_ins[13] & ins_pla_ands[29][13] &
-        pla_ins[14] & ins_pla_ands[29][14] &
-        pla_ins[15] & ins_pla_ands[29][15]
+wire [30:0] and_outs = {
+    (pla_ins[0] | ~ins_pla_ands[0][0]) &
+        (pla_ins[1] | ~ins_pla_ands[0][1]) &
+        (pla_ins[2] | ~ins_pla_ands[0][2]) &
+        (pla_ins[3] | ~ins_pla_ands[0][3]) &
+        (pla_ins[4] | ~ins_pla_ands[0][4]) &
+        (pla_ins[5] | ~ins_pla_ands[0][5]) &
+        (pla_ins[6] | ~ins_pla_ands[0][6]) &
+        (pla_ins[7] | ~ins_pla_ands[0][7]) &
+        (pla_ins[8] | ~ins_pla_ands[0][8]) &
+        (pla_ins[9] | ~ins_pla_ands[0][9]) &
+        (pla_ins[10] | ~ins_pla_ands[0][10]) &
+        (pla_ins[11] | ~ins_pla_ands[0][11]) &
+        (pla_ins[12] | ~ins_pla_ands[0][12]) &
+        (pla_ins[13] | ~ins_pla_ands[0][13]) &
+        (pla_ins[14] | ~ins_pla_ands[0][14]) &
+        (pla_ins[15] | ~ins_pla_ands[0][15]),
+    (pla_ins[0] | ~ins_pla_ands[1][0]) &
+        (pla_ins[1] | ~ins_pla_ands[1][1]) &
+        (pla_ins[2] | ~ins_pla_ands[1][2]) &
+        (pla_ins[3] | ~ins_pla_ands[1][3]) &
+        (pla_ins[4] | ~ins_pla_ands[1][4]) &
+        (pla_ins[5] | ~ins_pla_ands[1][5]) &
+        (pla_ins[6] | ~ins_pla_ands[1][6]) &
+        (pla_ins[7] | ~ins_pla_ands[1][7]) &
+        (pla_ins[8] | ~ins_pla_ands[1][8]) &
+        (pla_ins[9] | ~ins_pla_ands[1][9]) &
+        (pla_ins[10] | ~ins_pla_ands[1][10]) &
+        (pla_ins[11] | ~ins_pla_ands[1][11]) &
+        (pla_ins[12] | ~ins_pla_ands[1][12]) &
+        (pla_ins[13] | ~ins_pla_ands[1][13]) &
+        (pla_ins[14] | ~ins_pla_ands[1][14]) &
+        (pla_ins[15] | ~ins_pla_ands[1][15]),
+    (pla_ins[0] | ~ins_pla_ands[2][0]) &
+        (pla_ins[1] | ~ins_pla_ands[2][1]) &
+        (pla_ins[2] | ~ins_pla_ands[2][2]) &
+        (pla_ins[3] | ~ins_pla_ands[2][3]) &
+        (pla_ins[4] | ~ins_pla_ands[2][4]) &
+        (pla_ins[5] | ~ins_pla_ands[2][5]) &
+        (pla_ins[6] | ~ins_pla_ands[2][6]) &
+        (pla_ins[7] | ~ins_pla_ands[2][7]) &
+        (pla_ins[8] | ~ins_pla_ands[2][8]) &
+        (pla_ins[9] | ~ins_pla_ands[2][9]) &
+        (pla_ins[10] | ~ins_pla_ands[2][10]) &
+        (pla_ins[11] | ~ins_pla_ands[2][11]) &
+        (pla_ins[12] | ~ins_pla_ands[2][12]) &
+        (pla_ins[13] | ~ins_pla_ands[2][13]) &
+        (pla_ins[14] | ~ins_pla_ands[2][14]) &
+        (pla_ins[15] | ~ins_pla_ands[2][15]),
+    (pla_ins[0] | ~ins_pla_ands[3][0]) &
+        (pla_ins[1] | ~ins_pla_ands[3][1]) &
+        (pla_ins[2] | ~ins_pla_ands[3][2]) &
+        (pla_ins[3] | ~ins_pla_ands[3][3]) &
+        (pla_ins[4] | ~ins_pla_ands[3][4]) &
+        (pla_ins[5] | ~ins_pla_ands[3][5]) &
+        (pla_ins[6] | ~ins_pla_ands[3][6]) &
+        (pla_ins[7] | ~ins_pla_ands[3][7]) &
+        (pla_ins[8] | ~ins_pla_ands[3][8]) &
+        (pla_ins[9] | ~ins_pla_ands[3][9]) &
+        (pla_ins[10] | ~ins_pla_ands[3][10]) &
+        (pla_ins[11] | ~ins_pla_ands[3][11]) &
+        (pla_ins[12] | ~ins_pla_ands[3][12]) &
+        (pla_ins[13] | ~ins_pla_ands[3][13]) &
+        (pla_ins[14] | ~ins_pla_ands[3][14]) &
+        (pla_ins[15] | ~ins_pla_ands[3][15]),
+    (pla_ins[0] | ~ins_pla_ands[4][0]) &
+        (pla_ins[1] | ~ins_pla_ands[4][1]) &
+        (pla_ins[2] | ~ins_pla_ands[4][2]) &
+        (pla_ins[3] | ~ins_pla_ands[4][3]) &
+        (pla_ins[4] | ~ins_pla_ands[4][4]) &
+        (pla_ins[5] | ~ins_pla_ands[4][5]) &
+        (pla_ins[6] | ~ins_pla_ands[4][6]) &
+        (pla_ins[7] | ~ins_pla_ands[4][7]) &
+        (pla_ins[8] | ~ins_pla_ands[4][8]) &
+        (pla_ins[9] | ~ins_pla_ands[4][9]) &
+        (pla_ins[10] | ~ins_pla_ands[4][10]) &
+        (pla_ins[11] | ~ins_pla_ands[4][11]) &
+        (pla_ins[12] | ~ins_pla_ands[4][12]) &
+        (pla_ins[13] | ~ins_pla_ands[4][13]) &
+        (pla_ins[14] | ~ins_pla_ands[4][14]) &
+        (pla_ins[15] | ~ins_pla_ands[4][15]),
+    (pla_ins[0] | ~ins_pla_ands[5][0]) &
+        (pla_ins[1] | ~ins_pla_ands[5][1]) &
+        (pla_ins[2] | ~ins_pla_ands[5][2]) &
+        (pla_ins[3] | ~ins_pla_ands[5][3]) &
+        (pla_ins[4] | ~ins_pla_ands[5][4]) &
+        (pla_ins[5] | ~ins_pla_ands[5][5]) &
+        (pla_ins[6] | ~ins_pla_ands[5][6]) &
+        (pla_ins[7] | ~ins_pla_ands[5][7]) &
+        (pla_ins[8] | ~ins_pla_ands[5][8]) &
+        (pla_ins[9] | ~ins_pla_ands[5][9]) &
+        (pla_ins[10] | ~ins_pla_ands[5][10]) &
+        (pla_ins[11] | ~ins_pla_ands[5][11]) &
+        (pla_ins[12] | ~ins_pla_ands[5][12]) &
+        (pla_ins[13] | ~ins_pla_ands[5][13]) &
+        (pla_ins[14] | ~ins_pla_ands[5][14]) &
+        (pla_ins[15] | ~ins_pla_ands[5][15]),
+    (pla_ins[0] | ~ins_pla_ands[6][0]) &
+        (pla_ins[1] | ~ins_pla_ands[6][1]) &
+        (pla_ins[2] | ~ins_pla_ands[6][2]) &
+        (pla_ins[3] | ~ins_pla_ands[6][3]) &
+        (pla_ins[4] | ~ins_pla_ands[6][4]) &
+        (pla_ins[5] | ~ins_pla_ands[6][5]) &
+        (pla_ins[6] | ~ins_pla_ands[6][6]) &
+        (pla_ins[7] | ~ins_pla_ands[6][7]) &
+        (pla_ins[8] | ~ins_pla_ands[6][8]) &
+        (pla_ins[9] | ~ins_pla_ands[6][9]) &
+        (pla_ins[10] | ~ins_pla_ands[6][10]) &
+        (pla_ins[11] | ~ins_pla_ands[6][11]) &
+        (pla_ins[12] | ~ins_pla_ands[6][12]) &
+        (pla_ins[13] | ~ins_pla_ands[6][13]) &
+        (pla_ins[14] | ~ins_pla_ands[6][14]) &
+        (pla_ins[15] | ~ins_pla_ands[6][15]),
+    (pla_ins[0] | ~ins_pla_ands[7][0]) &
+        (pla_ins[1] | ~ins_pla_ands[7][1]) &
+        (pla_ins[2] | ~ins_pla_ands[7][2]) &
+        (pla_ins[3] | ~ins_pla_ands[7][3]) &
+        (pla_ins[4] | ~ins_pla_ands[7][4]) &
+        (pla_ins[5] | ~ins_pla_ands[7][5]) &
+        (pla_ins[6] | ~ins_pla_ands[7][6]) &
+        (pla_ins[7] | ~ins_pla_ands[7][7]) &
+        (pla_ins[8] | ~ins_pla_ands[7][8]) &
+        (pla_ins[9] | ~ins_pla_ands[7][9]) &
+        (pla_ins[10] | ~ins_pla_ands[7][10]) &
+        (pla_ins[11] | ~ins_pla_ands[7][11]) &
+        (pla_ins[12] | ~ins_pla_ands[7][12]) &
+        (pla_ins[13] | ~ins_pla_ands[7][13]) &
+        (pla_ins[14] | ~ins_pla_ands[7][14]) &
+        (pla_ins[15] | ~ins_pla_ands[7][15]),
+    (pla_ins[0] | ~ins_pla_ands[8][0]) &
+        (pla_ins[1] | ~ins_pla_ands[8][1]) &
+        (pla_ins[2] | ~ins_pla_ands[8][2]) &
+        (pla_ins[3] | ~ins_pla_ands[8][3]) &
+        (pla_ins[4] | ~ins_pla_ands[8][4]) &
+        (pla_ins[5] | ~ins_pla_ands[8][5]) &
+        (pla_ins[6] | ~ins_pla_ands[8][6]) &
+        (pla_ins[7] | ~ins_pla_ands[8][7]) &
+        (pla_ins[8] | ~ins_pla_ands[8][8]) &
+        (pla_ins[9] | ~ins_pla_ands[8][9]) &
+        (pla_ins[10] | ~ins_pla_ands[8][10]) &
+        (pla_ins[11] | ~ins_pla_ands[8][11]) &
+        (pla_ins[12] | ~ins_pla_ands[8][12]) &
+        (pla_ins[13] | ~ins_pla_ands[8][13]) &
+        (pla_ins[14] | ~ins_pla_ands[8][14]) &
+        (pla_ins[15] | ~ins_pla_ands[8][15]),
+    (pla_ins[0] | ~ins_pla_ands[9][0]) &
+        (pla_ins[1] | ~ins_pla_ands[9][1]) &
+        (pla_ins[2] | ~ins_pla_ands[9][2]) &
+        (pla_ins[3] | ~ins_pla_ands[9][3]) &
+        (pla_ins[4] | ~ins_pla_ands[9][4]) &
+        (pla_ins[5] | ~ins_pla_ands[9][5]) &
+        (pla_ins[6] | ~ins_pla_ands[9][6]) &
+        (pla_ins[7] | ~ins_pla_ands[9][7]) &
+        (pla_ins[8] | ~ins_pla_ands[9][8]) &
+        (pla_ins[9] | ~ins_pla_ands[9][9]) &
+        (pla_ins[10] | ~ins_pla_ands[9][10]) &
+        (pla_ins[11] | ~ins_pla_ands[9][11]) &
+        (pla_ins[12] | ~ins_pla_ands[9][12]) &
+        (pla_ins[13] | ~ins_pla_ands[9][13]) &
+        (pla_ins[14] | ~ins_pla_ands[9][14]) &
+        (pla_ins[15] | ~ins_pla_ands[9][15]),
+    (pla_ins[0] | ~ins_pla_ands[10][0]) &
+        (pla_ins[1] | ~ins_pla_ands[10][1]) &
+        (pla_ins[2] | ~ins_pla_ands[10][2]) &
+        (pla_ins[3] | ~ins_pla_ands[10][3]) &
+        (pla_ins[4] | ~ins_pla_ands[10][4]) &
+        (pla_ins[5] | ~ins_pla_ands[10][5]) &
+        (pla_ins[6] | ~ins_pla_ands[10][6]) &
+        (pla_ins[7] | ~ins_pla_ands[10][7]) &
+        (pla_ins[8] | ~ins_pla_ands[10][8]) &
+        (pla_ins[9] | ~ins_pla_ands[10][9]) &
+        (pla_ins[10] | ~ins_pla_ands[10][10]) &
+        (pla_ins[11] | ~ins_pla_ands[10][11]) &
+        (pla_ins[12] | ~ins_pla_ands[10][12]) &
+        (pla_ins[13] | ~ins_pla_ands[10][13]) &
+        (pla_ins[14] | ~ins_pla_ands[10][14]) &
+        (pla_ins[15] | ~ins_pla_ands[10][15]),
+    (pla_ins[0] | ~ins_pla_ands[11][0]) &
+        (pla_ins[1] | ~ins_pla_ands[11][1]) &
+        (pla_ins[2] | ~ins_pla_ands[11][2]) &
+        (pla_ins[3] | ~ins_pla_ands[11][3]) &
+        (pla_ins[4] | ~ins_pla_ands[11][4]) &
+        (pla_ins[5] | ~ins_pla_ands[11][5]) &
+        (pla_ins[6] | ~ins_pla_ands[11][6]) &
+        (pla_ins[7] | ~ins_pla_ands[11][7]) &
+        (pla_ins[8] | ~ins_pla_ands[11][8]) &
+        (pla_ins[9] | ~ins_pla_ands[11][9]) &
+        (pla_ins[10] | ~ins_pla_ands[11][10]) &
+        (pla_ins[11] | ~ins_pla_ands[11][11]) &
+        (pla_ins[12] | ~ins_pla_ands[11][12]) &
+        (pla_ins[13] | ~ins_pla_ands[11][13]) &
+        (pla_ins[14] | ~ins_pla_ands[11][14]) &
+        (pla_ins[15] | ~ins_pla_ands[11][15]),
+    (pla_ins[0] | ~ins_pla_ands[12][0]) &
+        (pla_ins[1] | ~ins_pla_ands[12][1]) &
+        (pla_ins[2] | ~ins_pla_ands[12][2]) &
+        (pla_ins[3] | ~ins_pla_ands[12][3]) &
+        (pla_ins[4] | ~ins_pla_ands[12][4]) &
+        (pla_ins[5] | ~ins_pla_ands[12][5]) &
+        (pla_ins[6] | ~ins_pla_ands[12][6]) &
+        (pla_ins[7] | ~ins_pla_ands[12][7]) &
+        (pla_ins[8] | ~ins_pla_ands[12][8]) &
+        (pla_ins[9] | ~ins_pla_ands[12][9]) &
+        (pla_ins[10] | ~ins_pla_ands[12][10]) &
+        (pla_ins[11] | ~ins_pla_ands[12][11]) &
+        (pla_ins[12] | ~ins_pla_ands[12][12]) &
+        (pla_ins[13] | ~ins_pla_ands[12][13]) &
+        (pla_ins[14] | ~ins_pla_ands[12][14]) &
+        (pla_ins[15] | ~ins_pla_ands[12][15]),
+    (pla_ins[0] | ~ins_pla_ands[13][0]) &
+        (pla_ins[1] | ~ins_pla_ands[13][1]) &
+        (pla_ins[2] | ~ins_pla_ands[13][2]) &
+        (pla_ins[3] | ~ins_pla_ands[13][3]) &
+        (pla_ins[4] | ~ins_pla_ands[13][4]) &
+        (pla_ins[5] | ~ins_pla_ands[13][5]) &
+        (pla_ins[6] | ~ins_pla_ands[13][6]) &
+        (pla_ins[7] | ~ins_pla_ands[13][7]) &
+        (pla_ins[8] | ~ins_pla_ands[13][8]) &
+        (pla_ins[9] | ~ins_pla_ands[13][9]) &
+        (pla_ins[10] | ~ins_pla_ands[13][10]) &
+        (pla_ins[11] | ~ins_pla_ands[13][11]) &
+        (pla_ins[12] | ~ins_pla_ands[13][12]) &
+        (pla_ins[13] | ~ins_pla_ands[13][13]) &
+        (pla_ins[14] | ~ins_pla_ands[13][14]) &
+        (pla_ins[15] | ~ins_pla_ands[13][15]),
+    (pla_ins[0] | ~ins_pla_ands[14][0]) &
+        (pla_ins[1] | ~ins_pla_ands[14][1]) &
+        (pla_ins[2] | ~ins_pla_ands[14][2]) &
+        (pla_ins[3] | ~ins_pla_ands[14][3]) &
+        (pla_ins[4] | ~ins_pla_ands[14][4]) &
+        (pla_ins[5] | ~ins_pla_ands[14][5]) &
+        (pla_ins[6] | ~ins_pla_ands[14][6]) &
+        (pla_ins[7] | ~ins_pla_ands[14][7]) &
+        (pla_ins[8] | ~ins_pla_ands[14][8]) &
+        (pla_ins[9] | ~ins_pla_ands[14][9]) &
+        (pla_ins[10] | ~ins_pla_ands[14][10]) &
+        (pla_ins[11] | ~ins_pla_ands[14][11]) &
+        (pla_ins[12] | ~ins_pla_ands[14][12]) &
+        (pla_ins[13] | ~ins_pla_ands[14][13]) &
+        (pla_ins[14] | ~ins_pla_ands[14][14]) &
+        (pla_ins[15] | ~ins_pla_ands[14][15]),
+    (pla_ins[0] | ~ins_pla_ands[15][0]) &
+        (pla_ins[1] | ~ins_pla_ands[15][1]) &
+        (pla_ins[2] | ~ins_pla_ands[15][2]) &
+        (pla_ins[3] | ~ins_pla_ands[15][3]) &
+        (pla_ins[4] | ~ins_pla_ands[15][4]) &
+        (pla_ins[5] | ~ins_pla_ands[15][5]) &
+        (pla_ins[6] | ~ins_pla_ands[15][6]) &
+        (pla_ins[7] | ~ins_pla_ands[15][7]) &
+        (pla_ins[8] | ~ins_pla_ands[15][8]) &
+        (pla_ins[9] | ~ins_pla_ands[15][9]) &
+        (pla_ins[10] | ~ins_pla_ands[15][10]) &
+        (pla_ins[11] | ~ins_pla_ands[15][11]) &
+        (pla_ins[12] | ~ins_pla_ands[15][12]) &
+        (pla_ins[13] | ~ins_pla_ands[15][13]) &
+        (pla_ins[14] | ~ins_pla_ands[15][14]) &
+        (pla_ins[15] | ~ins_pla_ands[15][15]),
+    (pla_ins[0] | ~ins_pla_ands[16][0]) &
+        (pla_ins[1] | ~ins_pla_ands[16][1]) &
+        (pla_ins[2] | ~ins_pla_ands[16][2]) &
+        (pla_ins[3] | ~ins_pla_ands[16][3]) &
+        (pla_ins[4] | ~ins_pla_ands[16][4]) &
+        (pla_ins[5] | ~ins_pla_ands[16][5]) &
+        (pla_ins[6] | ~ins_pla_ands[16][6]) &
+        (pla_ins[7] | ~ins_pla_ands[16][7]) &
+        (pla_ins[8] | ~ins_pla_ands[16][8]) &
+        (pla_ins[9] | ~ins_pla_ands[16][9]) &
+        (pla_ins[10] | ~ins_pla_ands[16][10]) &
+        (pla_ins[11] | ~ins_pla_ands[16][11]) &
+        (pla_ins[12] | ~ins_pla_ands[16][12]) &
+        (pla_ins[13] | ~ins_pla_ands[16][13]) &
+        (pla_ins[14] | ~ins_pla_ands[16][14]) &
+        (pla_ins[15] | ~ins_pla_ands[16][15]),
+    (pla_ins[0] | ~ins_pla_ands[17][0]) &
+        (pla_ins[1] | ~ins_pla_ands[17][1]) &
+        (pla_ins[2] | ~ins_pla_ands[17][2]) &
+        (pla_ins[3] | ~ins_pla_ands[17][3]) &
+        (pla_ins[4] | ~ins_pla_ands[17][4]) &
+        (pla_ins[5] | ~ins_pla_ands[17][5]) &
+        (pla_ins[6] | ~ins_pla_ands[17][6]) &
+        (pla_ins[7] | ~ins_pla_ands[17][7]) &
+        (pla_ins[8] | ~ins_pla_ands[17][8]) &
+        (pla_ins[9] | ~ins_pla_ands[17][9]) &
+        (pla_ins[10] | ~ins_pla_ands[17][10]) &
+        (pla_ins[11] | ~ins_pla_ands[17][11]) &
+        (pla_ins[12] | ~ins_pla_ands[17][12]) &
+        (pla_ins[13] | ~ins_pla_ands[17][13]) &
+        (pla_ins[14] | ~ins_pla_ands[17][14]) &
+        (pla_ins[15] | ~ins_pla_ands[17][15]),
+    (pla_ins[0] | ~ins_pla_ands[18][0]) &
+        (pla_ins[1] | ~ins_pla_ands[18][1]) &
+        (pla_ins[2] | ~ins_pla_ands[18][2]) &
+        (pla_ins[3] | ~ins_pla_ands[18][3]) &
+        (pla_ins[4] | ~ins_pla_ands[18][4]) &
+        (pla_ins[5] | ~ins_pla_ands[18][5]) &
+        (pla_ins[6] | ~ins_pla_ands[18][6]) &
+        (pla_ins[7] | ~ins_pla_ands[18][7]) &
+        (pla_ins[8] | ~ins_pla_ands[18][8]) &
+        (pla_ins[9] | ~ins_pla_ands[18][9]) &
+        (pla_ins[10] | ~ins_pla_ands[18][10]) &
+        (pla_ins[11] | ~ins_pla_ands[18][11]) &
+        (pla_ins[12] | ~ins_pla_ands[18][12]) &
+        (pla_ins[13] | ~ins_pla_ands[18][13]) &
+        (pla_ins[14] | ~ins_pla_ands[18][14]) &
+        (pla_ins[15] | ~ins_pla_ands[18][15]),
+    (pla_ins[0] | ~ins_pla_ands[19][0]) &
+        (pla_ins[1] | ~ins_pla_ands[19][1]) &
+        (pla_ins[2] | ~ins_pla_ands[19][2]) &
+        (pla_ins[3] | ~ins_pla_ands[19][3]) &
+        (pla_ins[4] | ~ins_pla_ands[19][4]) &
+        (pla_ins[5] | ~ins_pla_ands[19][5]) &
+        (pla_ins[6] | ~ins_pla_ands[19][6]) &
+        (pla_ins[7] | ~ins_pla_ands[19][7]) &
+        (pla_ins[8] | ~ins_pla_ands[19][8]) &
+        (pla_ins[9] | ~ins_pla_ands[19][9]) &
+        (pla_ins[10] | ~ins_pla_ands[19][10]) &
+        (pla_ins[11] | ~ins_pla_ands[19][11]) &
+        (pla_ins[12] | ~ins_pla_ands[19][12]) &
+        (pla_ins[13] | ~ins_pla_ands[19][13]) &
+        (pla_ins[14] | ~ins_pla_ands[19][14]) &
+        (pla_ins[15] | ~ins_pla_ands[19][15]),
+    (pla_ins[0] | ~ins_pla_ands[20][0]) &
+        (pla_ins[1] | ~ins_pla_ands[20][1]) &
+        (pla_ins[2] | ~ins_pla_ands[20][2]) &
+        (pla_ins[3] | ~ins_pla_ands[20][3]) &
+        (pla_ins[4] | ~ins_pla_ands[20][4]) &
+        (pla_ins[5] | ~ins_pla_ands[20][5]) &
+        (pla_ins[6] | ~ins_pla_ands[20][6]) &
+        (pla_ins[7] | ~ins_pla_ands[20][7]) &
+        (pla_ins[8] | ~ins_pla_ands[20][8]) &
+        (pla_ins[9] | ~ins_pla_ands[20][9]) &
+        (pla_ins[10] | ~ins_pla_ands[20][10]) &
+        (pla_ins[11] | ~ins_pla_ands[20][11]) &
+        (pla_ins[12] | ~ins_pla_ands[20][12]) &
+        (pla_ins[13] | ~ins_pla_ands[20][13]) &
+        (pla_ins[14] | ~ins_pla_ands[20][14]) &
+        (pla_ins[15] | ~ins_pla_ands[20][15]),
+    (pla_ins[0] | ~ins_pla_ands[21][0]) &
+        (pla_ins[1] | ~ins_pla_ands[21][1]) &
+        (pla_ins[2] | ~ins_pla_ands[21][2]) &
+        (pla_ins[3] | ~ins_pla_ands[21][3]) &
+        (pla_ins[4] | ~ins_pla_ands[21][4]) &
+        (pla_ins[5] | ~ins_pla_ands[21][5]) &
+        (pla_ins[6] | ~ins_pla_ands[21][6]) &
+        (pla_ins[7] | ~ins_pla_ands[21][7]) &
+        (pla_ins[8] | ~ins_pla_ands[21][8]) &
+        (pla_ins[9] | ~ins_pla_ands[21][9]) &
+        (pla_ins[10] | ~ins_pla_ands[21][10]) &
+        (pla_ins[11] | ~ins_pla_ands[21][11]) &
+        (pla_ins[12] | ~ins_pla_ands[21][12]) &
+        (pla_ins[13] | ~ins_pla_ands[21][13]) &
+        (pla_ins[14] | ~ins_pla_ands[21][14]) &
+        (pla_ins[15] | ~ins_pla_ands[21][15]),
+    (pla_ins[0] | ~ins_pla_ands[22][0]) &
+        (pla_ins[1] | ~ins_pla_ands[22][1]) &
+        (pla_ins[2] | ~ins_pla_ands[22][2]) &
+        (pla_ins[3] | ~ins_pla_ands[22][3]) &
+        (pla_ins[4] | ~ins_pla_ands[22][4]) &
+        (pla_ins[5] | ~ins_pla_ands[22][5]) &
+        (pla_ins[6] | ~ins_pla_ands[22][6]) &
+        (pla_ins[7] | ~ins_pla_ands[22][7]) &
+        (pla_ins[8] | ~ins_pla_ands[22][8]) &
+        (pla_ins[9] | ~ins_pla_ands[22][9]) &
+        (pla_ins[10] | ~ins_pla_ands[22][10]) &
+        (pla_ins[11] | ~ins_pla_ands[22][11]) &
+        (pla_ins[12] | ~ins_pla_ands[22][12]) &
+        (pla_ins[13] | ~ins_pla_ands[22][13]) &
+        (pla_ins[14] | ~ins_pla_ands[22][14]) &
+        (pla_ins[15] | ~ins_pla_ands[22][15]),
+    (pla_ins[0] | ~ins_pla_ands[23][0]) &
+        (pla_ins[1] | ~ins_pla_ands[23][1]) &
+        (pla_ins[2] | ~ins_pla_ands[23][2]) &
+        (pla_ins[3] | ~ins_pla_ands[23][3]) &
+        (pla_ins[4] | ~ins_pla_ands[23][4]) &
+        (pla_ins[5] | ~ins_pla_ands[23][5]) &
+        (pla_ins[6] | ~ins_pla_ands[23][6]) &
+        (pla_ins[7] | ~ins_pla_ands[23][7]) &
+        (pla_ins[8] | ~ins_pla_ands[23][8]) &
+        (pla_ins[9] | ~ins_pla_ands[23][9]) &
+        (pla_ins[10] | ~ins_pla_ands[23][10]) &
+        (pla_ins[11] | ~ins_pla_ands[23][11]) &
+        (pla_ins[12] | ~ins_pla_ands[23][12]) &
+        (pla_ins[13] | ~ins_pla_ands[23][13]) &
+        (pla_ins[14] | ~ins_pla_ands[23][14]) &
+        (pla_ins[15] | ~ins_pla_ands[23][15]),
+    (pla_ins[0] | ~ins_pla_ands[24][0]) &
+        (pla_ins[1] | ~ins_pla_ands[24][1]) &
+        (pla_ins[2] | ~ins_pla_ands[24][2]) &
+        (pla_ins[3] | ~ins_pla_ands[24][3]) &
+        (pla_ins[4] | ~ins_pla_ands[24][4]) &
+        (pla_ins[5] | ~ins_pla_ands[24][5]) &
+        (pla_ins[6] | ~ins_pla_ands[24][6]) &
+        (pla_ins[7] | ~ins_pla_ands[24][7]) &
+        (pla_ins[8] | ~ins_pla_ands[24][8]) &
+        (pla_ins[9] | ~ins_pla_ands[24][9]) &
+        (pla_ins[10] | ~ins_pla_ands[24][10]) &
+        (pla_ins[11] | ~ins_pla_ands[24][11]) &
+        (pla_ins[12] | ~ins_pla_ands[24][12]) &
+        (pla_ins[13] | ~ins_pla_ands[24][13]) &
+        (pla_ins[14] | ~ins_pla_ands[24][14]) &
+        (pla_ins[15] | ~ins_pla_ands[24][15]),
+    (pla_ins[0] | ~ins_pla_ands[25][0]) &
+        (pla_ins[1] | ~ins_pla_ands[25][1]) &
+        (pla_ins[2] | ~ins_pla_ands[25][2]) &
+        (pla_ins[3] | ~ins_pla_ands[25][3]) &
+        (pla_ins[4] | ~ins_pla_ands[25][4]) &
+        (pla_ins[5] | ~ins_pla_ands[25][5]) &
+        (pla_ins[6] | ~ins_pla_ands[25][6]) &
+        (pla_ins[7] | ~ins_pla_ands[25][7]) &
+        (pla_ins[8] | ~ins_pla_ands[25][8]) &
+        (pla_ins[9] | ~ins_pla_ands[25][9]) &
+        (pla_ins[10] | ~ins_pla_ands[25][10]) &
+        (pla_ins[11] | ~ins_pla_ands[25][11]) &
+        (pla_ins[12] | ~ins_pla_ands[25][12]) &
+        (pla_ins[13] | ~ins_pla_ands[25][13]) &
+        (pla_ins[14] | ~ins_pla_ands[25][14]) &
+        (pla_ins[15] | ~ins_pla_ands[25][15]),
+    (pla_ins[0] | ~ins_pla_ands[26][0]) &
+        (pla_ins[1] | ~ins_pla_ands[26][1]) &
+        (pla_ins[2] | ~ins_pla_ands[26][2]) &
+        (pla_ins[3] | ~ins_pla_ands[26][3]) &
+        (pla_ins[4] | ~ins_pla_ands[26][4]) &
+        (pla_ins[5] | ~ins_pla_ands[26][5]) &
+        (pla_ins[6] | ~ins_pla_ands[26][6]) &
+        (pla_ins[7] | ~ins_pla_ands[26][7]) &
+        (pla_ins[8] | ~ins_pla_ands[26][8]) &
+        (pla_ins[9] | ~ins_pla_ands[26][9]) &
+        (pla_ins[10] | ~ins_pla_ands[26][10]) &
+        (pla_ins[11] | ~ins_pla_ands[26][11]) &
+        (pla_ins[12] | ~ins_pla_ands[26][12]) &
+        (pla_ins[13] | ~ins_pla_ands[26][13]) &
+        (pla_ins[14] | ~ins_pla_ands[26][14]) &
+        (pla_ins[15] | ~ins_pla_ands[26][15]),
+    (pla_ins[0] | ~ins_pla_ands[27][0]) &
+        (pla_ins[1] | ~ins_pla_ands[27][1]) &
+        (pla_ins[2] | ~ins_pla_ands[27][2]) &
+        (pla_ins[3] | ~ins_pla_ands[27][3]) &
+        (pla_ins[4] | ~ins_pla_ands[27][4]) &
+        (pla_ins[5] | ~ins_pla_ands[27][5]) &
+        (pla_ins[6] | ~ins_pla_ands[27][6]) &
+        (pla_ins[7] | ~ins_pla_ands[27][7]) &
+        (pla_ins[8] | ~ins_pla_ands[27][8]) &
+        (pla_ins[9] | ~ins_pla_ands[27][9]) &
+        (pla_ins[10] | ~ins_pla_ands[27][10]) &
+        (pla_ins[11] | ~ins_pla_ands[27][11]) &
+        (pla_ins[12] | ~ins_pla_ands[27][12]) &
+        (pla_ins[13] | ~ins_pla_ands[27][13]) &
+        (pla_ins[14] | ~ins_pla_ands[27][14]) &
+        (pla_ins[15] | ~ins_pla_ands[27][15]),
+    (pla_ins[0] | ~ins_pla_ands[28][0]) &
+        (pla_ins[1] | ~ins_pla_ands[28][1]) &
+        (pla_ins[2] | ~ins_pla_ands[28][2]) &
+        (pla_ins[3] | ~ins_pla_ands[28][3]) &
+        (pla_ins[4] | ~ins_pla_ands[28][4]) &
+        (pla_ins[5] | ~ins_pla_ands[28][5]) &
+        (pla_ins[6] | ~ins_pla_ands[28][6]) &
+        (pla_ins[7] | ~ins_pla_ands[28][7]) &
+        (pla_ins[8] | ~ins_pla_ands[28][8]) &
+        (pla_ins[9] | ~ins_pla_ands[28][9]) &
+        (pla_ins[10] | ~ins_pla_ands[28][10]) &
+        (pla_ins[11] | ~ins_pla_ands[28][11]) &
+        (pla_ins[12] | ~ins_pla_ands[28][12]) &
+        (pla_ins[13] | ~ins_pla_ands[28][13]) &
+        (pla_ins[14] | ~ins_pla_ands[28][14]) &
+        (pla_ins[15] | ~ins_pla_ands[28][15]),
+    (pla_ins[0] | ~ins_pla_ands[29][0]) &
+        (pla_ins[1] | ~ins_pla_ands[29][1]) &
+        (pla_ins[2] | ~ins_pla_ands[29][2]) &
+        (pla_ins[3] | ~ins_pla_ands[29][3]) &
+        (pla_ins[4] | ~ins_pla_ands[29][4]) &
+        (pla_ins[5] | ~ins_pla_ands[29][5]) &
+        (pla_ins[6] | ~ins_pla_ands[29][6]) &
+        (pla_ins[7] | ~ins_pla_ands[29][7]) &
+        (pla_ins[8] | ~ins_pla_ands[29][8]) &
+        (pla_ins[9] | ~ins_pla_ands[29][9]) &
+        (pla_ins[10] | ~ins_pla_ands[29][10]) &
+        (pla_ins[11] | ~ins_pla_ands[29][11]) &
+        (pla_ins[12] | ~ins_pla_ands[29][12]) &
+        (pla_ins[13] | ~ins_pla_ands[29][13]) &
+        (pla_ins[14] | ~ins_pla_ands[29][14]) &
+        (pla_ins[15] | ~ins_pla_ands[29][15]),
+    (pla_ins[0] | ~ins_pla_ands[30][0]) &
+        (pla_ins[1] | ~ins_pla_ands[30][1]) &
+        (pla_ins[2] | ~ins_pla_ands[30][2]) &
+        (pla_ins[3] | ~ins_pla_ands[30][3]) &
+        (pla_ins[4] | ~ins_pla_ands[30][4]) &
+        (pla_ins[5] | ~ins_pla_ands[30][5]) &
+        (pla_ins[6] | ~ins_pla_ands[30][6]) &
+        (pla_ins[7] | ~ins_pla_ands[30][7]) &
+        (pla_ins[8] | ~ins_pla_ands[30][8]) &
+        (pla_ins[9] | ~ins_pla_ands[30][9]) &
+        (pla_ins[10] | ~ins_pla_ands[30][10]) &
+        (pla_ins[11] | ~ins_pla_ands[30][11]) &
+        (pla_ins[12] | ~ins_pla_ands[30][12]) &
+        (pla_ins[13] | ~ins_pla_ands[30][13]) &
+        (pla_ins[14] | ~ins_pla_ands[30][14]) &
+        (pla_ins[15] | ~ins_pla_ands[30][15])
 };
 
 wire [15:0] or_outs = {
@@ -589,7 +605,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[0][26] & and_outs[0]) |
         (ins_pla_ors[0][27] & and_outs[0]) |
         (ins_pla_ors[0][28] & and_outs[0]) |
-        (ins_pla_ors[0][29] & and_outs[0]),
+        (ins_pla_ors[0][29] & and_outs[0]) |
+        (ins_pla_ors[0][30] & and_outs[0]),
     (ins_pla_ors[1][0] & and_outs[1]) |
         (ins_pla_ors[1][1] & and_outs[1]) |
         (ins_pla_ors[1][2] & and_outs[1]) |
@@ -619,7 +636,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[1][26] & and_outs[1]) |
         (ins_pla_ors[1][27] & and_outs[1]) |
         (ins_pla_ors[1][28] & and_outs[1]) |
-        (ins_pla_ors[1][29] & and_outs[1]),
+        (ins_pla_ors[1][29] & and_outs[1]) |
+        (ins_pla_ors[1][30] & and_outs[1]),
     (ins_pla_ors[2][0] & and_outs[2]) |
         (ins_pla_ors[2][1] & and_outs[2]) |
         (ins_pla_ors[2][2] & and_outs[2]) |
@@ -649,7 +667,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[2][26] & and_outs[2]) |
         (ins_pla_ors[2][27] & and_outs[2]) |
         (ins_pla_ors[2][28] & and_outs[2]) |
-        (ins_pla_ors[2][29] & and_outs[2]),
+        (ins_pla_ors[2][29] & and_outs[2]) |
+        (ins_pla_ors[2][30] & and_outs[2]),
     (ins_pla_ors[3][0] & and_outs[3]) |
         (ins_pla_ors[3][1] & and_outs[3]) |
         (ins_pla_ors[3][2] & and_outs[3]) |
@@ -679,7 +698,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[3][26] & and_outs[3]) |
         (ins_pla_ors[3][27] & and_outs[3]) |
         (ins_pla_ors[3][28] & and_outs[3]) |
-        (ins_pla_ors[3][29] & and_outs[3]),
+        (ins_pla_ors[3][29] & and_outs[3]) |
+        (ins_pla_ors[3][30] & and_outs[3]),
     (ins_pla_ors[4][0] & and_outs[4]) |
         (ins_pla_ors[4][1] & and_outs[4]) |
         (ins_pla_ors[4][2] & and_outs[4]) |
@@ -709,7 +729,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[4][26] & and_outs[4]) |
         (ins_pla_ors[4][27] & and_outs[4]) |
         (ins_pla_ors[4][28] & and_outs[4]) |
-        (ins_pla_ors[4][29] & and_outs[4]),
+        (ins_pla_ors[4][29] & and_outs[4]) |
+        (ins_pla_ors[4][30] & and_outs[4]),
     (ins_pla_ors[5][0] & and_outs[5]) |
         (ins_pla_ors[5][1] & and_outs[5]) |
         (ins_pla_ors[5][2] & and_outs[5]) |
@@ -739,7 +760,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[5][26] & and_outs[5]) |
         (ins_pla_ors[5][27] & and_outs[5]) |
         (ins_pla_ors[5][28] & and_outs[5]) |
-        (ins_pla_ors[5][29] & and_outs[5]),
+        (ins_pla_ors[5][29] & and_outs[5]) |
+        (ins_pla_ors[5][30] & and_outs[5]),
     (ins_pla_ors[6][0] & and_outs[6]) |
         (ins_pla_ors[6][1] & and_outs[6]) |
         (ins_pla_ors[6][2] & and_outs[6]) |
@@ -769,7 +791,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[6][26] & and_outs[6]) |
         (ins_pla_ors[6][27] & and_outs[6]) |
         (ins_pla_ors[6][28] & and_outs[6]) |
-        (ins_pla_ors[6][29] & and_outs[6]),
+        (ins_pla_ors[6][29] & and_outs[6]) |
+        (ins_pla_ors[6][30] & and_outs[6]),
     (ins_pla_ors[7][0] & and_outs[7]) |
         (ins_pla_ors[7][1] & and_outs[7]) |
         (ins_pla_ors[7][2] & and_outs[7]) |
@@ -799,7 +822,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[7][26] & and_outs[7]) |
         (ins_pla_ors[7][27] & and_outs[7]) |
         (ins_pla_ors[7][28] & and_outs[7]) |
-        (ins_pla_ors[7][29] & and_outs[7]),
+        (ins_pla_ors[7][29] & and_outs[7]) |
+        (ins_pla_ors[7][30] & and_outs[7]),
     (ins_pla_ors[8][0] & and_outs[8]) |
         (ins_pla_ors[8][1] & and_outs[8]) |
         (ins_pla_ors[8][2] & and_outs[8]) |
@@ -829,7 +853,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[8][26] & and_outs[8]) |
         (ins_pla_ors[8][27] & and_outs[8]) |
         (ins_pla_ors[8][28] & and_outs[8]) |
-        (ins_pla_ors[8][29] & and_outs[8]),
+        (ins_pla_ors[8][29] & and_outs[8]) |
+        (ins_pla_ors[8][30] & and_outs[8]),
     (ins_pla_ors[9][0] & and_outs[9]) |
         (ins_pla_ors[9][1] & and_outs[9]) |
         (ins_pla_ors[9][2] & and_outs[9]) |
@@ -859,7 +884,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[9][26] & and_outs[9]) |
         (ins_pla_ors[9][27] & and_outs[9]) |
         (ins_pla_ors[9][28] & and_outs[9]) |
-        (ins_pla_ors[9][29] & and_outs[9]),
+        (ins_pla_ors[9][29] & and_outs[9]) |
+        (ins_pla_ors[9][30] & and_outs[9]),
     (ins_pla_ors[10][0] & and_outs[10]) |
         (ins_pla_ors[10][1] & and_outs[10]) |
         (ins_pla_ors[10][2] & and_outs[10]) |
@@ -889,7 +915,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[10][26] & and_outs[10]) |
         (ins_pla_ors[10][27] & and_outs[10]) |
         (ins_pla_ors[10][28] & and_outs[10]) |
-        (ins_pla_ors[10][29] & and_outs[10]),
+        (ins_pla_ors[10][29] & and_outs[10]) |
+        (ins_pla_ors[10][30] & and_outs[10]),
     (ins_pla_ors[11][0] & and_outs[11]) |
         (ins_pla_ors[11][1] & and_outs[11]) |
         (ins_pla_ors[11][2] & and_outs[11]) |
@@ -919,7 +946,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[11][26] & and_outs[11]) |
         (ins_pla_ors[11][27] & and_outs[11]) |
         (ins_pla_ors[11][28] & and_outs[11]) |
-        (ins_pla_ors[11][29] & and_outs[11]),
+        (ins_pla_ors[11][29] & and_outs[11]) |
+        (ins_pla_ors[11][30] & and_outs[11]),
     (ins_pla_ors[12][0] & and_outs[12]) |
         (ins_pla_ors[12][1] & and_outs[12]) |
         (ins_pla_ors[12][2] & and_outs[12]) |
@@ -949,7 +977,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[12][26] & and_outs[12]) |
         (ins_pla_ors[12][27] & and_outs[12]) |
         (ins_pla_ors[12][28] & and_outs[12]) |
-        (ins_pla_ors[12][29] & and_outs[12]),
+        (ins_pla_ors[12][29] & and_outs[12]) |
+        (ins_pla_ors[12][30] & and_outs[12]),
     (ins_pla_ors[13][0] & and_outs[13]) |
         (ins_pla_ors[13][1] & and_outs[13]) |
         (ins_pla_ors[13][2] & and_outs[13]) |
@@ -979,7 +1008,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[13][26] & and_outs[13]) |
         (ins_pla_ors[13][27] & and_outs[13]) |
         (ins_pla_ors[13][28] & and_outs[13]) |
-        (ins_pla_ors[13][29] & and_outs[13]),
+        (ins_pla_ors[13][29] & and_outs[13]) |
+        (ins_pla_ors[13][30] & and_outs[13]),
     (ins_pla_ors[14][0] & and_outs[14]) |
         (ins_pla_ors[14][1] & and_outs[14]) |
         (ins_pla_ors[14][2] & and_outs[14]) |
@@ -1009,7 +1039,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[14][26] & and_outs[14]) |
         (ins_pla_ors[14][27] & and_outs[14]) |
         (ins_pla_ors[14][28] & and_outs[14]) |
-        (ins_pla_ors[14][29] & and_outs[14]),
+        (ins_pla_ors[14][29] & and_outs[14]) |
+        (ins_pla_ors[14][30] & and_outs[14]),
     (ins_pla_ors[15][0] & and_outs[15]) |
         (ins_pla_ors[15][1] & and_outs[15]) |
         (ins_pla_ors[15][2] & and_outs[15]) |
@@ -1039,7 +1070,8 @@ wire [15:0] or_outs = {
         (ins_pla_ors[15][26] & and_outs[15]) |
         (ins_pla_ors[15][27] & and_outs[15]) |
         (ins_pla_ors[15][28] & and_outs[15]) |
-        (ins_pla_ors[15][29] & and_outs[15])
+        (ins_pla_ors[15][29] & and_outs[15]) |
+        (ins_pla_ors[15][30] & and_outs[15])
 };
 
 /*#endregion*/
