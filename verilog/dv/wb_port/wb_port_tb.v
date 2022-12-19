@@ -27,11 +27,11 @@ module wb_port_tb;
 	wire gpio;
 	wire [37:0] mprj_io;
 	wire [7:0] mprj_io_0;
-	wire [15:0] checkbits;
+	wire checkbit;
 
-	assign checkbits = mprj_io[31:16];
+	assign checkbit = mprj_io[37];
 
-	assign mprj_io[3] = 1'b1;
+	assign mprj_io[3:0] = 4'b0000;
 
 	// External clock is used by default.  Make this artificially fast for the
 	// simulation.  Normally this would be a slow clock and the digital PLL
@@ -45,7 +45,7 @@ module wb_port_tb;
 
 	`ifdef ENABLE_SDF
 		initial begin
-			$sdf_annotate("../../../sdf/user_proj_example.sdf", uut.mprj) ;
+			$sdf_annotate("../../../sdf/wrapped_tms1x00.sdf", uut.mprj) ;
 			$sdf_annotate("../../../sdf/user_project_wrapper.sdf", uut.mprj.mprj) ;
 			$sdf_annotate("../../../mgmt_core_wrapper/sdf/DFFRAM.sdf", uut.soc.DFFRAM_0) ;
 			$sdf_annotate("../../../mgmt_core_wrapper/sdf/mgmt_core.sdf", uut.soc.core) ;
@@ -158,9 +158,10 @@ module wb_port_tb;
 	end
 
 	initial begin
-	   wait(checkbits == 16'hAB60);
+	   wait(checkbit == 1);
 		$display("Monitor: MPRJ-Logic WB Started");
-		wait(checkbits == 16'hAB61);
+		wait(checkbit == 0);
+		wait(checkbit == 1);
 		`ifdef GL
 	    	$display("Monitor: Mega-Project WB (GL) Passed");
 		`else

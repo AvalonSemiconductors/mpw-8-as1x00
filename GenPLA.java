@@ -1,6 +1,6 @@
 public class GenPLA {
 	public static void main(String[] args) {
-		int and_terms = 31;
+		int and_terms = 30;
 		int or_terms = 16;
 		int in_size = 8;
 		

@@ -76,7 +76,7 @@ wire [15:0] pla_ins = {
     ~ins_in[7]
 };
 
-wire [30:0] and_outs = {
+wire [29:0] and_outs = {
     (pla_ins[0] | ~ins_pla_ands[0][0]) &
         (pla_ins[1] | ~ins_pla_ands[0][1]) &
         (pla_ins[2] | ~ins_pla_ands[0][2]) &
@@ -556,23 +556,7 @@ wire [30:0] and_outs = {
         (pla_ins[12] | ~ins_pla_ands[29][12]) &
         (pla_ins[13] | ~ins_pla_ands[29][13]) &
         (pla_ins[14] | ~ins_pla_ands[29][14]) &
-        (pla_ins[15] | ~ins_pla_ands[29][15]),
-    (pla_ins[0] | ~ins_pla_ands[30][0]) &
-        (pla_ins[1] | ~ins_pla_ands[30][1]) &
-        (pla_ins[2] | ~ins_pla_ands[30][2]) &
-        (pla_ins[3] | ~ins_pla_ands[30][3]) &
-        (pla_ins[4] | ~ins_pla_ands[30][4]) &
-        (pla_ins[5] | ~ins_pla_ands[30][5]) &
-        (pla_ins[6] | ~ins_pla_ands[30][6]) &
-        (pla_ins[7] | ~ins_pla_ands[30][7]) &
-        (pla_ins[8] | ~ins_pla_ands[30][8]) &
-        (pla_ins[9] | ~ins_pla_ands[30][9]) &
-        (pla_ins[10] | ~ins_pla_ands[30][10]) &
-        (pla_ins[11] | ~ins_pla_ands[30][11]) &
-        (pla_ins[12] | ~ins_pla_ands[30][12]) &
-        (pla_ins[13] | ~ins_pla_ands[30][13]) &
-        (pla_ins[14] | ~ins_pla_ands[30][14]) &
-        (pla_ins[15] | ~ins_pla_ands[30][15])
+        (pla_ins[15] | ~ins_pla_ands[29][15])
 };
 
 wire [15:0] or_outs = {
@@ -605,8 +589,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[0][26] & and_outs[0]) |
         (ins_pla_ors[0][27] & and_outs[0]) |
         (ins_pla_ors[0][28] & and_outs[0]) |
-        (ins_pla_ors[0][29] & and_outs[0]) |
-        (ins_pla_ors[0][30] & and_outs[0]),
+        (ins_pla_ors[0][29] & and_outs[0]),
     (ins_pla_ors[1][0] & and_outs[1]) |
         (ins_pla_ors[1][1] & and_outs[1]) |
         (ins_pla_ors[1][2] & and_outs[1]) |
@@ -636,8 +619,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[1][26] & and_outs[1]) |
         (ins_pla_ors[1][27] & and_outs[1]) |
         (ins_pla_ors[1][28] & and_outs[1]) |
-        (ins_pla_ors[1][29] & and_outs[1]) |
-        (ins_pla_ors[1][30] & and_outs[1]),
+        (ins_pla_ors[1][29] & and_outs[1]),
     (ins_pla_ors[2][0] & and_outs[2]) |
         (ins_pla_ors[2][1] & and_outs[2]) |
         (ins_pla_ors[2][2] & and_outs[2]) |
@@ -667,8 +649,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[2][26] & and_outs[2]) |
         (ins_pla_ors[2][27] & and_outs[2]) |
         (ins_pla_ors[2][28] & and_outs[2]) |
-        (ins_pla_ors[2][29] & and_outs[2]) |
-        (ins_pla_ors[2][30] & and_outs[2]),
+        (ins_pla_ors[2][29] & and_outs[2]),
     (ins_pla_ors[3][0] & and_outs[3]) |
         (ins_pla_ors[3][1] & and_outs[3]) |
         (ins_pla_ors[3][2] & and_outs[3]) |
@@ -698,8 +679,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[3][26] & and_outs[3]) |
         (ins_pla_ors[3][27] & and_outs[3]) |
         (ins_pla_ors[3][28] & and_outs[3]) |
-        (ins_pla_ors[3][29] & and_outs[3]) |
-        (ins_pla_ors[3][30] & and_outs[3]),
+        (ins_pla_ors[3][29] & and_outs[3]),
     (ins_pla_ors[4][0] & and_outs[4]) |
         (ins_pla_ors[4][1] & and_outs[4]) |
         (ins_pla_ors[4][2] & and_outs[4]) |
@@ -729,8 +709,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[4][26] & and_outs[4]) |
         (ins_pla_ors[4][27] & and_outs[4]) |
         (ins_pla_ors[4][28] & and_outs[4]) |
-        (ins_pla_ors[4][29] & and_outs[4]) |
-        (ins_pla_ors[4][30] & and_outs[4]),
+        (ins_pla_ors[4][29] & and_outs[4]),
     (ins_pla_ors[5][0] & and_outs[5]) |
         (ins_pla_ors[5][1] & and_outs[5]) |
         (ins_pla_ors[5][2] & and_outs[5]) |
@@ -760,8 +739,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[5][26] & and_outs[5]) |
         (ins_pla_ors[5][27] & and_outs[5]) |
         (ins_pla_ors[5][28] & and_outs[5]) |
-        (ins_pla_ors[5][29] & and_outs[5]) |
-        (ins_pla_ors[5][30] & and_outs[5]),
+        (ins_pla_ors[5][29] & and_outs[5]),
     (ins_pla_ors[6][0] & and_outs[6]) |
         (ins_pla_ors[6][1] & and_outs[6]) |
         (ins_pla_ors[6][2] & and_outs[6]) |
@@ -791,8 +769,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[6][26] & and_outs[6]) |
         (ins_pla_ors[6][27] & and_outs[6]) |
         (ins_pla_ors[6][28] & and_outs[6]) |
-        (ins_pla_ors[6][29] & and_outs[6]) |
-        (ins_pla_ors[6][30] & and_outs[6]),
+        (ins_pla_ors[6][29] & and_outs[6]),
     (ins_pla_ors[7][0] & and_outs[7]) |
         (ins_pla_ors[7][1] & and_outs[7]) |
         (ins_pla_ors[7][2] & and_outs[7]) |
@@ -822,8 +799,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[7][26] & and_outs[7]) |
         (ins_pla_ors[7][27] & and_outs[7]) |
         (ins_pla_ors[7][28] & and_outs[7]) |
-        (ins_pla_ors[7][29] & and_outs[7]) |
-        (ins_pla_ors[7][30] & and_outs[7]),
+        (ins_pla_ors[7][29] & and_outs[7]),
     (ins_pla_ors[8][0] & and_outs[8]) |
         (ins_pla_ors[8][1] & and_outs[8]) |
         (ins_pla_ors[8][2] & and_outs[8]) |
@@ -853,8 +829,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[8][26] & and_outs[8]) |
         (ins_pla_ors[8][27] & and_outs[8]) |
         (ins_pla_ors[8][28] & and_outs[8]) |
-        (ins_pla_ors[8][29] & and_outs[8]) |
-        (ins_pla_ors[8][30] & and_outs[8]),
+        (ins_pla_ors[8][29] & and_outs[8]),
     (ins_pla_ors[9][0] & and_outs[9]) |
         (ins_pla_ors[9][1] & and_outs[9]) |
         (ins_pla_ors[9][2] & and_outs[9]) |
@@ -884,8 +859,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[9][26] & and_outs[9]) |
         (ins_pla_ors[9][27] & and_outs[9]) |
         (ins_pla_ors[9][28] & and_outs[9]) |
-        (ins_pla_ors[9][29] & and_outs[9]) |
-        (ins_pla_ors[9][30] & and_outs[9]),
+        (ins_pla_ors[9][29] & and_outs[9]),
     (ins_pla_ors[10][0] & and_outs[10]) |
         (ins_pla_ors[10][1] & and_outs[10]) |
         (ins_pla_ors[10][2] & and_outs[10]) |
@@ -915,8 +889,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[10][26] & and_outs[10]) |
         (ins_pla_ors[10][27] & and_outs[10]) |
         (ins_pla_ors[10][28] & and_outs[10]) |
-        (ins_pla_ors[10][29] & and_outs[10]) |
-        (ins_pla_ors[10][30] & and_outs[10]),
+        (ins_pla_ors[10][29] & and_outs[10]),
     (ins_pla_ors[11][0] & and_outs[11]) |
         (ins_pla_ors[11][1] & and_outs[11]) |
         (ins_pla_ors[11][2] & and_outs[11]) |
@@ -946,8 +919,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[11][26] & and_outs[11]) |
         (ins_pla_ors[11][27] & and_outs[11]) |
         (ins_pla_ors[11][28] & and_outs[11]) |
-        (ins_pla_ors[11][29] & and_outs[11]) |
-        (ins_pla_ors[11][30] & and_outs[11]),
+        (ins_pla_ors[11][29] & and_outs[11]),
     (ins_pla_ors[12][0] & and_outs[12]) |
         (ins_pla_ors[12][1] & and_outs[12]) |
         (ins_pla_ors[12][2] & and_outs[12]) |
@@ -977,8 +949,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[12][26] & and_outs[12]) |
         (ins_pla_ors[12][27] & and_outs[12]) |
         (ins_pla_ors[12][28] & and_outs[12]) |
-        (ins_pla_ors[12][29] & and_outs[12]) |
-        (ins_pla_ors[12][30] & and_outs[12]),
+        (ins_pla_ors[12][29] & and_outs[12]),
     (ins_pla_ors[13][0] & and_outs[13]) |
         (ins_pla_ors[13][1] & and_outs[13]) |
         (ins_pla_ors[13][2] & and_outs[13]) |
@@ -1008,8 +979,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[13][26] & and_outs[13]) |
         (ins_pla_ors[13][27] & and_outs[13]) |
         (ins_pla_ors[13][28] & and_outs[13]) |
-        (ins_pla_ors[13][29] & and_outs[13]) |
-        (ins_pla_ors[13][30] & and_outs[13]),
+        (ins_pla_ors[13][29] & and_outs[13]),
     (ins_pla_ors[14][0] & and_outs[14]) |
         (ins_pla_ors[14][1] & and_outs[14]) |
         (ins_pla_ors[14][2] & and_outs[14]) |
@@ -1039,8 +1009,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[14][26] & and_outs[14]) |
         (ins_pla_ors[14][27] & and_outs[14]) |
         (ins_pla_ors[14][28] & and_outs[14]) |
-        (ins_pla_ors[14][29] & and_outs[14]) |
-        (ins_pla_ors[14][30] & and_outs[14]),
+        (ins_pla_ors[14][29] & and_outs[14]),
     (ins_pla_ors[15][0] & and_outs[15]) |
         (ins_pla_ors[15][1] & and_outs[15]) |
         (ins_pla_ors[15][2] & and_outs[15]) |
@@ -1070,8 +1039,7 @@ wire [15:0] or_outs = {
         (ins_pla_ors[15][26] & and_outs[15]) |
         (ins_pla_ors[15][27] & and_outs[15]) |
         (ins_pla_ors[15][28] & and_outs[15]) |
-        (ins_pla_ors[15][29] & and_outs[15]) |
-        (ins_pla_ors[15][30] & and_outs[15])
+        (ins_pla_ors[15][29] & and_outs[15])
 };
 
 /*#endregion*/

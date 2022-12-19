@@ -16,6 +16,7 @@ module wrapped_tms1x00(
 
     //Wishbone interface stuffs
 	input [31:0] wbs_adr_i,
+    input wbs_dat_i,
 	input wbs_we_i,
 
 	output ram_csb,
@@ -28,7 +29,8 @@ wire [10:0] byte_address;
 assign oram_addr = byte_address[10:2];
 wire [7:0] byte_value = oram_value >> byte_address[1:0];
 
-assign io_oeb = 'b10000000000000000000000000000000011111;
+assign io_oeb = {~wbs_adr_i[31], 37'b0000000000000000000000000000000011111};
+assign io_out[37] = wbs_adr_i[31] ? wbs_dat_i : 0;
 
 assign ram_csb = ~wbs_adr_i[16];
 assign ram_web = ~wbs_we_i;
