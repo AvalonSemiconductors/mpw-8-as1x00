@@ -26,12 +26,8 @@ module wb_port_tb;
 
 	wire gpio;
 	wire [37:0] mprj_io;
-	wire [7:0] mprj_io_0;
-	wire checkbit;
-
-	assign checkbit = mprj_io[37];
-
-	assign mprj_io[3:0] = 4'b0000;
+	wire [37:0] io_out;
+	wire checkbit = io_out[37];
 
 	// External clock is used by default.  Make this artificially fast for the
 	// simulation.  Normally this would be a slow clock and the digital PLL
@@ -158,15 +154,22 @@ module wb_port_tb;
 	end
 
 	initial begin
-	   wait(checkbit == 1);
+		wait(checkbit == 1);
 		$display("Monitor: MPRJ-Logic WB Started");
 		wait(checkbit == 0);
 		wait(checkbit == 1);
+		wait(checkbit == 0);
+		wait(checkbit == 1);
+		wait(checkbit == 0);
+		wait(checkbit == 1);
+		wait(checkbit == 0);
+		$display("%c[1;32m",27);
 		`ifdef GL
-	    	$display("Monitor: Mega-Project WB (GL) Passed");
+		$display("Monitor: Mega-Project WB (GL) Passed");
 		`else
-		    $display("Monitor: Mega-Project WB (RTL) Passed");
+		$display("Monitor: Mega-Project WB (RTL) Passed");
 		`endif
+		$display("%c[0m",27);
 	    $finish;
 	end
 
@@ -174,7 +177,7 @@ module wb_port_tb;
 		RSTB <= 1'b0;
 		CSB  <= 1'b1;		// Force CSB high
 		#2000;
-		RSTB <= 1'b1;	    	// Release reset
+		RSTB <= 1'b1;		// Release reset
 		#100000;
 		CSB = 1'b0;		// CSB can be released
 	end
@@ -182,11 +185,21 @@ module wb_port_tb;
 	initial begin		// Power-up sequence
 		power1 <= 1'b0;
 		power2 <= 1'b0;
+		power3 <= 1'b0;
+		power4 <= 1'b0;
 		#200;
 		power1 <= 1'b1;
 		#200;
 		power2 <= 1'b1;
+		#200;
+		power3 <= 1'b1;
+		#200;
+		power4 <= 1'b1;
 	end
+
+	//always @(checkbit) begin
+	//	#1 $display("IO state = %b ", io_out);
+	//end
 
 	wire flash_csb;
 	wire flash_clk;
@@ -227,6 +240,7 @@ module wb_port_tb;
 		.flash_io1(flash_io1),
 		.resetb	  (RSTB)
 	);
+	assign io_out = uut.mprj.wrapped_tms1x00.io_out;
 
 	spiflash #(
 		.FILENAME("wb_port.hex")

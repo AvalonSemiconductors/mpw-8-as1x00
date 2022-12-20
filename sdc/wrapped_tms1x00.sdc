@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Mon Dec 19 14:06:50 2022
+# Tue Dec 20 09:24:58 2022
 ###############################################################################
 current_design wrapped_tms1x00
 ###############################################################################
@@ -113,6 +113,9 @@ set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs
 set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_adr_i[7]}]
 set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_adr_i[8]}]
 set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_adr_i[9]}]
+set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_cyc_i}]
+set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_dat_i}]
+set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_stb_i}]
 set_input_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_we_i}]
 set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {io_oeb[0]}]
 set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {io_oeb[10]}]
@@ -215,12 +218,14 @@ set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ra
 set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ram_wmask[1]}]
 set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ram_wmask[2]}]
 set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ram_wmask[3]}]
+set_output_delay 2.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {wbs_ack_o}]
 ###############################################################################
 # Environment
 ###############################################################################
 set_load -pin_load 0.0334 [get_ports {oram_csb}]
 set_load -pin_load 0.0334 [get_ports {ram_csb}]
 set_load -pin_load 0.0334 [get_ports {ram_web}]
+set_load -pin_load 0.0334 [get_ports {wbs_ack_o}]
 set_load -pin_load 0.0334 [get_ports {io_oeb[37]}]
 set_load -pin_load 0.0334 [get_ports {io_oeb[36]}]
 set_load -pin_load 0.0334 [get_ports {io_oeb[35]}]
@@ -321,6 +326,9 @@ set_load -pin_load 0.0334 [get_ports {ram_wmask[1]}]
 set_load -pin_load 0.0334 [get_ports {ram_wmask[0]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wb_clk_i}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wb_rst_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbs_cyc_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbs_dat_i}]
+set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbs_stb_i}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {wbs_we_i}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {io_in[37]}]
 set_driving_cell -lib_cell sky130_fd_sc_hd__inv_2 -pin {Y} -input_transition_rise 0.0000 -input_transition_fall 0.0000 [get_ports {io_in[36]}]

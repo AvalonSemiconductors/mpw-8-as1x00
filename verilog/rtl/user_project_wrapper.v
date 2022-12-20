@@ -160,9 +160,12 @@ wrapped_tms1x00 wrapped_tms1x00(
     .oram_value(oram_value),
     .oram_csb(oram_csb),
 
+    .wbs_cyc_i(wbs_cyc_i),
+    .wbs_stb_i(wbs_stb_i),
     .wbs_adr_i(wbs_adr_i),
     .wbs_dat_i(wbs_dat_i[0]),
     .wbs_we_i(wbs_we_i),
+    .wbs_ack_o(wbs_ack_o),
 
     .ram_csb(ram_csb),
     .ram_web(ram_web),
