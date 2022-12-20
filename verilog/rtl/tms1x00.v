@@ -12,14 +12,18 @@
 
 module tms1x00(
 	input reset,
-	input chip_sel,
+	input chip_sel_i,
 	output [7:0] O_out,
 	output [15:0] R_out,
 	input [3:0] K_in,
 	input clk,
 
 	output [10:0] rom_addr,
-	input [7:0] rom_value
+	input [7:0] rom_value,
+
+    /* Wishbone overrides */
+    input wb_override,
+    input wb_step
 );
 
 /* CPU registers */
@@ -49,6 +53,8 @@ reg [2:0] cycle;
 reg [7:0] ins_in;
 reg [15:0] ins_pla_ands [29:0];
 reg [29:0] ins_pla_ors [15:0];
+
+reg chip_sel;
 
 assign O_out = {cycle, O_latch};
 assign R_out = R_latch;
@@ -1091,6 +1097,7 @@ wire TDO =	ins_in		== 'b01010000;
 
 /* End instruction decoding */
 
+/* Clock phases + PC update */
 wire next_pc = PC + 1; //Temp until I figure out the weird PC update logic
 wire phi_one = cycle == 0 || cycle == 1;
 wire phi_two = cycle == 3 || cycle == 4;
@@ -1119,7 +1126,9 @@ wire alu_new_status = (NE ? ~comp_out : 1) & (C8 ? next_carry : 1);
 /* CKI bus */
 wire [3:0] CKI_bus = (ins_in <= 'h07 || (ins_in[7:4] >= 'h4 && ins_in[7:4] <= 'h7)) ? ins_in[7:4] : ((ins_in >= 'h08 && ins_in <= 'h0F) ? K_latch : 0);
 
-//Page 227 of manual contains instruction timing
+/* Wishbone stuff */
+reg wb_step_state;
+
 always @(posedge clk) begin
 	K_latch <= K_in;
 	if(reset) begin
@@ -1135,8 +1144,9 @@ always @(posedge clk) begin
 		Y <= 0;
 		X <= 0;
 		CL <= 0;
+        wb_step_state <= 0;
+        chip_sel <= chip_sel_i;
 		ins_in <= 'h23; //TYA instruction. Something harmless to have as the first instruction.
-
 
         /*#region default_ins_pla_1000*/
 
@@ -1189,7 +1199,8 @@ always @(posedge clk) begin
         ins_pla_ors[15] <= 'b000000010000000000000000000000;
 
         /*#endregion*/
-	end else begin
+	end else if(!wb_override || (wb_step != wb_step_state)) begin
+        wb_step_state <= wb_step;
 		cycle <= cycle + 1;
 		if(cycle == 5) begin
 			//Execute BR/CALL

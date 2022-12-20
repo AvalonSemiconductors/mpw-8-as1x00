@@ -81,5 +81,5 @@ void main()
     reg_mprj_xfer = 1;
     while (reg_mprj_xfer == 1);
 
-    while(1) { reg_mprj_wb = s; s++; }
+    while(1) { reg_mprj_wb = s | 2; s = !s; }
 }

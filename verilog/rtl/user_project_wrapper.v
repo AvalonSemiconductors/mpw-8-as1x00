@@ -125,6 +125,7 @@ wire ram_csb;
 wire ram_web;
 wire [8:0] ram_adrb;
 wire [3:0] ram_wmask;
+wire [31:0] ram_val;
 
 sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
     `ifdef USE_POWER_PINS
@@ -138,7 +139,7 @@ sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
     .wmask0 (ram_wmask),
     .addr0 (ram_adrb),
     .din0 (wbs_dat_i),
-    .dout0 (wbs_dat_o),
+    .dout0 (ram_val),
 
     .clk1 (wb_clk_i),
     .csb1 (oram_csb),
@@ -163,13 +164,15 @@ wrapped_tms1x00 wrapped_tms1x00(
     .wbs_cyc_i(wbs_cyc_i),
     .wbs_stb_i(wbs_stb_i),
     .wbs_adr_i(wbs_adr_i),
-    .wbs_dat_i(wbs_dat_i[0]),
+    .wbs_dat_i(wbs_dat_i),
+    .wbs_dat_o(wbs_dat_o),
     .wbs_we_i(wbs_we_i),
     .wbs_ack_o(wbs_ack_o),
 
     .ram_csb(ram_csb),
     .ram_web(ram_web),
     .ram_adrb(ram_adrb),
+    .ram_val(ram_val),
     .ram_wmask(ram_wmask)
 );
 
