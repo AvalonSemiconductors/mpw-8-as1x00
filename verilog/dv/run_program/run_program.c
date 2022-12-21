@@ -19,11 +19,28 @@
 
 #define reg_mprj_wb (*(volatile uint32_t*)0x30800000)
 #define pram_addr ((volatile uint32_t*)0x30010000)
+#define reg_gpio_data (*(volatile uint32_t*)0x21000000)
+#define reg_gpio_ena (*(volatile uint32_t*)0x21000004)
+
 #define signal_progress { test_step++; reg_mprj_datal = test_step << 8; }
 #define error_out { reg_mprj_datal = (1 << 31) | (test_step << 8); test_reg_shadow |= (1 << 1); reg_mprj_wb = test_reg_shadow; while(1); }
 
-const uint32_t rom_data[] = {0xAAAAAAAA, 0x11111111, 0xFFFFFFFF, 0x00000000, 621};
-const uint32_t rom_data_len = 5;
+const uint32_t rom_data[] = {
+    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D,
+    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D,
+    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D,
+    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D
+};
+const uint32_t rom_data_len = 16;
+
+void clock_cycles(uint8_t cycles, int* test_reg_shadow) {
+    *test_reg_shadow &= ~(1 << 1);
+    reg_mprj_wb = *test_reg_shadow;
+    for(uint8_t i = 0; i < cycles; i++) {
+        *test_reg_shadow ^= (1 << 2);
+        reg_mprj_wb = *test_reg_shadow;
+    }
+}
 
 void main()
 {
@@ -73,7 +90,7 @@ void main()
 
 #ifdef UART_DEBUG
     reg_uart_enable = 1;
-    *((volatile uint32_t*)0x20000000) = 212; //reg_uart_clkdiv
+    *((volatile uint32_t*)0x20000000) = 8333; //reg_uart_clkdiv
 #endif
 
      /* Apply configuration */
@@ -107,5 +124,8 @@ void main()
     }
     signal_progress
 
+    clock_cycles(36, &test_reg_shadow);
+
+    reg_mprj_datal = 254 << 8;
     while(1) {}
 }

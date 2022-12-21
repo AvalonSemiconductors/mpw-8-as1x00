@@ -136,18 +136,39 @@ module run_program_tb;
 		end
 	`endif 
 
+	reg [7:0] last_stage;
 	initial begin
 		$dumpfile("run_program.vcd");
 		$dumpvars(0, run_program_tb);
 
+		last_stage <= 0;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
-		repeat (1400) begin
+		repeat (2800) begin
 			repeat (100) @(posedge clock);
 			if(error_flag) begin
 				$display("%c[1;31m",27);
 				$display("Monitor: Test failure was signaled");
 				$display("%c[0m",27);
 				$finish;
+			end
+			if(test_stage != last_stage) begin
+				last_stage <= test_stage;
+				case(test_stage)
+					255: $display("Monitor: MPRJ-Logic WB Started\nWrite program memory");
+					0: $display("Verify program memory");
+					1: $display("Memory verified, running program");
+
+					254: begin
+						$display("%c[1;32m",27);
+						`ifdef GL
+						$display("Monitor: TMS1000 (GL) Passed");
+						`else
+						$display("Monitor: TMS1000 (RTL) Passed");
+						`endif
+						$display("%c[0m",27);
+						$finish;
+					end
+				endcase
 			end
 		end
 		$display("%c[1;31m",27);
@@ -158,25 +179,6 @@ module run_program_tb;
 		`endif
 		$display("%c[0m",27);
 		$finish;
-	end
-
-	initial begin
-		wait(checkbit == 1 && test_stage == 8'hFF);
-		$display("Monitor: MPRJ-Logic WB Started");
-		$display("Write program memory");
-		wait(test_stage == 0);
-		$display("Verify program memory");
-		wait(test_stage == 1);
-		$display("Memory verified, running program");
-
-		$display("%c[1;32m",27);
-		`ifdef GL
-		$display("Monitor: TMS1000 (GL) Passed");
-		`else
-		$display("Monitor: TMS1000 (RTL) Passed");
-		`endif
-		$display("%c[0m",27);
-	    $finish;
 	end
 
 	initial begin
