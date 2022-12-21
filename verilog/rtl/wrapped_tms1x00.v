@@ -23,10 +23,10 @@ module wrapped_tms1x00(
 	input wbs_stb_i,
 	output wbs_ack_o,
 
+	//Program memory signals
 	output ram_csb,
 	output ram_web,
 	output [8:0] ram_adrb,
-	output [3:0] ram_wmask,
 	input [31:0] ram_val
 );
 
@@ -40,7 +40,7 @@ wire reset = wb_rst_i | wb_rst_override;
 wire [10:0] byte_address;
 assign oram_addr = byte_address[10:2];
 wire [7:0] byte_value = oram_value >> byte_address[1:0];
-assign oram_csb = wb_rst_i;
+assign oram_csb = reset;
 
 assign io_oeb = 38'b00000000000000000000000000001111111111;
 
@@ -48,11 +48,11 @@ assign io_oeb = 38'b00000000000000000000000000001111111111;
 assign valid = wbs_cyc_i && wbs_stb_i;
 assign ram_csb = ~wbs_adr_i[16] | ~valid;
 assign ram_web = ~wbs_we_i;
-assign ram_adrb = wbs_adr_i[8:0];
-assign ram_wmask = 4'b1111;
+assign ram_adrb = wbs_adr_i[10:2];
 
 reg wb_override;
 reg ready;
+reg feedback_delay;
 assign wbs_ack_o = ready;
 assign wbs_dat_o = wbs_adr_i[23] ? wbs_o_buff : ram_val;
 always @(posedge wb_clk_i) begin
@@ -74,13 +74,17 @@ always @(posedge wb_clk_i) begin
 		end
 	end
 	#5;
-	ready <= valid;
+	//Delay wbs_ack_o by one full clock cycle
+	feedback_delay <= valid;
+	ready <= feedback_delay;
 end
 assign io_out[37] = wb_override;
 
 wire chip_sel_i = wb_override ? chip_sel_override : io_in[5];
 wire [3:0] K_in = wb_override ? K_override : io_in[9:6];
 /* end Wishbone decode */
+
+assign io_out[35:34] = 2'b00;
 
 tms1x00 tms1x00(
     .reset(reset),
@@ -91,6 +95,7 @@ tms1x00 tms1x00(
     .R_out(io_out[33:18]),
     .rom_addr(byte_address),
     .rom_value(byte_value),
+	.chip_sel_o(io_out[36]),
 
     //Wishbone overrides
 	.wb_override(wb_override),

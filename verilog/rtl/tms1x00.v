@@ -21,6 +21,8 @@ module tms1x00(
 	output [10:0] rom_addr,
 	input [7:0] rom_value,
 
+    output chip_sel_o,
+
     /* Wishbone overrides */
     input wb_override,
     input wb_step
@@ -55,6 +57,7 @@ reg [15:0] ins_pla_ands [29:0];
 reg [29:0] ins_pla_ors [15:0];
 
 reg chip_sel;
+assign chip_sel_o = chip_sel;
 
 assign O_out = {cycle, O_latch};
 assign R_out = R_latch;

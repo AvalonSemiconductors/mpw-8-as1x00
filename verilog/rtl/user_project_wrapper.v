@@ -124,7 +124,6 @@ wire oram_csb;
 wire ram_csb;
 wire ram_web;
 wire [8:0] ram_adrb;
-wire [3:0] ram_wmask;
 wire [31:0] ram_val;
 
 sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
@@ -136,7 +135,7 @@ sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
     .csb0 (ram_csb),
     .web0 (ram_web),
 
-    .wmask0 (ram_wmask),
+    .wmask0 (wbs_sel_i),
     .addr0 (ram_adrb),
     .din0 (wbs_dat_i),
     .dout0 (ram_val),
@@ -172,8 +171,7 @@ wrapped_tms1x00 wrapped_tms1x00(
     .ram_csb(ram_csb),
     .ram_web(ram_web),
     .ram_adrb(ram_adrb),
-    .ram_val(ram_val),
-    .ram_wmask(ram_wmask)
+    .ram_val(ram_val)
 );
 
 

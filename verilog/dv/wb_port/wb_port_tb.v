@@ -26,8 +26,7 @@ module wb_port_tb;
 
 	wire gpio;
 	wire [37:0] mprj_io;
-	wire [37:0] io_out;
-	wire checkbit = io_out[37];
+	wire checkbit = mprj_io[37];
 
 	// External clock is used by default.  Make this artificially fast for the
 	// simulation.  Normally this would be a slow clock and the digital PLL
@@ -42,7 +41,7 @@ module wb_port_tb;
 	`ifdef ENABLE_SDF
 		initial begin
 			$sdf_annotate("../../../sdf/wrapped_tms1x00.sdf", uut.mprj) ;
-			$sdf_annotate("../../../sdf/user_project_wrapper.sdf", uut.mprj.mprj) ;
+			$sdf_annotate("../../../sdf/user_project_wrapper.sdf", uut.mprj.wrapped_tms1x00) ;
 			$sdf_annotate("../../../mgmt_core_wrapper/sdf/DFFRAM.sdf", uut.soc.DFFRAM_0) ;
 			$sdf_annotate("../../../mgmt_core_wrapper/sdf/mgmt_core.sdf", uut.soc.core) ;
 			$sdf_annotate("../../../caravel/sdf/housekeeping.sdf", uut.housekeeping) ;
@@ -240,7 +239,6 @@ module wb_port_tb;
 		.flash_io1(flash_io1),
 		.resetb	  (RSTB)
 	);
-	assign io_out = uut.mprj.wrapped_tms1x00.io_out;
 
 	spiflash #(
 		.FILENAME("wb_port.hex")
