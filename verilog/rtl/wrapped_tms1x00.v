@@ -39,7 +39,7 @@ reg [31:0] wbs_o_buff;
 wire reset = wb_rst_i | wb_rst_override;
 wire [10:0] byte_address;
 assign oram_addr = byte_address[10:2];
-wire [7:0] byte_value = oram_value >> byte_address[1:0];
+wire [7:0] byte_value = oram_value >> (byte_address[1:0] << 4);
 assign oram_csb = reset;
 
 assign io_oeb = 38'b00000000000000000000000000001111111111;

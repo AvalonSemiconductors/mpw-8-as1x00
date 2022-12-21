@@ -1085,23 +1085,23 @@ wire AUTA =	or_outs[13];
 wire AUTY =	or_outs[14];
 wire STSL =	or_outs[15];
 
-wire BR =	ins_in[1:0]	== 'b01;
-wire CALL =	ins_in[1:0]	== 'b11;
-wire CLO =	ins_in		== 'b11010000;
+wire BR =	ins_in[7:6]	== 'b10;
+wire CALL =	ins_in[7:6]	== 'b11;
+wire CLO =	ins_in		== 'b00001011;
 wire COMX =	ins_in		== 'b00000000;
-wire LDP =	ins_in[3:0]	== 'b1000;
-wire LDX =	ins_in[5:0]	== 'b111100;
-wire RBIT =	ins_in[5:0]	== 'b101100;
-wire RETN =	ins_in		== 'b11110000;
-wire RSTR =	ins_in		== 'b00110000;
-wire SBIT =	ins_in[5:0]	== 'b001100;
-wire SETR =	ins_in		== 'b10110000;
-wire TDO =	ins_in		== 'b01010000;
+wire LDP =	ins_in[7:4]	== 'b0001;
+wire LDX =	ins_in[7:2]	== 'b001111;
+wire RBIT =	ins_in[7:2]	== 'b001101;
+wire RETN =	ins_in		== 'b00001111;
+wire RSTR =	ins_in		== 'b00001100;
+wire SBIT =	ins_in[7:2]	== 'b001100;
+wire SETR =	ins_in		== 'b00001101;
+wire TDO =	ins_in		== 'b00001010;
 
 /* End instruction decoding */
 
 /* Clock phases + PC update */
-wire next_pc = PC + 1; //Temp until I figure out the weird PC update logic
+wire [5:0] next_pc = PC + 1; //Temp until I figure out the weird PC update logic
 wire phi_one = cycle == 0 || cycle == 1;
 wire phi_two = cycle == 3 || cycle == 4;
 wire phi_five = cycle == 2;
@@ -1276,7 +1276,7 @@ always @(posedge clk) begin
 					RAM[ram_addr_buff] <= ram_r_bset;
 				end
 				if(SETR) begin
-					R_latch[Y] <= 1;
+					R_latch[Y] <= 1; //actually restrict this to 12 bits if in TMS1000 mode
 				end
 				if(RSTR) begin
 					R_latch[Y] <= 0;

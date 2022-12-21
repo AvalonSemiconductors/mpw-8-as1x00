@@ -106,7 +106,7 @@ void main()
 
     //Write
     for(int i = 0; i < rom_data_len; i++) {
-        *(pram_addr + i) = rom_data[i];
+        *(pram_addr + (15 * 16) + i) = rom_data[i];
     }
     reg_mprj_datal = 0;
 #ifdef UART_DEBUG
@@ -115,7 +115,7 @@ void main()
 
     //Verify
     for(int i = 0; i < rom_data_len; i++) {
-        if(*(pram_addr + i) != rom_data[i]) {
+        if(*(pram_addr + (15 * 16) + i) != rom_data[i]) {
 #ifdef UART_DEBUG
             print("SoC: Verification error!\n\n");
 #endif
