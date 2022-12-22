@@ -143,7 +143,7 @@ module run_program_tb;
 
 		last_stage <= 0;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
-		repeat (2800) begin
+		repeat (6400) begin
 			repeat (100) @(posedge clock);
 			if(error_flag) begin
 				$display("%c[1;31m",27);
@@ -157,6 +157,11 @@ module run_program_tb;
 					255: $display("Monitor: MPRJ-Logic WB Started\nWrite program memory");
 					0: $display("Verify program memory");
 					1: $display("Memory verified, running program");
+					2: $display("Verified R-outputs (instructions SETR, RSTR, TCY)");
+					/*3: $display("Verified page wraparound");
+					4: $display("Write program memory");
+					5: $display("Verify program memory");
+					6: $display("Memory verified, running program");*/
 
 					254: begin
 						$display("%c[1;32m",27);

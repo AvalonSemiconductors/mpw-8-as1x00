@@ -18,20 +18,81 @@
 #include <stub.c>
 
 #define reg_mprj_wb (*(volatile uint32_t*)0x30800000)
-#define pram_addr ((volatile uint32_t*)0x30010000)
+#define pram_addr ((volatile uint8_t*)0x30010000)
 #define reg_gpio_data (*(volatile uint32_t*)0x21000000)
 #define reg_gpio_ena (*(volatile uint32_t*)0x21000004)
+#define R_outs (reg_mprj_wb >> 8)
 
 #define signal_progress { test_step++; reg_mprj_datal = test_step << 8; }
 #define error_out { reg_mprj_datal = (1 << 31) | (test_step << 8); test_reg_shadow |= (1 << 1); reg_mprj_wb = test_reg_shadow; while(1); }
 
-const uint32_t rom_data[] = {
-    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D,
-    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D,
-    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D,
-    0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D, 0x0D0D0D0D
+/*
+ * ; Test R output
+ * 0D SETR
+ * 44 TCY 4
+ * 0D SETR
+ * 45 TCY 5
+ * 0D SETR
+ * 44 TCY 4
+ * 0C RSTR
+ * 40 TCY 0
+ * 0C RSTR
+ * 49 TCY 9
+ * 0C RSTR
+ * ; Test O output
+ * 4A TCY 10
+ * 23 TYA
+ * 0A TDO
+ * ; Arithmetic test, use TCY as NOP to set status
+ * 06 A6AAC
+ * 40 TCY 0
+ * 0A TDO
+ * 01 A8AAC
+ * 40 TCY 0
+ * 0A TDO
+ * 05 A10AAC
+ * 40 TCY 0
+ * 0A TDO
+ * 00 COMX
+ * 0A TDO
+ * 2D CPAIZ
+ * 0A TDO
+ * ; Test TAY
+ * 24 TAY
+ * 05 A10AAC
+ * 23 TYA
+ * 0A TDO
+ */
+const uint8_t rom_data1[] = {
+    0x0D, 0x44, 0x0D, 0x45,
+    0x0D, 0x44, 0x0C, 0x40,
+    0x0C, 0x49, 0x0C, 0x4A,
+    0x23, 0x0A, 0x06, 0x40,
+    
+    0x0A, 0x01, 0x40, 0x0A,
+    0x05, 0x40, 0x0A, 0x00,
+    0x0A, 0x2D, 0x0A, 0x24,
+    0x05, 0x23, 0x0A, 0x00,
+    
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
 };
-const uint32_t rom_data_len = 16;
+const uint32_t rom_data1_len = 64;
+
+const uint8_t rom_data2[] = {
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+};
+const uint32_t rom_data2_len = 16;
 
 void clock_cycles(uint8_t cycles, int* test_reg_shadow) {
     *test_reg_shadow &= ~(1 << 1);
@@ -105,8 +166,8 @@ void main()
 #endif
 
     //Write
-    for(int i = 0; i < rom_data_len; i++) {
-        *(pram_addr + (15 * 16) + i) = rom_data[i];
+    for(int i = 0; i < rom_data1_len; i++) {
+        *(pram_addr + (15 * 64) + i) = rom_data1[i];
     }
     reg_mprj_datal = 0;
 #ifdef UART_DEBUG
@@ -114,8 +175,8 @@ void main()
 #endif
 
     //Verify
-    for(int i = 0; i < rom_data_len; i++) {
-        if(*(pram_addr + (15 * 16) + i) != rom_data[i]) {
+    for(int i = 0; i < rom_data1_len; i++) {
+        if(*(pram_addr + (15 * 64) + i) != rom_data1[i]) {
 #ifdef UART_DEBUG
             print("SoC: Verification error!\n\n");
 #endif
@@ -124,8 +185,19 @@ void main()
     }
     signal_progress
 
-    clock_cycles(36, &test_reg_shadow);
-
+    clock_cycles(5*6, &test_reg_shadow);
+    if(R_outs != 0b110001) error_out;
+    clock_cycles(6*6, &test_reg_shadow);
+    if(R_outs != 0b100000) error_out;
+    signal_progress
+    
+    
+    
+    /*clock_cycles(9*6, &test_reg_shadow); //Make PC overflow and wrap around, then run the first few instructions again
+    if(R_outs != 0b110001) error_out;
+    signal_progress
+    reg_mprj_wb = test_reg_shadow = 0b0011; //Hold in reset*/
+    
     reg_mprj_datal = 254 << 8;
     while(1) {}
 }
