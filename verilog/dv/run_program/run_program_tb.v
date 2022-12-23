@@ -143,7 +143,7 @@ module run_program_tb;
 
 		last_stage <= 0;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
-		repeat (6400) begin
+		repeat (24000) begin
 			repeat (100) @(posedge clock);
 			if(error_flag) begin
 				$display("%c[1;31m",27);
@@ -158,10 +158,13 @@ module run_program_tb;
 					0: $display("Verify program memory");
 					1: $display("Memory verified, running program");
 					2: $display("Verified R-outputs (instructions SETR, RSTR, TCY)");
-					/*3: $display("Verified page wraparound");
-					4: $display("Write program memory");
-					5: $display("Verify program memory");
-					6: $display("Memory verified, running program");*/
+					3: $display("Verified O-outputs (instructions TYA, TDO)");
+					4: $display("Verified immediate arithmetics (instructions A6AAC, A8AAC, A10AAC, COMX, CPAIZ)");
+					5: $display("Verified instruction TAY");
+					6: $display("Verified instruction CLA");
+					7: $display("Verified instruction CLO");
+					8: $display("Verified K-inputs");
+					//3: $display("Verified page wraparound");
 
 					254: begin
 						$display("%c[1;32m",27);

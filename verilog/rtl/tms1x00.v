@@ -19,14 +19,18 @@ module tms1x00(
 	input clk,
 
 	output [10:0] rom_addr,
-	input [7:0] rom_value,
+	input [7:0] rom_value_lsb,
 
     output chip_sel_o,
 
-    /* Wishbone overrides */
+    /* Wishbone overrides & debug signals */
     input wb_override,
-    input wb_step
+    input wb_step,
+    output status_d,
+    input [6:0] pla_addr, //Address for writing PLA regs. Format: RRAAAAA, R=Array addr, A=Value index
+    input pla_write //Write enable for PLA. Once activated, PLA override is activated. Default values are no longer loaded on reset. Signal must be held high to persist custom PLA values.
 );
+wire [7:0] rom_value = {rom_value_lsb[0], rom_value_lsb[1], rom_value_lsb[2], rom_value_lsb[3], rom_value_lsb[4], rom_value_lsb[5], rom_value_lsb[6], rom_value_lsb[7]};
 
 /* CPU registers */
 reg [3:0] A;	//Accumulator
@@ -46,6 +50,7 @@ reg CS;			//Chapter Subroutine
 reg status;		//Status
 reg SL;         //Status Latch
 reg CL;         //Call Latch
+assign status_d = status;
 
 //I/Os
 reg [4:0] O_latch;
@@ -56,6 +61,8 @@ reg [2:0] cycle;
 reg [7:0] ins_in;
 reg [15:0] ins_pla_ands [29:0];
 reg [29:0] ins_pla_ors [15:0];
+reg [9:0] O_pla_ands [19:0];
+reg [19:0] O_pla_ors [7:0];
 
 reg chip_sel;
 assign chip_sel_o = chip_sel;
@@ -64,7 +71,7 @@ assign R_out = R_latch;
 
 /*#region O_PLA*/
 
-wire [4:0] O_pla_ins = {
+wire [9:0] O_pla_ins = {
     SL,
     ~SL,
     O_latch[3],
@@ -76,9 +83,6 @@ wire [4:0] O_pla_ins = {
     O_latch[0],
     ~O_latch[0]
 };
-
-reg [9:0] O_pla_ands [19:0];
-reg [19:0] O_pla_ors [7:0];
 
 wire [19:0] O_and_outs = {
     (O_pla_ins[0] | ~O_pla_ands[19][0]) &
@@ -1455,37 +1459,38 @@ wire [15:0] ins_or_outs = {
 	end
 end*/
 
-wire BR =	ins_in[7:6]	== 'b10;
-wire CALL =	ins_in[7:6]	== 'b11;
-wire CLO =	ins_in		== 'b00001011;
-wire COMX =	ins_in		== 'b00000000;
-wire LDP =	ins_in[7:4]	== 'b0001;
-wire LDX =	ins_in[7:2]	== 'b001111;
-wire RBIT =	ins_in[7:2]	== 'b001101;
-wire RETN =	ins_in		== 'b00001111;
-wire RSTR =	ins_in		== 'b00001100;
-wire SBIT =	ins_in[7:2]	== 'b001100;
-wire SETR =	ins_in		== 'b00001101;
-wire TDO =	ins_in		== 'b00001010;
+wire BR		= ins_in[7:6]	== 'b10;
+wire CALL	= ins_in[7:6]	== 'b11;
+wire CLO	= ins_in		== 'b00001011; //On TMS1000
+wire COMC	= CLO;                         //On TMS1100
+wire COMX	= ins_in		== 'b00000000;
+wire LDP	= ins_in[7:4]	== 'b0001;
+wire LDX	= ins_in[7:2]	== 'b001111;
+wire RBIT	= ins_in[7:2]	== 'b001101;
+wire RETN	= ins_in		== 'b00001111;
+wire RSTR	= ins_in		== 'b00001100;
+wire SBIT	= ins_in[7:2]	== 'b001100;
+wire SETR	= ins_in		== 'b00001101;
+wire TDO	= ins_in		== 'b00001010;
 
-wire is_fixed = BR | CALL | CLO | COMX | LDP | LDX | RBIT | RETN | RSTR | SBIT | SETR | TDO;
+wire is_fixed = ins_and_outs == 0;
 
-wire STO =			 ins_or_outs[ 0] & ~is_fixed;
-wire CKM =			 ins_or_outs[ 1] & ~is_fixed;
-wire CKP =			~ins_or_outs[ 2] & ~is_fixed;
-wire YTP =			~ins_or_outs[ 3] & ~is_fixed;
-wire MTP =			~ins_or_outs[ 4] & ~is_fixed;
-wire ATN =			~ins_or_outs[ 5] & ~is_fixed;
-wire NATN =			~ins_or_outs[ 6] & ~is_fixed;
-wire MTN =			~ins_or_outs[ 7] & ~is_fixed;
-wire FIFTEENTN =	~ins_or_outs[ 8] & ~is_fixed;
-wire CKN =			~ins_or_outs[ 9] & ~is_fixed;
-wire NE =			 ins_or_outs[10] & ~is_fixed;
-wire C8 =			 ins_or_outs[11] & ~is_fixed;
-wire CIN =			~ins_or_outs[12] & ~is_fixed;
-wire AUTA =			 ins_or_outs[13] & ~is_fixed;
-wire AUTY =			 ins_or_outs[14] & ~is_fixed;
-wire STSL =			 ins_or_outs[15] & ~is_fixed;
+wire STO		=  ins_or_outs[ 0] & ~is_fixed;
+wire CKM		=  ins_or_outs[ 1] & ~is_fixed;
+wire CKP		= ~ins_or_outs[ 2] & ~is_fixed;
+wire YTP		= ~ins_or_outs[ 3] & ~is_fixed;
+wire MTP		= ~ins_or_outs[ 4] & ~is_fixed;
+wire ATN		= ~ins_or_outs[ 5] & ~is_fixed;
+wire NATN		= ~ins_or_outs[ 6] & ~is_fixed;
+wire MTN		= ~ins_or_outs[ 7] & ~is_fixed;
+wire FIFTEENTN	= ~ins_or_outs[ 8] & ~is_fixed;
+wire CKN		= ~ins_or_outs[ 9] & ~is_fixed;
+wire NE			=  ins_or_outs[10] & ~is_fixed;
+wire C8			=  ins_or_outs[11] & ~is_fixed;
+wire CIN		= ~ins_or_outs[12] & ~is_fixed;
+wire AUTA		=  ins_or_outs[13] & ~is_fixed;
+wire AUTY		=  ins_or_outs[14] & ~is_fixed;
+wire STSL		=  ins_or_outs[15] & ~is_fixed;
 
 /* End instruction decoding */
 
@@ -1532,26 +1537,28 @@ always @(posedge clk) begin
 		cycle <= 0;
 		PC <= 0;
 		CA <= 0;
+		CS <= 0;
 		CB <= 0;
 		Y <= 0;
 		X <= 0;
 		CL <= 0;
+		SL <= 1;
         wb_step_state <= 0;
         chip_sel <= chip_sel_i;
 		ins_in <= 'h23; //TYA instruction. Something harmless to have as the first instruction.
 
         /*#region default_ins_pla_1000*/
 
-        ins_pla_ands[0]  <= 'b0101010110101001;
-        ins_pla_ands[1]  <= 'b0101010110010110;
-        ins_pla_ands[2]  <= 'b0101010110010101;
-        ins_pla_ands[3]  <= 'b0101010101101010;
-        ins_pla_ands[4]  <= 'b0101010101101001;
-        ins_pla_ands[5]  <= 'b0101010101100101;
-        ins_pla_ands[6]  <= 'b0101010101011010;
-        ins_pla_ands[7]  <= 'b0101010101011001;
-        ins_pla_ands[8]  <= 'b0101010101000110;
-        ins_pla_ands[9]  <= 'b0101101010010000;
+        ins_pla_ands[ 0] <= 'b0101010110101001;
+        ins_pla_ands[ 1] <= 'b0101010110010110;
+        ins_pla_ands[ 2] <= 'b0101010110010101;
+        ins_pla_ands[ 3] <= 'b0101010101101010;
+        ins_pla_ands[ 4] <= 'b0101010101101001;
+        ins_pla_ands[ 5] <= 'b0101010101100101;
+        ins_pla_ands[ 6] <= 'b0101010101011010;
+        ins_pla_ands[ 7] <= 'b0101010101011001;
+        ins_pla_ands[ 8] <= 'b0101010101000110;
+        ins_pla_ands[ 9] <= 'b0101101010010000;
         ins_pla_ands[10] <= 'b0101100110101010;
         ins_pla_ands[11] <= 'b0101100110101001;
         ins_pla_ands[12] <= 'b0101100110100110;
@@ -1573,16 +1580,16 @@ always @(posedge clk) begin
         ins_pla_ands[28] <= 'b0110011000000000;
         ins_pla_ands[29] <= 'b0110010100000000;
 
-        ins_pla_ors[0]  <= 'b000010000000000000100001100000;
-        ins_pla_ors[1]  <= 'b001000000000000000000000000000;
-        ins_pla_ors[2]  <= 'b011011111111111111110011100001;
-        ins_pla_ors[3]  <= 'b100101101111111001111101111111;
-        ins_pla_ors[4]  <= 'b111110011000000111010111111111;
-        ins_pla_ors[5]  <= 'b111111110011111111111001100110;
-        ins_pla_ors[6]  <= 'b111011111110101110111111111111;
-        ins_pla_ors[7]  <= 'b111111111111111111111111111111;
-        ins_pla_ors[8]  <= 'b111111111111110101111111111111;
-        ins_pla_ors[9]  <= 'b101111111111111111110111111111;
+        ins_pla_ors[ 0] <= 'b000010000000000000100001100000;
+        ins_pla_ors[ 1] <= 'b001000000000000000000000000000;
+        ins_pla_ors[ 2] <= 'b011011111111111111110011100001;
+        ins_pla_ors[ 3] <= 'b100101101111111001111101111111;
+        ins_pla_ors[ 4] <= 'b111110011000000111010111111111;
+        ins_pla_ors[ 5] <= 'b111111110011111111111001100110;
+        ins_pla_ors[ 6] <= 'b111011111110101110111111111111;
+        ins_pla_ors[ 7] <= 'b111111111111111111111111111111;
+        ins_pla_ors[ 8] <= 'b111111111111110101111111111111;
+        ins_pla_ors[ 9] <= 'b101111111111111111110111111111;
         ins_pla_ors[10] <= 'b010000000010000000001010000010;
         ins_pla_ors[11] <= 'b000100000101111111000100011000;
         ins_pla_ors[12] <= 'b110001111110001010111111110110;
@@ -1593,16 +1600,17 @@ always @(posedge clk) begin
         /*#endregion*/
         
         /*#region default_O_pla*/
-        O_pla_ands[0] <= 'b1001010101;
-        O_pla_ands[1] <= 'b1001010110;
-        O_pla_ands[2] <= 'b1001011001;
-        O_pla_ands[3] <= 'b1001011010;
-        O_pla_ands[4] <= 'b1001100101;
-        O_pla_ands[5] <= 'b1001100110;
-        O_pla_ands[6] <= 'b1001101001;
-        O_pla_ands[7] <= 'b1001101010;
-        O_pla_ands[8] <= 'b1010010101;
-        O_pla_ands[9] <= 'b1010010110;
+        
+        O_pla_ands[ 0] <= 'b1001010101;
+        O_pla_ands[ 1] <= 'b1001010110;
+        O_pla_ands[ 2] <= 'b1001011001;
+        O_pla_ands[ 3] <= 'b1001011010;
+        O_pla_ands[ 4] <= 'b1001100101;
+        O_pla_ands[ 5] <= 'b1001100110;
+        O_pla_ands[ 6] <= 'b1001101001;
+        O_pla_ands[ 7] <= 'b1001101010;
+        O_pla_ands[ 8] <= 'b1010010101;
+        O_pla_ands[ 9] <= 'b1010010110;
         O_pla_ands[10] <= 'b1010011001;
         O_pla_ands[11] <= 'b1010011010;
         O_pla_ands[12] <= 'b1010100101;
@@ -1614,14 +1622,14 @@ always @(posedge clk) begin
         O_pla_ands[18] <= 'b0100100000;
         O_pla_ands[19] <= 'b0110000000;
         
-        O_pla_ors[0] <= 'b00000000000000001000;
-        O_pla_ors[1] <= 'b10110111111010110100;
-        O_pla_ors[2] <= 'b11111001111001000010;
-        O_pla_ors[3] <= 'b11011111111101000001;
-        O_pla_ors[4] <= 'b10110110110111100000;
-        O_pla_ors[5] <= 'b10100010101111110000;
-        O_pla_ors[6] <= 'b10001110111110110000;
-        O_pla_ors[7] <= 'b00111110111101110000;
+        O_pla_ors[0] <= 'b00010000000000000000;
+        O_pla_ors[1] <= 'b00101101011111101101;
+        O_pla_ors[2] <= 'b01000010011110011111;
+        O_pla_ors[3] <= 'b10000010111111111011;
+        O_pla_ors[4] <= 'b00000111101101101101;
+        O_pla_ors[5] <= 'b00001111110101000101;
+        O_pla_ors[6] <= 'b00001101111101110001;
+        O_pla_ors[7] <= 'b00001110111101111100;
         
         /*#endregion*/
 	end else if(!wb_override || (wb_step != wb_step_state)) begin

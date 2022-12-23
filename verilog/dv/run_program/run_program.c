@@ -21,7 +21,9 @@
 #define pram_addr ((volatile uint8_t*)0x30010000)
 #define reg_gpio_data (*(volatile uint32_t*)0x21000000)
 #define reg_gpio_ena (*(volatile uint32_t*)0x21000004)
-#define R_outs (reg_mprj_wb >> 8)
+#define R_outs ((reg_mprj_wb >> 8) & 0xFFFF)
+#define O_outs (reg_mprj_wb & 0xFF)
+#define TMS_status ((reg_mprj_wb >> 24) & 1)
 
 #define signal_progress { test_step++; reg_mprj_datal = test_step << 8; }
 #define error_out { reg_mprj_datal = (1 << 31) | (test_step << 8); test_reg_shadow |= (1 << 1); reg_mprj_wb = test_reg_shadow; while(1); }
@@ -40,8 +42,12 @@
  * 49 TCY 9
  * 0C RSTR
  * ; Test O output
- * 4A TCY 10
+ * 40 TCY 0
  * 23 TYA
+ * 4A TCY 10
+ * 02 YNEA ; Ensure SL is set to a 1
+ * 23 TYA
+ * 
  * 0A TDO
  * ; Arithmetic test, use TCY as NOP to set status
  * 06 A6AAC
@@ -60,26 +66,48 @@
  * ; Test TAY
  * 24 TAY
  * 05 A10AAC
+ * 
+ * 0A TDO
  * 23 TYA
  * 0A TDO
+ * ; Test CLA
+ * 2F CLA
+ * 0A TDO
+ * ; Test CLO
+ * 0B CLO
+ * ; Test input ports
+ * 08 TKA
+ * 0A TDO
+ * ; Test inc/dec
+ * 0E IA
+ * 0A TDO
+ * 07 DAN
+ * 0A TDO
+ * 24 TAY
+ * 2B IYC
+ * 0D SETR
+ * 2C DYN
+ * 
+ * 2C DYN
+ * 0D SETR
  */
 const uint8_t rom_data1[] = {
-    0x0D, 0x44, 0x0D, 0x45,
-    0x0D, 0x44, 0x0C, 0x40,
-    0x0C, 0x49, 0x0C, 0x4A,
-    0x23, 0x0A, 0x06, 0x40,
-    
-    0x0A, 0x01, 0x40, 0x0A,
-    0x05, 0x40, 0x0A, 0x00,
-    0x0A, 0x2D, 0x0A, 0x24,
-    0x05, 0x23, 0x0A, 0x00,
-    
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    
-    0x00, 0x00, 0x00, 0x00,
+    0xB0, 0x22, 0xB0, 0xA2,
+    0xB0, 0x22, 0x30, 0x02,
+    0x30, 0x92, 0x30, 0x02,
+    0xC4, 0x52, 0x40, 0xC4,
+
+    0x50, 0x60, 0x02, 0x50,
+    0x80, 0x02, 0x50, 0xA0,
+    0x02, 0x50, 0x00, 0x50,
+    0xB4, 0x50, 0x24, 0xA0,
+
+    0x50, 0xC4, 0x50, 0xF4,
+    0x50, 0xD0, 0x10, 0x50,
+    0x70, 0x50, 0xE0, 0x50,
+    0x24, 0xD4, 0xB0, 0x34,
+
+    0x34, 0xB0, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00,
@@ -93,6 +121,39 @@ const uint8_t rom_data2[] = {
     0x00, 0x00, 0x00, 0x00,
 };
 const uint32_t rom_data2_len = 16;
+
+/* Expected states of O-output with the standard PLA */
+const uint8_t digits[] = {
+    //SL high
+    0b01111110,
+    0b00001100,
+    0b10110110,
+    0b10011110,
+    0b11001100,
+    0b11011010,
+    0b11111010,
+    0b00001110,
+    0b11111110,
+    0b11011110,
+    0b11101110,
+    0b11111000,
+    0b01110010,
+    0b10111100,
+    0b11110010,
+    0b11100010,
+    //SL low
+    0b00000001,
+    0b00000010,
+    0b00000100,
+    0b00001000
+};
+
+uint8_t reverse(uint8_t num) {
+    num = (num & 0xF0) >> 4 | (num & 0x0F) << 4;
+    num = (num & 0xCC) >> 2 | (num & 0x33) << 2;
+    num = (num & 0xAA) >> 1 | (num & 0x55) << 1;
+    return num;
+}
 
 void clock_cycles(uint8_t cycles, int* test_reg_shadow) {
     *test_reg_shadow &= ~(1 << 1);
@@ -185,13 +246,49 @@ void main()
     }
     signal_progress
 
-    clock_cycles(5*6, &test_reg_shadow);
+    //Test R-output
+    clock_cycles(5*6+4, &test_reg_shadow);
     if(R_outs != 0b110001) error_out;
     clock_cycles(6*6, &test_reg_shadow);
     if(R_outs != 0b100000) error_out;
     signal_progress
-    
-    
+    //Test O-outputs
+    clock_cycles(6*6, &test_reg_shadow);
+    if(O_outs != digits[10]) error_out;
+    signal_progress
+    //Arithmetic test
+    clock_cycles(3*6, &test_reg_shadow);
+    if(O_outs != digits[0]) error_out;
+    clock_cycles(3*6, &test_reg_shadow);
+    if(O_outs != digits[8]) error_out;
+    clock_cycles(3*6, &test_reg_shadow);
+    if(O_outs != digits[2]) error_out;
+    clock_cycles(3*6, &test_reg_shadow);
+    if(O_outs != digits[13]) error_out;
+    clock_cycles(3*6, &test_reg_shadow);
+    if(O_outs != digits[3]) error_out;
+    signal_progress
+    //Test TAY
+    clock_cycles(3*6, &test_reg_shadow);
+    if(O_outs != digits[13]) error_out;
+    clock_cycles(2*6, &test_reg_shadow);
+    if(O_outs != digits[3]) error_out;
+    signal_progress
+    //Test CLA
+    clock_cycles(2*6, &test_reg_shadow);
+    if(O_outs != digits[0]) error_out;
+    signal_progress
+    //Test CLO
+    clock_cycles(1*6, &test_reg_shadow);
+    if(O_outs != 0) error_out;
+    signal_progress
+    //Test input ports
+    test_reg_shadow |= 5 << 8;
+    reg_mprj_wb = test_reg_shadow;
+    clock_cycles(2*6, &test_reg_shadow);
+    if(O_outs != digits[5]) error_out;
+    signal_progress
+    //Test inc/dec
     
     /*clock_cycles(9*6, &test_reg_shadow); //Make PC overflow and wrap around, then run the first few instructions again
     if(R_outs != 0b110001) error_out;

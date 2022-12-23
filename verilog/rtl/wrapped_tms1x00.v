@@ -35,6 +35,7 @@ reg wb_step;
 reg chip_sel_override;
 reg [3:0] K_override;
 reg [31:0] wbs_o_buff;
+wire status_d;
 
 wire reset = wb_rst_i | wb_rst_override;
 wire [10:0] byte_address;
@@ -78,7 +79,7 @@ always @(posedge wb_clk_i) begin
 			chip_sel_override <= wbs_dat_i[0] & wbs_dat_i[3];
 			K_override <= wbs_dat_i[11:8];
 		end else begin
-			wbs_o_buff <= {9'b0, io_out[33:10]};
+			wbs_o_buff <= {7'b0, status_d, io_out[33:10]};
 		end
 	end
 	#5;
@@ -102,12 +103,13 @@ tms1x00 tms1x00(
     .O_out(io_out[17:10]),
     .R_out(io_out[33:18]),
     .rom_addr(byte_address),
-    .rom_value(byte_value),
+    .rom_value_lsb(byte_value),
 	.chip_sel_o(io_out[36]),
 
-    //Wishbone overrides
+    //Wishbone overrides & debug signals
 	.wb_override(wb_override),
-	.wb_step(wb_step)
+	.wb_step(wb_step),
+	.status_d(status_d)
 );
 
 endmodule
