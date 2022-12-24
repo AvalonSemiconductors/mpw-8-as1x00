@@ -30,7 +30,8 @@ module tms1x00(
     input [6:0] pla_addr, //Address for writing PLA regs. Format: RRAAAAA, R=Array addr, A=Value index
     input pla_write //Write enable for PLA. Once activated, PLA override is activated. Default values are no longer loaded on reset. Signal must be held high to persist custom PLA values.
 );
-wire [7:0] rom_value = {rom_value_lsb[0], rom_value_lsb[1], rom_value_lsb[2], rom_value_lsb[3], rom_value_lsb[4], rom_value_lsb[5], rom_value_lsb[6], rom_value_lsb[7]};
+wire [7:0] rom_value = rom_value_lsb;
+//wire [7:0] rom_value = {rom_value_lsb[0], rom_value_lsb[1], rom_value_lsb[2], rom_value_lsb[3], rom_value_lsb[4], rom_value_lsb[5], rom_value_lsb[6], rom_value_lsb[7]};
 
 /* CPU registers */
 reg [3:0] A;	//Accumulator
@@ -68,6 +69,8 @@ reg chip_sel;
 assign chip_sel_o = chip_sel;
 
 assign R_out = R_latch;
+
+wire [7:0] ins_arg = { ins_in[0], ins_in[1], ins_in[2], ins_in[3], ins_in[4], ins_in[5], ins_in[6], ins_in[7] };
 
 /*#region O_PLA*/
 
@@ -1510,8 +1513,8 @@ reg [6:0] ram_addr_buff;
 wire [6:0] ram_addr_new = {X[1:0], X[2], Y};
 reg [3:0] RAM [255:0];
 wire [3:0] ram_r = RAM[ram_addr_buff];
-wire [3:0] ram_r_bclr = ram_r & ~(1 << ins_in[7:6]);
-wire [3:0] ram_r_bset = ram_r | (1 << ins_in[7:6]);
+wire [3:0] ram_r_bclr = ram_r & ~(1 << ins_arg[7:6]);
+wire [3:0] ram_r_bset = ram_r | (1 << ins_arg[7:6]);
 
 /* ALU */
 wire [4:0] adder_res = P + N + (CIN ? 1 : 0);
@@ -1521,7 +1524,7 @@ wire comp_out = P == N;
 wire alu_new_status = (NE ? ~comp_out : 1) & (C8 ? next_carry : 1);
 
 /* CKI bus */
-wire [3:0] CKI_bus = (ins_in <= 'h07 || (ins_in[7:4] >= 'h4 && ins_in[7:4] <= 'h7)) ? ins_in[3:0] : ((ins_in >= 'h08 && ins_in <= 'h0F) ? K_latch : 0);
+wire [3:0] CKI_bus = (ins_in <= 'h07 || (ins_in[7:4] >= 'h4 && ins_in[7:4] <= 'h7)) ? ins_arg[7:4] : ((ins_in >= 'h08 && ins_in <= 'h0F) ? K_latch : 0);
 
 /* Wishbone stuff */
 reg wb_step_state;
@@ -1639,7 +1642,7 @@ always @(posedge clk) begin
 			//Execute BR/CALL
 			if(BR) begin
 				if(status) begin
-					PC <= ins_in[7:2];
+					PC <= ins_in[5:0];
 					if(!CL) begin
 						PA <= PB;
 					end
@@ -1647,7 +1650,7 @@ always @(posedge clk) begin
 			end
 			if(CALL) begin
 				if(status) begin
-					PC <= ins_in[7:2];
+					PC <= ins_in[5:0];
 					if(CL) begin
 						PB <= PA;
 					end else begin
@@ -1697,7 +1700,7 @@ always @(posedge clk) begin
 					X <= ~X;
 				end
 				if(LDX) begin
-					X <= ins_in[7:6];
+					X <= ins_arg[7:6];
 				end
 				if(RBIT) begin
 					RAM[ram_addr_buff] <= ram_r_bclr;
@@ -1715,7 +1718,7 @@ always @(posedge clk) begin
 					O_latch <= {status, A};
 				end
 				if(LDP) begin
-					PB <= ins_in[7:4];
+					PB <= ins_arg[7:4];
 				end
 			end else if(cycle == 4) begin
 				//Instruction fetch + setup RAM address
