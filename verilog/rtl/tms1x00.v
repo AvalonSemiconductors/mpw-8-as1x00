@@ -75,8 +75,8 @@ wire [7:0] ins_arg = { ins_in[0], ins_in[1], ins_in[2], ins_in[3], ins_in[4], in
 /*#region O_PLA*/
 
 wire [9:0] O_pla_ins = {
-    SL,
-    ~SL,
+    O_latch[4],
+    ~O_latch[4],
     O_latch[3],
     ~O_latch[3],
     O_latch[2],
@@ -1715,7 +1715,7 @@ always @(posedge clk) begin
 					R_latch[Y] <= 0;
 				end
 				if(TDO) begin
-					O_latch <= {status, A};
+					O_latch <= {SL, A};
 				end
 				if(LDP) begin
 					PB <= ins_arg[7:4];
