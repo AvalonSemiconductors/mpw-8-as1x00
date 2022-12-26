@@ -19,7 +19,7 @@ module tms1x00(
 	input clk,
 
 	output [10:0] rom_addr,
-	input [7:0] rom_value_lsb,
+	input [7:0] rom_value_raw,
 
     output chip_sel_o,
 
@@ -27,10 +27,11 @@ module tms1x00(
     input wb_override,
     input wb_step,
     output status_d,
+    output [2:0] X_d,
     input [6:0] pla_addr, //Address for writing PLA regs. Format: RRAAAAA, R=Array addr, A=Value index
     input pla_write //Write enable for PLA. Once activated, PLA override is activated. Default values are no longer loaded on reset. Signal must be held high to persist custom PLA values.
 );
-wire [7:0] rom_value = rom_value_lsb;
+wire [7:0] rom_value = rom_value_raw;
 //wire [7:0] rom_value = {rom_value_lsb[0], rom_value_lsb[1], rom_value_lsb[2], rom_value_lsb[3], rom_value_lsb[4], rom_value_lsb[5], rom_value_lsb[6], rom_value_lsb[7]};
 
 /* CPU registers */
@@ -52,6 +53,7 @@ reg status;		//Status
 reg SL;         //Status Latch
 reg CL;         //Call Latch
 assign status_d = status;
+assign X_d = X;
 
 //I/Os
 reg [4:0] O_latch;
@@ -1464,17 +1466,22 @@ end*/
 
 wire BR		= ins_in[7:6]	== 'b10;
 wire CALL	= ins_in[7:6]	== 'b11;
-wire CLO	= ins_in		== 'b00001011; //On TMS1000
-wire COMC	= CLO;                         //On TMS1100
-wire COMX	= ins_in		== 'b00000000;
+wire CLOC	= ins_in		== 'b00001011;
+wire COMX1	= ins_in		== 'b00000000;
+wire COMX2	= ins_in		== 'b00001001;
 wire LDP	= ins_in[7:4]	== 'b0001;
-wire LDX	= ins_in[7:2]	== 'b001111;
+wire LDX1	= ins_in[7:2]	== 'b001111;
+wire LDX2   = ins_in[7:3]   == 'b00101;
 wire RBIT	= ins_in[7:2]	== 'b001101;
 wire RETN	= ins_in		== 'b00001111;
 wire RSTR	= ins_in		== 'b00001100;
 wire SBIT	= ins_in[7:2]	== 'b001100;
 wire SETR	= ins_in		== 'b00001101;
 wire TDO	= ins_in		== 'b00001010;
+wire LDX = chip_sel ? LDX2 : LDX1;
+wire CLO = !chip_sel && CLOC;
+wire COMC = chip_sel && CLOC;
+wire COMX = chip_sel ? COMX2 : COMX1;
 
 wire is_fixed = ins_and_outs == 0;
 
@@ -1510,11 +1517,11 @@ wire [10:0] rom_addr_new = {CA, PA, PC};
 assign rom_addr = rom_addr_buff;
 
 reg [6:0] ram_addr_buff;
-wire [6:0] ram_addr_new = {X[1:0], X[2], Y};
+wire [6:0] ram_addr_new = {X, Y};
 reg [3:0] RAM [255:0];
 wire [3:0] ram_r = RAM[ram_addr_buff];
-wire [3:0] ram_r_bclr = ram_r & ~(1 << ins_arg[7:6]);
-wire [3:0] ram_r_bset = ram_r | (1 << ins_arg[7:6]);
+//wire [3:0] ram_r_bclr = ram_r & ~(1 << ins_arg[7:6]);
+//wire [3:0] ram_r_bset = ram_r | (1 << ins_arg[7:6]);
 
 /* ALU */
 wire [4:0] adder_res = P + N + (CIN ? 1 : 0);
@@ -1524,7 +1531,9 @@ wire comp_out = P == N;
 wire alu_new_status = (NE ? ~comp_out : 1) & (C8 ? next_carry : 1);
 
 /* CKI bus */
-wire [3:0] CKI_bus = (ins_in <= 'h07 || (ins_in[7:4] >= 'h4 && ins_in[7:4] <= 'h7)) ? ins_arg[7:4] : ((ins_in >= 'h08 && ins_in <= 'h0F) ? K_latch : 0);
+wire [1:0] B = ins_arg[7:6];
+wire [3:0] bmask = (B == 0 ? 'b1110 : (B == 1 ? 'b1101 : (B == 2 ? 'b1011 : 'b0111)));
+wire [3:0] CKI_bus = (ins_in <= 'h07 || (ins_in[7:4] >= 'h4 && ins_in[7:4] <= 'h7)) ? ins_arg[7:4] : ((ins_in >= 'h08 && ins_in <= 'h0F) ? K_latch : (ins_in >= 'h30 && ins_in <= 'h3B) ? bmask : 0);
 
 /* Wishbone stuff */
 reg wb_step_state;
@@ -1550,57 +1559,115 @@ always @(posedge clk) begin
         chip_sel <= chip_sel_i;
 		ins_in <= 'h23; //TYA instruction. Something harmless to have as the first instruction.
 
-        /*#region default_ins_pla_1000*/
+        if(chip_sel) begin
 
-        ins_pla_ands[ 0] <= 'b0101010110101001;
-        ins_pla_ands[ 1] <= 'b0101010110010110;
-        ins_pla_ands[ 2] <= 'b0101010110010101;
-        ins_pla_ands[ 3] <= 'b0101010101101010;
-        ins_pla_ands[ 4] <= 'b0101010101101001;
-        ins_pla_ands[ 5] <= 'b0101010101100101;
-        ins_pla_ands[ 6] <= 'b0101010101011010;
-        ins_pla_ands[ 7] <= 'b0101010101011001;
-        ins_pla_ands[ 8] <= 'b0101010101000110;
-        ins_pla_ands[ 9] <= 'b0101101010010000;
-        ins_pla_ands[10] <= 'b0101100110101010;
-        ins_pla_ands[11] <= 'b0101100110101001;
-        ins_pla_ands[12] <= 'b0101100110100110;
-        ins_pla_ands[13] <= 'b0101100110100101;
-        ins_pla_ands[14] <= 'b0101100110011010;
-        ins_pla_ands[15] <= 'b0101100110011001;
-        ins_pla_ands[16] <= 'b0101100110010110;
-        ins_pla_ands[17] <= 'b0101100110010101;
-        ins_pla_ands[18] <= 'b0101100101101010;
-        ins_pla_ands[19] <= 'b0101100101101001;
-        ins_pla_ands[20] <= 'b0101100101100110;
-        ins_pla_ands[21] <= 'b0101100101100101;
-        ins_pla_ands[22] <= 'b0101100101011010;
-        ins_pla_ands[23] <= 'b0101100101011001;
-        ins_pla_ands[24] <= 'b0101100101010110;
-        ins_pla_ands[25] <= 'b0101100101010101;
-        ins_pla_ands[26] <= 'b0110101000000000;
-        ins_pla_ands[27] <= 'b0110100100000000;
-        ins_pla_ands[28] <= 'b0110011000000000;
-        ins_pla_ands[29] <= 'b0110010100000000;
+            /*#region default_ins_pla_1100*/
 
-        ins_pla_ors[ 0] <= 'b000010000000000000100001100000;
-        ins_pla_ors[ 1] <= 'b001000000000000000000000000000;
-        ins_pla_ors[ 2] <= 'b011011111111111111110011100001;
-        ins_pla_ors[ 3] <= 'b100101101111111001111101111111;
-        ins_pla_ors[ 4] <= 'b111110011000000111010111111111;
-        ins_pla_ors[ 5] <= 'b111111110011111111111001100110;
-        ins_pla_ors[ 6] <= 'b111011111110101110111111111111;
-        ins_pla_ors[ 7] <= 'b111111111111111111111111111111;
-        ins_pla_ors[ 8] <= 'b111111111111110101111111111111;
-        ins_pla_ors[ 9] <= 'b101111111111111111110111111111;
-        ins_pla_ors[10] <= 'b010000000010000000001010000010;
-        ins_pla_ors[11] <= 'b000100000101111111000100011000;
-        ins_pla_ors[12] <= 'b110001111110001010111111110110;
-        ins_pla_ors[13] <= 'b000001010101101001110100111101;
-        ins_pla_ors[14] <= 'b101010101000000110000000000000;
-        ins_pla_ors[15] <= 'b000000000000000000000010000000;
+            ins_pla_ands[ 0] <= 'b0110101010101010;
+            ins_pla_ands[ 1] <= 'b0110101000000000;
+            ins_pla_ands[ 2] <= 'b0110100100000000;
+            ins_pla_ands[ 3] <= 'b0110011000000000;
+            ins_pla_ands[ 4] <= 'b0110010100000000;
+            ins_pla_ands[ 5] <= 'b0101101010101010;
+            ins_pla_ands[ 6] <= 'b0101101010101001;
+            ins_pla_ands[ 7] <= 'b0101101010100110;
+            ins_pla_ands[ 8] <= 'b0101101010100101;
+            ins_pla_ands[ 9] <= 'b0101101010010000;
+            ins_pla_ands[10] <= 'b0101100101101010;
+            ins_pla_ands[11] <= 'b0101100101101001;
+            ins_pla_ands[12] <= 'b0101100101100100;
+            ins_pla_ands[13] <= 'b0101100101011010;
+            ins_pla_ands[14] <= 'b0101100101011001;
+            ins_pla_ands[15] <= 'b0101100101010110;
+            ins_pla_ands[16] <= 'b0101100101010101;
+            ins_pla_ands[17] <= 'b0101010110101001;
+            ins_pla_ands[18] <= 'b0101010110010101;
+            ins_pla_ands[19] <= 'b0101010101101010;
+            ins_pla_ands[20] <= 'b0101010101101001;
+            ins_pla_ands[21] <= 'b0101000101100110;
+            ins_pla_ands[22] <= 'b0101000101100101;
+            ins_pla_ands[23] <= 'b0101010101011010;
+            ins_pla_ands[24] <= 'b0101010101011001;
+            ins_pla_ands[25] <= 'b0101010101010110;
+            ins_pla_ands[26] <= 'b0101010101010101;
+            ins_pla_ands[27] <= 'b0000000000000000;
+            ins_pla_ands[28] <= 'b0000000000000000;
+            ins_pla_ands[29] <= 'b0000000000000000;
 
-        /*#endregion*/
+            ins_pla_ors[ 0] <= 'b000000100000000001110000000000;
+            ins_pla_ors[ 1] <= 'b000000000000000000000000000100;
+            ins_pla_ors[ 2] <= 'b000111111110011111110111101100;
+            ins_pla_ors[ 3] <= 'b000110100111111100111111110011;
+            ins_pla_ors[ 4] <= 'b000001011001110011110010011111;
+            ins_pla_ors[ 5] <= 'b000010111011101111111111111101;
+            ins_pla_ors[ 6] <= 'b000101111111111111111001111111;
+            ins_pla_ors[ 7] <= 'b000111111111111111111111111111;
+            ins_pla_ors[ 8] <= 'b000111101101111110111111111111;
+            ins_pla_ors[ 9] <= 'b000111111111111111110111110111;
+            ins_pla_ors[10] <= 'b000101000000100000001000101000;
+            ins_pla_ors[11] <= 'b000010011110000001000111000011;
+            ins_pla_ors[12] <= 'b000101110111111110111000111000;
+            ins_pla_ors[13] <= 'b000000100111001010100111000011;
+            ins_pla_ors[14] <= 'b000000011000010101000000010100;
+            ins_pla_ors[15] <= 'b000001000000000000000000000000;
+
+            /*#endregion*/
+
+        end else begin
+
+            /*#region default_ins_pla_1000*/
+
+            ins_pla_ands[ 0] <= 'b0101010110101001;
+            ins_pla_ands[ 1] <= 'b0101010110010110;
+            ins_pla_ands[ 2] <= 'b0101010110010101;
+            ins_pla_ands[ 3] <= 'b0101010101101010;
+            ins_pla_ands[ 4] <= 'b0101010101101001;
+            ins_pla_ands[ 5] <= 'b0101010101100101;
+            ins_pla_ands[ 6] <= 'b0101010101011010;
+            ins_pla_ands[ 7] <= 'b0101010101011001;
+            ins_pla_ands[ 8] <= 'b0101010101000110;
+            ins_pla_ands[ 9] <= 'b0101101010010000;
+            ins_pla_ands[10] <= 'b0101100110101010;
+            ins_pla_ands[11] <= 'b0101100110101001;
+            ins_pla_ands[12] <= 'b0101100110100110;
+            ins_pla_ands[13] <= 'b0101100110100101;
+            ins_pla_ands[14] <= 'b0101100110011010;
+            ins_pla_ands[15] <= 'b0101100110011001;
+            ins_pla_ands[16] <= 'b0101100110010110;
+            ins_pla_ands[17] <= 'b0101100110010101;
+            ins_pla_ands[18] <= 'b0101100101101010;
+            ins_pla_ands[19] <= 'b0101100101101001;
+            ins_pla_ands[20] <= 'b0101100101100110;
+            ins_pla_ands[21] <= 'b0101100101100101;
+            ins_pla_ands[22] <= 'b0101100101011010;
+            ins_pla_ands[23] <= 'b0101100101011001;
+            ins_pla_ands[24] <= 'b0101100101010110;
+            ins_pla_ands[25] <= 'b0101100101010101;
+            ins_pla_ands[26] <= 'b0110101000000000;
+            ins_pla_ands[27] <= 'b0110100100000000;
+            ins_pla_ands[28] <= 'b0110011000000000;
+            ins_pla_ands[29] <= 'b0110010100000000;
+
+            ins_pla_ors[ 0] <= 'b000010000000000000100001100000;
+            ins_pla_ors[ 1] <= 'b001000000000000000000000000000;
+            ins_pla_ors[ 2] <= 'b011011111111111111110011100001;
+            ins_pla_ors[ 3] <= 'b100101101111111001111101111111;
+            ins_pla_ors[ 4] <= 'b111110011000000111010111111111;
+            ins_pla_ors[ 5] <= 'b111111110011111111111001100110;
+            ins_pla_ors[ 6] <= 'b111011111110101110111111111111;
+            ins_pla_ors[ 7] <= 'b111111111111111111111111111111;
+            ins_pla_ors[ 8] <= 'b111111111111110101111111111111;
+            ins_pla_ors[ 9] <= 'b101111111111111111110111111111;
+            ins_pla_ors[10] <= 'b010000000010000000001010000010;
+            ins_pla_ors[11] <= 'b000100000101111111000100011000;
+            ins_pla_ors[12] <= 'b110001111110001010111111110110;
+            ins_pla_ors[13] <= 'b000001010101101001110100111101;
+            ins_pla_ors[14] <= 'b101010101000000110000000000000;
+            ins_pla_ors[15] <= 'b000000000000000000000010000000;
+
+            /*#endregion*/
+
+        end
         
         /*#region default_O_pla*/
         
@@ -1645,6 +1712,7 @@ always @(posedge clk) begin
 					PC <= ins_in[5:0];
 					if(!CL) begin
 						PA <= PB;
+                        CA <= chip_sel ? CB : 0;
 					end
 				end
 			end
@@ -1657,6 +1725,8 @@ always @(posedge clk) begin
 						SR <= PC;
 						PB <= PA;
 						PA <= PB;
+                        CA <= chip_sel ? CB : 0;
+                        CS <= chip_sel ? CA : 0;
 						CL <= 1;
 					end
 				end
@@ -1665,12 +1735,9 @@ always @(posedge clk) begin
 				PA <= PB;
 				if(CL) begin
 					PC <= SR;
+                    CA <= chip_sel ? CS : 0;
 					CL <= 0;
 				end
-			end
-			status <= alu_new_status;
-			if(STSL) begin
-				SL <= alu_new_status;
 			end
 			cycle <= 0;
 		end
@@ -1692,21 +1759,35 @@ always @(posedge clk) begin
 				if(AUTY) begin
 					Y <= alu_res;
 				end
+                status <= alu_new_status;
+                if(STSL) begin
+                    SL <= alu_new_status;
+                end
 				if(CLO) begin
 					O_latch <= 0;
 					SL <= 0;
 				end
 				if(COMX) begin
-					X <= ~X;
+                    if(chip_sel) begin
+                        X[2] <= ~X[2];
+                    end else begin
+                        X[1:0] <= ~X[1:0];
+                        X[2] <= 0;
+                    end
 				end
 				if(LDX) begin
-					X <= ins_arg[7:6];
+                    if(chip_sel) begin
+                        X <= ins_arg[7:5];
+                    end else begin
+                        X[1:0] <= ins_arg[7:6];
+                        X[2] <= 0;
+                    end
 				end
 				if(RBIT) begin
-					RAM[ram_addr_buff] <= ram_r_bclr;
+					RAM[ram_addr_buff] <= ram_r & bmask;
 				end
 				if(SBIT) begin
-					RAM[ram_addr_buff] <= ram_r_bset;
+					RAM[ram_addr_buff] <= ram_r | ~bmask;
 				end
 				if(SETR) begin
 					R_latch[Y] <= 1; //actually restrict this to 12 bits if in TMS1000 mode
@@ -1720,6 +1801,9 @@ always @(posedge clk) begin
 				if(LDP) begin
 					PB <= ins_arg[7:4];
 				end
+                if(COMC) begin
+                    CB <= ~CB;
+                end
 			end else if(cycle == 4) begin
 				//Instruction fetch + setup RAM address
 				ins_in <= rom_value;

@@ -17,7 +17,7 @@
 
 `timescale 1 ns / 1 ps
 
-module run_program_tb;
+module branch_instrs_tb;
 	reg clock;
 	reg RSTB;
 	reg CSB;
@@ -138,8 +138,8 @@ module run_program_tb;
 
 	reg [7:0] last_stage;
 	initial begin
-		$dumpfile("run_program.vcd");
-		$dumpvars(0, run_program_tb);
+		$dumpfile("branch_instrs.vcd");
+		$dumpvars(0, branch_instrs_tb);
 
 		last_stage <= 0;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
@@ -157,14 +157,9 @@ module run_program_tb;
 					255: $display("Monitor: MPRJ-Logic WB Started\nWrite program memory");
 					0: $display("Verify program memory");
 					1: $display("Memory verified, running program");
-					2: $display("Verified R-outputs (instructions SETR, RSTR, TCY)");
-					3: $display("Verified O-outputs (instructions TYA, TDO)");
-					4: $display("Verified immediate arithmetics (instructions A6AAC, A8AAC, A10AAC, COMX, CPAIZ)");
-					5: $display("Verified instruction TAY");
-					6: $display("Verified instruction CLA");
-					7: $display("Verified instruction CLO");
-					8: $display("Verified K-inputs");
-					//3: $display("Verified page wraparound");
+					2: $display("Verified BR");
+					3: $display("Verified basic loop");
+					4: $display("Verified subroutine call into another page");
 
 					254: begin
 						$display("%c[1;32m",27);
@@ -258,7 +253,7 @@ module run_program_tb;
 	);
 
 	spiflash #(
-		.FILENAME("run_program.hex")
+		.FILENAME("branch_instrs.hex")
 	) spiflash (
 		.csb(flash_csb),
 		.clk(flash_clk),
