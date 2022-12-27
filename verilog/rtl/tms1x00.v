@@ -28,6 +28,8 @@ module tms1x00(
     input wb_step,
     output status_d,
     output [2:0] X_d,
+    input pla_override, //Enable PLA override to set custom PLA values
+    input [31:0] pla_val, //Value to be written into selected PLA register
     input [6:0] pla_addr, //Address for writing PLA regs. Format: RRAAAAA, R=Array addr, A=Value index
     input pla_write //Write enable for PLA. Once activated, PLA override is activated. Default values are no longer loaded on reset. Signal must be held high to persist custom PLA values.
 );
@@ -1559,149 +1561,168 @@ always @(posedge clk) begin
         chip_sel <= chip_sel_i;
 		ins_in <= 'h23; //TYA instruction. Something harmless to have as the first instruction.
 
-        if(chip_sel) begin
+        if(pla_override) begin
+            if(pla_write) begin
+                case(pla_addr[6:5])
+                0: begin
+                    ins_pla_ands[pla_addr[4:0]] = pla_val[15:0];
+                end
+                1: begin
+                    ins_pla_ors[pla_addr[3:0]] = pla_val[29:0];
+                end
+                2: begin
+                    O_pla_ands[pla_addr[4:0]] = pla_val[9:0];
+                end
+                3: begin
+                    O_pla_ors[pla_addr[2:0]] = pla_val[19:0];
+                end
+                endcase
+            end
+        end else begin 
+            if(chip_sel) begin
 
-            /*#region default_ins_pla_1100*/
+                /*#region default_ins_pla_1100*/
 
-            ins_pla_ands[ 0] <= 'b0110101010101010;
-            ins_pla_ands[ 1] <= 'b0110101000000000;
-            ins_pla_ands[ 2] <= 'b0110100100000000;
-            ins_pla_ands[ 3] <= 'b0110011000000000;
-            ins_pla_ands[ 4] <= 'b0110010100000000;
-            ins_pla_ands[ 5] <= 'b0101101010101010;
-            ins_pla_ands[ 6] <= 'b0101101010101001;
-            ins_pla_ands[ 7] <= 'b0101101010100110;
-            ins_pla_ands[ 8] <= 'b0101101010100101;
-            ins_pla_ands[ 9] <= 'b0101101010010000;
-            ins_pla_ands[10] <= 'b0101100101101010;
-            ins_pla_ands[11] <= 'b0101100101101001;
-            ins_pla_ands[12] <= 'b0101100101100100;
-            ins_pla_ands[13] <= 'b0101100101011010;
-            ins_pla_ands[14] <= 'b0101100101011001;
-            ins_pla_ands[15] <= 'b0101100101010110;
-            ins_pla_ands[16] <= 'b0101100101010101;
-            ins_pla_ands[17] <= 'b0101010110101001;
-            ins_pla_ands[18] <= 'b0101010110010101;
-            ins_pla_ands[19] <= 'b0101010101101010;
-            ins_pla_ands[20] <= 'b0101010101101001;
-            ins_pla_ands[21] <= 'b0101000101100110;
-            ins_pla_ands[22] <= 'b0101000101100101;
-            ins_pla_ands[23] <= 'b0101010101011010;
-            ins_pla_ands[24] <= 'b0101010101011001;
-            ins_pla_ands[25] <= 'b0101010101010110;
-            ins_pla_ands[26] <= 'b0101010101010101;
-            ins_pla_ands[27] <= 'b0000000000000000;
-            ins_pla_ands[28] <= 'b0000000000000000;
-            ins_pla_ands[29] <= 'b0000000000000000;
+                ins_pla_ands[ 0] <= 'b0110101010101010;
+                ins_pla_ands[ 1] <= 'b0110101000000000;
+                ins_pla_ands[ 2] <= 'b0110100100000000;
+                ins_pla_ands[ 3] <= 'b0110011000000000;
+                ins_pla_ands[ 4] <= 'b0110010100000000;
+                ins_pla_ands[ 5] <= 'b0101101010101010;
+                ins_pla_ands[ 6] <= 'b0101101010101001;
+                ins_pla_ands[ 7] <= 'b0101101010100110;
+                ins_pla_ands[ 8] <= 'b0101101010100101;
+                ins_pla_ands[ 9] <= 'b0101101010010000;
+                ins_pla_ands[10] <= 'b0101100101101010;
+                ins_pla_ands[11] <= 'b0101100101101001;
+                ins_pla_ands[12] <= 'b0101100101100100;
+                ins_pla_ands[13] <= 'b0101100101011010;
+                ins_pla_ands[14] <= 'b0101100101011001;
+                ins_pla_ands[15] <= 'b0101100101010110;
+                ins_pla_ands[16] <= 'b0101100101010101;
+                ins_pla_ands[17] <= 'b0101010110101001;
+                ins_pla_ands[18] <= 'b0101010110010101;
+                ins_pla_ands[19] <= 'b0101010101101010;
+                ins_pla_ands[20] <= 'b0101010101101001;
+                ins_pla_ands[21] <= 'b0101000101100110;
+                ins_pla_ands[22] <= 'b0101000101100101;
+                ins_pla_ands[23] <= 'b0101010101011010;
+                ins_pla_ands[24] <= 'b0101010101011001;
+                ins_pla_ands[25] <= 'b0101010101010110;
+                ins_pla_ands[26] <= 'b0101010101010101;
+                ins_pla_ands[27] <= 'b0000000000000000;
+                ins_pla_ands[28] <= 'b0000000000000000;
+                ins_pla_ands[29] <= 'b0000000000000000;
 
-            ins_pla_ors[ 0] <= 'b000000100000000001110000000000;
-            ins_pla_ors[ 1] <= 'b000000000000000000000000000100;
-            ins_pla_ors[ 2] <= 'b000111111110011111110111101100;
-            ins_pla_ors[ 3] <= 'b000110100111111100111111110011;
-            ins_pla_ors[ 4] <= 'b000001011001110011110010011111;
-            ins_pla_ors[ 5] <= 'b000010111011101111111111111101;
-            ins_pla_ors[ 6] <= 'b000101111111111111111001111111;
-            ins_pla_ors[ 7] <= 'b000111111111111111111111111111;
-            ins_pla_ors[ 8] <= 'b000111101101111110111111111111;
-            ins_pla_ors[ 9] <= 'b000111111111111111110111110111;
-            ins_pla_ors[10] <= 'b000101000000100000001000101000;
-            ins_pla_ors[11] <= 'b000010011110000001000111000011;
-            ins_pla_ors[12] <= 'b000101110111111110111000111000;
-            ins_pla_ors[13] <= 'b000000100111001010100111000011;
-            ins_pla_ors[14] <= 'b000000011000010101000000010100;
-            ins_pla_ors[15] <= 'b000001000000000000000000000000;
+                ins_pla_ors[ 0] <= 'b000000100000000001110000000000;
+                ins_pla_ors[ 1] <= 'b000000000000000000000000000100;
+                ins_pla_ors[ 2] <= 'b000111111110011111110111101100;
+                ins_pla_ors[ 3] <= 'b000110100111111100111111110011;
+                ins_pla_ors[ 4] <= 'b000001011001110011110010011111;
+                ins_pla_ors[ 5] <= 'b000010111011101111111111111101;
+                ins_pla_ors[ 6] <= 'b000101111111111111111001111111;
+                ins_pla_ors[ 7] <= 'b000111111111111111111111111111;
+                ins_pla_ors[ 8] <= 'b000111101101111110111111111111;
+                ins_pla_ors[ 9] <= 'b000111111111111111110111110111;
+                ins_pla_ors[10] <= 'b000101000000100000001000101000;
+                ins_pla_ors[11] <= 'b000010011110000001000111000011;
+                ins_pla_ors[12] <= 'b000101110111111110111000111000;
+                ins_pla_ors[13] <= 'b000000100111001010100111000011;
+                ins_pla_ors[14] <= 'b000000011000010101000000010100;
+                ins_pla_ors[15] <= 'b000001000000000000000000000000;
 
+                /*#endregion*/
+
+            end else begin
+
+                /*#region default_ins_pla_1000*/
+
+                ins_pla_ands[ 0] <= 'b0101010110101001;
+                ins_pla_ands[ 1] <= 'b0101010110010110;
+                ins_pla_ands[ 2] <= 'b0101010110010101;
+                ins_pla_ands[ 3] <= 'b0101010101101010;
+                ins_pla_ands[ 4] <= 'b0101010101101001;
+                ins_pla_ands[ 5] <= 'b0101010101100101;
+                ins_pla_ands[ 6] <= 'b0101010101011010;
+                ins_pla_ands[ 7] <= 'b0101010101011001;
+                ins_pla_ands[ 8] <= 'b0101010101000110;
+                ins_pla_ands[ 9] <= 'b0101101010010000;
+                ins_pla_ands[10] <= 'b0101100110101010;
+                ins_pla_ands[11] <= 'b0101100110101001;
+                ins_pla_ands[12] <= 'b0101100110100110;
+                ins_pla_ands[13] <= 'b0101100110100101;
+                ins_pla_ands[14] <= 'b0101100110011010;
+                ins_pla_ands[15] <= 'b0101100110011001;
+                ins_pla_ands[16] <= 'b0101100110010110;
+                ins_pla_ands[17] <= 'b0101100110010101;
+                ins_pla_ands[18] <= 'b0101100101101010;
+                ins_pla_ands[19] <= 'b0101100101101001;
+                ins_pla_ands[20] <= 'b0101100101100110;
+                ins_pla_ands[21] <= 'b0101100101100101;
+                ins_pla_ands[22] <= 'b0101100101011010;
+                ins_pla_ands[23] <= 'b0101100101011001;
+                ins_pla_ands[24] <= 'b0101100101010110;
+                ins_pla_ands[25] <= 'b0101100101010101;
+                ins_pla_ands[26] <= 'b0110101000000000;
+                ins_pla_ands[27] <= 'b0110100100000000;
+                ins_pla_ands[28] <= 'b0110011000000000;
+                ins_pla_ands[29] <= 'b0110010100000000;
+
+                ins_pla_ors[ 0] <= 'b000010000000000000100001100000;
+                ins_pla_ors[ 1] <= 'b001000000000000000000000000000;
+                ins_pla_ors[ 2] <= 'b011011111111111111110011100001;
+                ins_pla_ors[ 3] <= 'b100101101111111001111101111111;
+                ins_pla_ors[ 4] <= 'b111110011000000111010111111111;
+                ins_pla_ors[ 5] <= 'b111111110011111111111001100110;
+                ins_pla_ors[ 6] <= 'b111011111110101110111111111111;
+                ins_pla_ors[ 7] <= 'b111111111111111111111111111111;
+                ins_pla_ors[ 8] <= 'b111111111111110101111111111111;
+                ins_pla_ors[ 9] <= 'b101111111111111111110111111111;
+                ins_pla_ors[10] <= 'b010000000010000000001010000010;
+                ins_pla_ors[11] <= 'b000100000101111111000100011000;
+                ins_pla_ors[12] <= 'b110001111110001010111111110110;
+                ins_pla_ors[13] <= 'b000001010101101001110100111101;
+                ins_pla_ors[14] <= 'b101010101000000110000000000000;
+                ins_pla_ors[15] <= 'b000000000000000000000010000000;
+
+                /*#endregion*/
+
+            end
+            
+            /*#region default_O_pla*/
+            
+            O_pla_ands[ 0] <= 'b1001010101;
+            O_pla_ands[ 1] <= 'b1001010110;
+            O_pla_ands[ 2] <= 'b1001011001;
+            O_pla_ands[ 3] <= 'b1001011010;
+            O_pla_ands[ 4] <= 'b1001100101;
+            O_pla_ands[ 5] <= 'b1001100110;
+            O_pla_ands[ 6] <= 'b1001101001;
+            O_pla_ands[ 7] <= 'b1001101010;
+            O_pla_ands[ 8] <= 'b1010010101;
+            O_pla_ands[ 9] <= 'b1010010110;
+            O_pla_ands[10] <= 'b1010011001;
+            O_pla_ands[11] <= 'b1010011010;
+            O_pla_ands[12] <= 'b1010100101;
+            O_pla_ands[13] <= 'b1010100110;
+            O_pla_ands[14] <= 'b1010101001;
+            O_pla_ands[15] <= 'b1010101010;
+            O_pla_ands[16] <= 'b0100000010;
+            O_pla_ands[17] <= 'b0100001000;
+            O_pla_ands[18] <= 'b0100100000;
+            O_pla_ands[19] <= 'b0110000000;
+            
+            O_pla_ors[0] <= 'b00010000000000000000;
+            O_pla_ors[1] <= 'b00101101011111101101;
+            O_pla_ors[2] <= 'b01000010011110011111;
+            O_pla_ors[3] <= 'b10000010111111111011;
+            O_pla_ors[4] <= 'b00000111101101101101;
+            O_pla_ors[5] <= 'b00001111110101000101;
+            O_pla_ors[6] <= 'b00001101111101110001;
+            O_pla_ors[7] <= 'b00001110111101111100;
+            
             /*#endregion*/
-
-        end else begin
-
-            /*#region default_ins_pla_1000*/
-
-            ins_pla_ands[ 0] <= 'b0101010110101001;
-            ins_pla_ands[ 1] <= 'b0101010110010110;
-            ins_pla_ands[ 2] <= 'b0101010110010101;
-            ins_pla_ands[ 3] <= 'b0101010101101010;
-            ins_pla_ands[ 4] <= 'b0101010101101001;
-            ins_pla_ands[ 5] <= 'b0101010101100101;
-            ins_pla_ands[ 6] <= 'b0101010101011010;
-            ins_pla_ands[ 7] <= 'b0101010101011001;
-            ins_pla_ands[ 8] <= 'b0101010101000110;
-            ins_pla_ands[ 9] <= 'b0101101010010000;
-            ins_pla_ands[10] <= 'b0101100110101010;
-            ins_pla_ands[11] <= 'b0101100110101001;
-            ins_pla_ands[12] <= 'b0101100110100110;
-            ins_pla_ands[13] <= 'b0101100110100101;
-            ins_pla_ands[14] <= 'b0101100110011010;
-            ins_pla_ands[15] <= 'b0101100110011001;
-            ins_pla_ands[16] <= 'b0101100110010110;
-            ins_pla_ands[17] <= 'b0101100110010101;
-            ins_pla_ands[18] <= 'b0101100101101010;
-            ins_pla_ands[19] <= 'b0101100101101001;
-            ins_pla_ands[20] <= 'b0101100101100110;
-            ins_pla_ands[21] <= 'b0101100101100101;
-            ins_pla_ands[22] <= 'b0101100101011010;
-            ins_pla_ands[23] <= 'b0101100101011001;
-            ins_pla_ands[24] <= 'b0101100101010110;
-            ins_pla_ands[25] <= 'b0101100101010101;
-            ins_pla_ands[26] <= 'b0110101000000000;
-            ins_pla_ands[27] <= 'b0110100100000000;
-            ins_pla_ands[28] <= 'b0110011000000000;
-            ins_pla_ands[29] <= 'b0110010100000000;
-
-            ins_pla_ors[ 0] <= 'b000010000000000000100001100000;
-            ins_pla_ors[ 1] <= 'b001000000000000000000000000000;
-            ins_pla_ors[ 2] <= 'b011011111111111111110011100001;
-            ins_pla_ors[ 3] <= 'b100101101111111001111101111111;
-            ins_pla_ors[ 4] <= 'b111110011000000111010111111111;
-            ins_pla_ors[ 5] <= 'b111111110011111111111001100110;
-            ins_pla_ors[ 6] <= 'b111011111110101110111111111111;
-            ins_pla_ors[ 7] <= 'b111111111111111111111111111111;
-            ins_pla_ors[ 8] <= 'b111111111111110101111111111111;
-            ins_pla_ors[ 9] <= 'b101111111111111111110111111111;
-            ins_pla_ors[10] <= 'b010000000010000000001010000010;
-            ins_pla_ors[11] <= 'b000100000101111111000100011000;
-            ins_pla_ors[12] <= 'b110001111110001010111111110110;
-            ins_pla_ors[13] <= 'b000001010101101001110100111101;
-            ins_pla_ors[14] <= 'b101010101000000110000000000000;
-            ins_pla_ors[15] <= 'b000000000000000000000010000000;
-
-            /*#endregion*/
-
         end
-        
-        /*#region default_O_pla*/
-        
-        O_pla_ands[ 0] <= 'b1001010101;
-        O_pla_ands[ 1] <= 'b1001010110;
-        O_pla_ands[ 2] <= 'b1001011001;
-        O_pla_ands[ 3] <= 'b1001011010;
-        O_pla_ands[ 4] <= 'b1001100101;
-        O_pla_ands[ 5] <= 'b1001100110;
-        O_pla_ands[ 6] <= 'b1001101001;
-        O_pla_ands[ 7] <= 'b1001101010;
-        O_pla_ands[ 8] <= 'b1010010101;
-        O_pla_ands[ 9] <= 'b1010010110;
-        O_pla_ands[10] <= 'b1010011001;
-        O_pla_ands[11] <= 'b1010011010;
-        O_pla_ands[12] <= 'b1010100101;
-        O_pla_ands[13] <= 'b1010100110;
-        O_pla_ands[14] <= 'b1010101001;
-        O_pla_ands[15] <= 'b1010101010;
-        O_pla_ands[16] <= 'b0100000010;
-        O_pla_ands[17] <= 'b0100001000;
-        O_pla_ands[18] <= 'b0100100000;
-        O_pla_ands[19] <= 'b0110000000;
-        
-        O_pla_ors[0] <= 'b00010000000000000000;
-        O_pla_ors[1] <= 'b00101101011111101101;
-        O_pla_ors[2] <= 'b01000010011110011111;
-        O_pla_ors[3] <= 'b10000010111111111011;
-        O_pla_ors[4] <= 'b00000111101101101101;
-        O_pla_ors[5] <= 'b00001111110101000101;
-        O_pla_ors[6] <= 'b00001101111101110001;
-        O_pla_ors[7] <= 'b00001110111101111100;
-        
-        /*#endregion*/
 	end else if(!wb_override || (wb_step != wb_step_state)) begin
         wb_step_state <= wb_step;
 		cycle <= cycle + 1;

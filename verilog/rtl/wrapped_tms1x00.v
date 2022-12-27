@@ -32,6 +32,8 @@ module wrapped_tms1x00(
 
 reg wb_rst_override;
 reg wb_step;
+reg wb_override;
+reg wb_pla_override;
 reg chip_sel_override;
 reg [3:0] K_override;
 reg [31:0] wbs_o_buff;
@@ -59,8 +61,8 @@ assign valid = wbs_cyc_i && wbs_stb_i;
 assign ram_csb = ~wbs_adr_i[16] | ~valid;
 assign ram_web = ~wbs_we_i;
 assign ram_adrb = wbs_adr_i[10:2];
+wire pla_write <= wbs_adr_i[17] & valid;
 
-reg wb_override;
 reg ready;
 reg feedback_delay;
 assign wbs_ack_o = ready;
@@ -71,6 +73,8 @@ always @(posedge wb_clk_i) begin
 		wb_rst_override <= 0;
 		wb_step <= 0;
 		wbs_o_buff <= 0;
+		chip_sel_override <= 0;
+		wb_pla_override <= 0;
 	end
 	if(valid && wbs_adr_i[23]) begin
 		if(wbs_we_i) begin
@@ -78,6 +82,7 @@ always @(posedge wb_clk_i) begin
 			wb_rst_override <= wbs_dat_i[0] & wbs_dat_i[1];
 			wb_step <= wbs_dat_i[0] & wbs_dat_i[2];
 			chip_sel_override <= wbs_dat_i[0] & wbs_dat_i[3];
+			wb_pla_override <= wbs_dat_i[4];
 			K_override <= wbs_dat_i[11:8];
 		end else begin
 			wbs_o_buff <= {4'b0, X_d, status_d, io_out[33:10]};
@@ -111,7 +116,12 @@ tms1x00 tms1x00(
 	.wb_override(wb_override),
 	.wb_step(wb_step),
 	.status_d(status_d),
-	.X_d(X_d)
+	.X_d(X_d),
+
+	.pla_override(wb_pla_override),
+	.pla_val(wbs_dat_i),
+	.pla_addr(wbs_adr_i[6:0]),
+	.pla_write(pla_write)
 );
 
 endmodule
