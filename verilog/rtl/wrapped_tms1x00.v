@@ -37,8 +37,10 @@ reg wb_pla_override;
 reg chip_sel_override;
 reg [3:0] K_override;
 reg [31:0] wbs_o_buff;
+
 wire status_d;
 wire [2:0] X_d;
+wire [31:0] pla_val_out;
 
 wire reset = wb_rst_i | wb_rst_override;
 wire [10:0] byte_address;
@@ -61,12 +63,12 @@ assign valid = wbs_cyc_i && wbs_stb_i;
 assign ram_csb = ~wbs_adr_i[16] | ~valid;
 assign ram_web = ~wbs_we_i;
 assign ram_adrb = wbs_adr_i[10:2];
-wire pla_write <= wbs_adr_i[17] & valid;
+wire pla_write = wbs_adr_i[17] & valid & wbs_we_i;
 
 reg ready;
 reg feedback_delay;
 assign wbs_ack_o = ready;
-assign wbs_dat_o = wbs_adr_i[23] ? wbs_o_buff : ram_val;
+assign wbs_dat_o = wbs_adr_i[23] || wbs_adr_i[17] ? wbs_o_buff : ram_val;
 always @(posedge wb_clk_i) begin
 	if(wb_rst_i) begin
 		wb_override <= 0;
@@ -87,6 +89,8 @@ always @(posedge wb_clk_i) begin
 		end else begin
 			wbs_o_buff <= {4'b0, X_d, status_d, io_out[33:10]};
 		end
+	end else if(valid && wbs_adr_i[17] && !wbs_we_i) begin
+		wbs_o_buff <= pla_val_out;
 	end
 	#5;
 	//Delay wbs_ack_o by one full clock cycle
@@ -119,9 +123,10 @@ tms1x00 tms1x00(
 	.X_d(X_d),
 
 	.pla_override(wb_pla_override),
-	.pla_val(wbs_dat_i),
-	.pla_addr(wbs_adr_i[6:0]),
-	.pla_write(pla_write)
+	.pla_val_in(wbs_dat_i),
+	.pla_addr(wbs_adr_i[8:2]),
+	.pla_write(pla_write),
+	.pla_val_out(pla_val_out)
 );
 
 endmodule

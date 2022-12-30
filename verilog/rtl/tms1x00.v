@@ -29,9 +29,10 @@ module tms1x00(
     output status_d,
     output [2:0] X_d,
     input pla_override, //Enable PLA override to set custom PLA values
-    input [31:0] pla_val, //Value to be written into selected PLA register
+    input [31:0] pla_val_in, //Value to be written into selected PLA register
     input [6:0] pla_addr, //Address for writing PLA regs. Format: RRAAAAA, R=Array addr, A=Value index
-    input pla_write //Write enable for PLA. Once activated, PLA override is activated. Default values are no longer loaded on reset. Signal must be held high to persist custom PLA values.
+    input pla_write, //Write enable for PLA. Once activated, PLA override is activated. Default values are no longer loaded on reset. Signal must be held high to persist custom PLA values.
+    output [31:0] pla_val_out
 );
 wire [7:0] rom_value = rom_value_raw;
 //wire [7:0] rom_value = {rom_value_lsb[0], rom_value_lsb[1], rom_value_lsb[2], rom_value_lsb[3], rom_value_lsb[4], rom_value_lsb[5], rom_value_lsb[6], rom_value_lsb[7]};
@@ -1540,6 +1541,17 @@ wire [3:0] CKI_bus = (ins_in <= 'h07 || (ins_in[7:4] >= 'h4 && ins_in[7:4] <= 'h
 /* Wishbone stuff */
 reg wb_step_state;
 
+reg[29:0] pla_read;
+assign pla_val_out = {2'b00, pla_read};
+always @(pla_addr) begin
+    case(pla_addr[6:5])
+    0: pla_read <= {14'b0, ins_pla_ands[pla_addr[4:0]]};
+    1: pla_read <= ins_pla_ors[pla_addr[3:0]];
+    2: pla_read <= {20'b0, O_pla_ands[pla_addr[4:0]]};
+    3: pla_read <= {10'b0, O_pla_ors[pla_addr[2:0]]};
+    endcase
+end
+
 always @(posedge clk) begin
 	K_latch <= K_in;
 	if(reset) begin
@@ -1565,16 +1577,16 @@ always @(posedge clk) begin
             if(pla_write) begin
                 case(pla_addr[6:5])
                 0: begin
-                    ins_pla_ands[pla_addr[4:0]] = pla_val[15:0];
+                    ins_pla_ands[pla_addr[4:0]] = pla_val_in[15:0];
                 end
                 1: begin
-                    ins_pla_ors[pla_addr[3:0]] = pla_val[29:0];
+                    ins_pla_ors[pla_addr[3:0]] = pla_val_in[29:0];
                 end
                 2: begin
-                    O_pla_ands[pla_addr[4:0]] = pla_val[9:0];
+                    O_pla_ands[pla_addr[4:0]] = pla_val_in[9:0];
                 end
                 3: begin
-                    O_pla_ors[pla_addr[2:0]] = pla_val[19:0];
+                    O_pla_ors[pla_addr[2:0]] = pla_val_in[19:0];
                 end
                 endcase
             end
