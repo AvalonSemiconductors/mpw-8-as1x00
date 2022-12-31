@@ -1,6 +1,6 @@
 # AS1x00 4-bit Microcontroller
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![UPRJ_CI](https://github.com/efabless/caravel_project_example/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/efabless/caravel_project_example/actions/workflows/user_project_ci.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 <div>
 <p>
@@ -9,6 +9,7 @@ This project is my first attempt at building a microcontroller. I decided to sta
 <h3>Features/Improvements include:</h3>
 <ul>
 <li>1024 or 2048 bytes of program memory</li>
+<li>128 or 256 words of data memory</li>
 <li>Use of a RAM block initialized over wishbone as program memory, instead of a OTP ROM</li>
 <li>Microcode re-programmable over wishbone</li>
 <li>One output port using a re-programmable PLA</li>
