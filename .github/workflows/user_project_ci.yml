@@ -28,8 +28,8 @@ jobs:
       - name: Harden using Openlane
         run: |
           make uncompress
-          rm -f gds/wrapped_tms1x00.gds
-          rm -f gds/user_project_wrapper.gds
+          rm -f gds/wrapped_tms1x00.gds.gz
+          rm -f gds/user_project_wrapper.gds.gz
           make wrapped_tms1x00
           make user_project_wrapper
       
@@ -47,7 +47,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: error
+          name: error-gds
           path: |
             /home/runner/work/mpw-8-as1x00/mpw-8-as1x00/precheck_results/*
 
@@ -59,6 +59,8 @@ jobs:
       PDK_ROOT:      /home/runner/pdk
       PDK:           sky130B
     steps:
+      - uses: actions/checkout@v3
+    
       - name: Download GDS Tarball
         uses: actions/download-artifact@v2
         with:
@@ -83,3 +85,11 @@ jobs:
           if ! [[ $cnt ]]; then cnt=0; fi
           if [[ $cnt -eq 1 ]]; then exit 0; fi
           exit 2
+          
+      - name: upload failure logs
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: error-precheck
+          path: |
+            /home/runner/work/mpw-8-as1x00/mpw-8-as1x00/precheck_results/*
