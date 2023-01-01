@@ -80,7 +80,9 @@ jobs:
       
       - name: Harden using Openlane
         run: |
-          rm -rf gds
+          make uncompress
+          rm -f gds/wrapped_tms1x00.gds
+          rm -f gds/user_project_wrapper.gds
           mkdir gds
           make wrapped_tms1x00
           make user_project_wrapper
