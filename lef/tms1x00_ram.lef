@@ -1,0 +1,213 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO tms1x00_ram
+  CLASS BLOCK ;
+  FOREIGN tms1x00_ram ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 256.000 BY 256.000 ;
+  PIN clk
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 191.450 252.000 191.730 256.000 ;
+    END
+  END clk
+  PIN r_val[0]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 195.200 4.000 195.800 ;
+    END
+  END r_val[0]
+  PIN r_val[1]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 212.200 4.000 212.800 ;
+    END
+  END r_val[1]
+  PIN r_val[2]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 229.200 4.000 229.800 ;
+    END
+  END r_val[2]
+  PIN r_val[3]
+    DIRECTION OUTPUT TRISTATE ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 246.200 4.000 246.800 ;
+    END
+  END r_val[3]
+  PIN ram_addr[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 8.200 4.000 8.800 ;
+    END
+  END ram_addr[0]
+  PIN ram_addr[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 25.200 4.000 25.800 ;
+    END
+  END ram_addr[1]
+  PIN ram_addr[2]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 42.200 4.000 42.800 ;
+    END
+  END ram_addr[2]
+  PIN ram_addr[3]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 59.200 4.000 59.800 ;
+    END
+  END ram_addr[3]
+  PIN ram_addr[4]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 76.200 4.000 76.800 ;
+    END
+  END ram_addr[4]
+  PIN ram_addr[5]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 93.200 4.000 93.800 ;
+    END
+  END ram_addr[5]
+  PIN ram_addr[6]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 110.200 4.000 110.800 ;
+    END
+  END ram_addr[6]
+  PIN vccd1
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER met4 ;
+        RECT 21.040 10.640 22.640 245.040 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 174.640 10.640 176.240 245.040 ;
+    END
+  END vccd1
+  PIN vssd1
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER met4 ;
+        RECT 97.840 10.640 99.440 245.040 ;
+    END
+  END vssd1
+  PIN w_val[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 127.200 4.000 127.800 ;
+    END
+  END w_val[0]
+  PIN w_val[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 144.200 4.000 144.800 ;
+    END
+  END w_val[1]
+  PIN w_val[2]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 161.200 4.000 161.800 ;
+    END
+  END w_val[2]
+  PIN w_val[3]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 178.200 4.000 178.800 ;
+    END
+  END w_val[3]
+  PIN wen
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    PORT
+      LAYER met2 ;
+        RECT 63.570 252.000 63.850 256.000 ;
+    END
+  END wen
+  OBS
+      LAYER li1 ;
+        RECT 5.520 10.795 250.240 244.885 ;
+      LAYER met1 ;
+        RECT 5.520 9.900 250.240 246.460 ;
+      LAYER met2 ;
+        RECT 7.000 251.720 63.290 252.690 ;
+        RECT 64.130 251.720 191.170 252.690 ;
+        RECT 192.010 251.720 247.380 252.690 ;
+        RECT 7.000 8.315 247.380 251.720 ;
+      LAYER met3 ;
+        RECT 4.400 245.800 245.575 246.665 ;
+        RECT 4.000 230.200 245.575 245.800 ;
+        RECT 4.400 228.800 245.575 230.200 ;
+        RECT 4.000 213.200 245.575 228.800 ;
+        RECT 4.400 211.800 245.575 213.200 ;
+        RECT 4.000 196.200 245.575 211.800 ;
+        RECT 4.400 194.800 245.575 196.200 ;
+        RECT 4.000 179.200 245.575 194.800 ;
+        RECT 4.400 177.800 245.575 179.200 ;
+        RECT 4.000 162.200 245.575 177.800 ;
+        RECT 4.400 160.800 245.575 162.200 ;
+        RECT 4.000 145.200 245.575 160.800 ;
+        RECT 4.400 143.800 245.575 145.200 ;
+        RECT 4.000 128.200 245.575 143.800 ;
+        RECT 4.400 126.800 245.575 128.200 ;
+        RECT 4.000 111.200 245.575 126.800 ;
+        RECT 4.400 109.800 245.575 111.200 ;
+        RECT 4.000 94.200 245.575 109.800 ;
+        RECT 4.400 92.800 245.575 94.200 ;
+        RECT 4.000 77.200 245.575 92.800 ;
+        RECT 4.400 75.800 245.575 77.200 ;
+        RECT 4.000 60.200 245.575 75.800 ;
+        RECT 4.400 58.800 245.575 60.200 ;
+        RECT 4.000 43.200 245.575 58.800 ;
+        RECT 4.400 41.800 245.575 43.200 ;
+        RECT 4.000 26.200 245.575 41.800 ;
+        RECT 4.400 24.800 245.575 26.200 ;
+        RECT 4.000 9.200 245.575 24.800 ;
+        RECT 4.400 8.335 245.575 9.200 ;
+      LAYER met4 ;
+        RECT 24.215 12.415 97.440 243.265 ;
+        RECT 99.840 12.415 174.240 243.265 ;
+        RECT 176.640 12.415 226.945 243.265 ;
+  END
+END tms1x00_ram
+END LIBRARY
+

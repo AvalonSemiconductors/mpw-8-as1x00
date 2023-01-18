@@ -118,13 +118,14 @@ module user_project_wrapper #(
     .irq(user_irq)
 );*/
 
-wire [8:0] oram_addr;
-wire [31:0] oram_value;
-wire oram_csb;
-wire ram_csb;
-wire ram_web;
-wire [8:0] ram_adrb;
-wire [31:0] ram_val;
+wire [8:0] rom_addr;
+wire [31:0] rom_value;
+wire rom_csb;
+
+wire wb_rom_csb;
+wire wb_rom_web;
+wire [8:0] wb_rom_adrb;
+wire [31:0] wb_rom_val;
 
 sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
     `ifdef USE_POWER_PINS
@@ -132,18 +133,35 @@ sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB(
         .vssd1 (vssd1),
     `endif
     .clk0 (wb_clk_i),
-    .csb0 (ram_csb),
-    .web0 (ram_web),
+    .csb0 (wb_rom_csb),
+    .web0 (wb_rom_web),
 
     .wmask0 (wbs_sel_i),
-    .addr0 (ram_adrb),
+    .addr0 (wb_rom_adrb),
     .din0 (wbs_dat_i),
-    .dout0 (ram_val),
+    .dout0 (wb_rom_val),
 
     .clk1 (wb_clk_i),
-    .csb1 (oram_csb),
-    .addr1 (oram_addr),
-    .dout1 (oram_value)
+    .csb1 (rom_csb),
+    .addr1 (rom_addr),
+    .dout1 (rom_value)
+);
+
+wire [6:0] ram_addr;
+wire [3:0] ram_val_in;
+wire [3:0] ram_val_out;
+wire ram_we;
+
+tms1x00_ram ram(
+    `ifdef USE_POWER_PINS
+        .vccd1 (vccd1),
+        .vssd1 (vssd1),
+    `endif
+    .ram_addr(ram_addr),
+    .r_val(ram_val_in),
+    .wen(ram_we),
+    .clk(wb_clk_i),
+    .w_val(ram_val_out)
 );
 
 wrapped_tms1x00 wrapped_tms1x00(
@@ -156,9 +174,14 @@ wrapped_tms1x00 wrapped_tms1x00(
     .io_in (io_in),
     .io_out(io_out),
     .io_oeb(io_oeb),
-    .oram_addr(oram_addr),
-    .oram_value(oram_value),
-    .oram_csb(oram_csb),
+    .rom_addr(rom_addr),
+    .rom_csb(rom_csb),
+    .rom_value(rom_value),
+    
+    .ram_addr(ram_addr),
+    .ram_val_in(ram_val_in),
+    .ram_val_out(ram_val_out),
+    .ram_we(ram_we),
 
     .wbs_cyc_i(wbs_cyc_i),
     .wbs_stb_i(wbs_stb_i),
@@ -168,10 +191,10 @@ wrapped_tms1x00 wrapped_tms1x00(
     .wbs_we_i(wbs_we_i),
     .wbs_ack_o(wbs_ack_o),
 
-    .ram_csb(ram_csb),
-    .ram_web(ram_web),
-    .ram_adrb(ram_adrb),
-    .ram_val(ram_val)
+    .wb_rom_csb(wb_rom_csb),
+    .wb_rom_web(wb_rom_web),
+    .wb_rom_adrb(wb_rom_adrb),
+    .wb_rom_val(wb_rom_val)
 );
 
 

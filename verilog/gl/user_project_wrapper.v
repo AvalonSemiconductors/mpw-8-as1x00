@@ -53,117 +53,133 @@ module user_project_wrapper (user_clock2,
  output [31:0] wbs_dat_o;
  input [3:0] wbs_sel_i;
 
- wire \oram_addr[0] ;
- wire \oram_addr[1] ;
- wire \oram_addr[2] ;
- wire \oram_addr[3] ;
- wire \oram_addr[4] ;
- wire \oram_addr[5] ;
- wire \oram_addr[6] ;
- wire \oram_addr[7] ;
- wire \oram_addr[8] ;
- wire oram_csb;
- wire \oram_value[0] ;
- wire \oram_value[10] ;
- wire \oram_value[11] ;
- wire \oram_value[12] ;
- wire \oram_value[13] ;
- wire \oram_value[14] ;
- wire \oram_value[15] ;
- wire \oram_value[16] ;
- wire \oram_value[17] ;
- wire \oram_value[18] ;
- wire \oram_value[19] ;
- wire \oram_value[1] ;
- wire \oram_value[20] ;
- wire \oram_value[21] ;
- wire \oram_value[22] ;
- wire \oram_value[23] ;
- wire \oram_value[24] ;
- wire \oram_value[25] ;
- wire \oram_value[26] ;
- wire \oram_value[27] ;
- wire \oram_value[28] ;
- wire \oram_value[29] ;
- wire \oram_value[2] ;
- wire \oram_value[30] ;
- wire \oram_value[31] ;
- wire \oram_value[3] ;
- wire \oram_value[4] ;
- wire \oram_value[5] ;
- wire \oram_value[6] ;
- wire \oram_value[7] ;
- wire \oram_value[8] ;
- wire \oram_value[9] ;
- wire \ram_adrb[0] ;
- wire \ram_adrb[1] ;
- wire \ram_adrb[2] ;
- wire \ram_adrb[3] ;
- wire \ram_adrb[4] ;
- wire \ram_adrb[5] ;
- wire \ram_adrb[6] ;
- wire \ram_adrb[7] ;
- wire \ram_adrb[8] ;
- wire ram_csb;
- wire \ram_val[0] ;
- wire \ram_val[10] ;
- wire \ram_val[11] ;
- wire \ram_val[12] ;
- wire \ram_val[13] ;
- wire \ram_val[14] ;
- wire \ram_val[15] ;
- wire \ram_val[16] ;
- wire \ram_val[17] ;
- wire \ram_val[18] ;
- wire \ram_val[19] ;
- wire \ram_val[1] ;
- wire \ram_val[20] ;
- wire \ram_val[21] ;
- wire \ram_val[22] ;
- wire \ram_val[23] ;
- wire \ram_val[24] ;
- wire \ram_val[25] ;
- wire \ram_val[26] ;
- wire \ram_val[27] ;
- wire \ram_val[28] ;
- wire \ram_val[29] ;
- wire \ram_val[2] ;
- wire \ram_val[30] ;
- wire \ram_val[31] ;
- wire \ram_val[3] ;
- wire \ram_val[4] ;
- wire \ram_val[5] ;
- wire \ram_val[6] ;
- wire \ram_val[7] ;
- wire \ram_val[8] ;
- wire \ram_val[9] ;
- wire ram_web;
+ wire \ram_addr[0] ;
+ wire \ram_addr[1] ;
+ wire \ram_addr[2] ;
+ wire \ram_addr[3] ;
+ wire \ram_addr[4] ;
+ wire \ram_addr[5] ;
+ wire \ram_addr[6] ;
+ wire \ram_val_in[0] ;
+ wire \ram_val_in[1] ;
+ wire \ram_val_in[2] ;
+ wire \ram_val_in[3] ;
+ wire \ram_val_out[0] ;
+ wire \ram_val_out[1] ;
+ wire \ram_val_out[2] ;
+ wire \ram_val_out[3] ;
+ wire ram_we;
+ wire \rom_addr[0] ;
+ wire \rom_addr[1] ;
+ wire \rom_addr[2] ;
+ wire \rom_addr[3] ;
+ wire \rom_addr[4] ;
+ wire \rom_addr[5] ;
+ wire \rom_addr[6] ;
+ wire \rom_addr[7] ;
+ wire \rom_addr[8] ;
+ wire rom_csb;
+ wire \rom_value[0] ;
+ wire \rom_value[10] ;
+ wire \rom_value[11] ;
+ wire \rom_value[12] ;
+ wire \rom_value[13] ;
+ wire \rom_value[14] ;
+ wire \rom_value[15] ;
+ wire \rom_value[16] ;
+ wire \rom_value[17] ;
+ wire \rom_value[18] ;
+ wire \rom_value[19] ;
+ wire \rom_value[1] ;
+ wire \rom_value[20] ;
+ wire \rom_value[21] ;
+ wire \rom_value[22] ;
+ wire \rom_value[23] ;
+ wire \rom_value[24] ;
+ wire \rom_value[25] ;
+ wire \rom_value[26] ;
+ wire \rom_value[27] ;
+ wire \rom_value[28] ;
+ wire \rom_value[29] ;
+ wire \rom_value[2] ;
+ wire \rom_value[30] ;
+ wire \rom_value[31] ;
+ wire \rom_value[3] ;
+ wire \rom_value[4] ;
+ wire \rom_value[5] ;
+ wire \rom_value[6] ;
+ wire \rom_value[7] ;
+ wire \rom_value[8] ;
+ wire \rom_value[9] ;
+ wire \wb_rom_adrb[0] ;
+ wire \wb_rom_adrb[1] ;
+ wire \wb_rom_adrb[2] ;
+ wire \wb_rom_adrb[3] ;
+ wire \wb_rom_adrb[4] ;
+ wire \wb_rom_adrb[5] ;
+ wire \wb_rom_adrb[6] ;
+ wire \wb_rom_adrb[7] ;
+ wire \wb_rom_adrb[8] ;
+ wire wb_rom_csb;
+ wire \wb_rom_val[0] ;
+ wire \wb_rom_val[10] ;
+ wire \wb_rom_val[11] ;
+ wire \wb_rom_val[12] ;
+ wire \wb_rom_val[13] ;
+ wire \wb_rom_val[14] ;
+ wire \wb_rom_val[15] ;
+ wire \wb_rom_val[16] ;
+ wire \wb_rom_val[17] ;
+ wire \wb_rom_val[18] ;
+ wire \wb_rom_val[19] ;
+ wire \wb_rom_val[1] ;
+ wire \wb_rom_val[20] ;
+ wire \wb_rom_val[21] ;
+ wire \wb_rom_val[22] ;
+ wire \wb_rom_val[23] ;
+ wire \wb_rom_val[24] ;
+ wire \wb_rom_val[25] ;
+ wire \wb_rom_val[26] ;
+ wire \wb_rom_val[27] ;
+ wire \wb_rom_val[28] ;
+ wire \wb_rom_val[29] ;
+ wire \wb_rom_val[2] ;
+ wire \wb_rom_val[30] ;
+ wire \wb_rom_val[31] ;
+ wire \wb_rom_val[3] ;
+ wire \wb_rom_val[4] ;
+ wire \wb_rom_val[5] ;
+ wire \wb_rom_val[6] ;
+ wire \wb_rom_val[7] ;
+ wire \wb_rom_val[8] ;
+ wire \wb_rom_val[9] ;
+ wire wb_rom_web;
 
- sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB (.csb0(ram_csb),
-    .csb1(oram_csb),
-    .web0(ram_web),
+ sky130_sram_2kbyte_1rw1r_32x512_8 openram_2kB (.csb0(wb_rom_csb),
+    .csb1(rom_csb),
+    .web0(wb_rom_web),
     .clk0(wb_clk_i),
     .clk1(wb_clk_i),
     .vccd1(vccd1),
     .vssd1(vssd1),
-    .addr0({\ram_adrb[8] ,
-    \ram_adrb[7] ,
-    \ram_adrb[6] ,
-    \ram_adrb[5] ,
-    \ram_adrb[4] ,
-    \ram_adrb[3] ,
-    \ram_adrb[2] ,
-    \ram_adrb[1] ,
-    \ram_adrb[0] }),
-    .addr1({\oram_addr[8] ,
-    \oram_addr[7] ,
-    \oram_addr[6] ,
-    \oram_addr[5] ,
-    \oram_addr[4] ,
-    \oram_addr[3] ,
-    \oram_addr[2] ,
-    \oram_addr[1] ,
-    \oram_addr[0] }),
+    .addr0({\wb_rom_adrb[8] ,
+    \wb_rom_adrb[7] ,
+    \wb_rom_adrb[6] ,
+    \wb_rom_adrb[5] ,
+    \wb_rom_adrb[4] ,
+    \wb_rom_adrb[3] ,
+    \wb_rom_adrb[2] ,
+    \wb_rom_adrb[1] ,
+    \wb_rom_adrb[0] }),
+    .addr1({\rom_addr[8] ,
+    \rom_addr[7] ,
+    \rom_addr[6] ,
+    \rom_addr[5] ,
+    \rom_addr[4] ,
+    \rom_addr[3] ,
+    \rom_addr[2] ,
+    \rom_addr[1] ,
+    \rom_addr[0] }),
     .din0({wbs_dat_i[31],
     wbs_dat_i[30],
     wbs_dat_i[29],
@@ -196,80 +212,100 @@ module user_project_wrapper (user_clock2,
     wbs_dat_i[2],
     wbs_dat_i[1],
     wbs_dat_i[0]}),
-    .dout0({\ram_val[31] ,
-    \ram_val[30] ,
-    \ram_val[29] ,
-    \ram_val[28] ,
-    \ram_val[27] ,
-    \ram_val[26] ,
-    \ram_val[25] ,
-    \ram_val[24] ,
-    \ram_val[23] ,
-    \ram_val[22] ,
-    \ram_val[21] ,
-    \ram_val[20] ,
-    \ram_val[19] ,
-    \ram_val[18] ,
-    \ram_val[17] ,
-    \ram_val[16] ,
-    \ram_val[15] ,
-    \ram_val[14] ,
-    \ram_val[13] ,
-    \ram_val[12] ,
-    \ram_val[11] ,
-    \ram_val[10] ,
-    \ram_val[9] ,
-    \ram_val[8] ,
-    \ram_val[7] ,
-    \ram_val[6] ,
-    \ram_val[5] ,
-    \ram_val[4] ,
-    \ram_val[3] ,
-    \ram_val[2] ,
-    \ram_val[1] ,
-    \ram_val[0] }),
-    .dout1({\oram_value[31] ,
-    \oram_value[30] ,
-    \oram_value[29] ,
-    \oram_value[28] ,
-    \oram_value[27] ,
-    \oram_value[26] ,
-    \oram_value[25] ,
-    \oram_value[24] ,
-    \oram_value[23] ,
-    \oram_value[22] ,
-    \oram_value[21] ,
-    \oram_value[20] ,
-    \oram_value[19] ,
-    \oram_value[18] ,
-    \oram_value[17] ,
-    \oram_value[16] ,
-    \oram_value[15] ,
-    \oram_value[14] ,
-    \oram_value[13] ,
-    \oram_value[12] ,
-    \oram_value[11] ,
-    \oram_value[10] ,
-    \oram_value[9] ,
-    \oram_value[8] ,
-    \oram_value[7] ,
-    \oram_value[6] ,
-    \oram_value[5] ,
-    \oram_value[4] ,
-    \oram_value[3] ,
-    \oram_value[2] ,
-    \oram_value[1] ,
-    \oram_value[0] }),
+    .dout0({\wb_rom_val[31] ,
+    \wb_rom_val[30] ,
+    \wb_rom_val[29] ,
+    \wb_rom_val[28] ,
+    \wb_rom_val[27] ,
+    \wb_rom_val[26] ,
+    \wb_rom_val[25] ,
+    \wb_rom_val[24] ,
+    \wb_rom_val[23] ,
+    \wb_rom_val[22] ,
+    \wb_rom_val[21] ,
+    \wb_rom_val[20] ,
+    \wb_rom_val[19] ,
+    \wb_rom_val[18] ,
+    \wb_rom_val[17] ,
+    \wb_rom_val[16] ,
+    \wb_rom_val[15] ,
+    \wb_rom_val[14] ,
+    \wb_rom_val[13] ,
+    \wb_rom_val[12] ,
+    \wb_rom_val[11] ,
+    \wb_rom_val[10] ,
+    \wb_rom_val[9] ,
+    \wb_rom_val[8] ,
+    \wb_rom_val[7] ,
+    \wb_rom_val[6] ,
+    \wb_rom_val[5] ,
+    \wb_rom_val[4] ,
+    \wb_rom_val[3] ,
+    \wb_rom_val[2] ,
+    \wb_rom_val[1] ,
+    \wb_rom_val[0] }),
+    .dout1({\rom_value[31] ,
+    \rom_value[30] ,
+    \rom_value[29] ,
+    \rom_value[28] ,
+    \rom_value[27] ,
+    \rom_value[26] ,
+    \rom_value[25] ,
+    \rom_value[24] ,
+    \rom_value[23] ,
+    \rom_value[22] ,
+    \rom_value[21] ,
+    \rom_value[20] ,
+    \rom_value[19] ,
+    \rom_value[18] ,
+    \rom_value[17] ,
+    \rom_value[16] ,
+    \rom_value[15] ,
+    \rom_value[14] ,
+    \rom_value[13] ,
+    \rom_value[12] ,
+    \rom_value[11] ,
+    \rom_value[10] ,
+    \rom_value[9] ,
+    \rom_value[8] ,
+    \rom_value[7] ,
+    \rom_value[6] ,
+    \rom_value[5] ,
+    \rom_value[4] ,
+    \rom_value[3] ,
+    \rom_value[2] ,
+    \rom_value[1] ,
+    \rom_value[0] }),
     .wmask0({wbs_sel_i[3],
     wbs_sel_i[2],
     wbs_sel_i[1],
     wbs_sel_i[0]}));
- wrapped_tms1x00 wrapped_tms1x00 (.oram_csb(oram_csb),
-    .ram_csb(ram_csb),
-    .ram_web(ram_web),
+ tms1x00_ram ram (.clk(wb_clk_i),
+    .vccd1(vccd1),
+    .vssd1(vssd1),
+    .wen(ram_we),
+    .r_val({\ram_val_in[3] ,
+    \ram_val_in[2] ,
+    \ram_val_in[1] ,
+    \ram_val_in[0] }),
+    .ram_addr({\ram_addr[6] ,
+    \ram_addr[5] ,
+    \ram_addr[4] ,
+    \ram_addr[3] ,
+    \ram_addr[2] ,
+    \ram_addr[1] ,
+    \ram_addr[0] }),
+    .w_val({\ram_val_out[3] ,
+    \ram_val_out[2] ,
+    \ram_val_out[1] ,
+    \ram_val_out[0] }));
+ wrapped_tms1x00 wrapped_tms1x00 (.ram_we(ram_we),
+    .rom_csb(rom_csb),
     .vccd1(vccd1),
     .vssd1(vssd1),
     .wb_clk_i(wb_clk_i),
+    .wb_rom_csb(wb_rom_csb),
+    .wb_rom_web(wb_rom_web),
     .wb_rst_i(wb_rst_i),
     .wbs_ack_o(wbs_ack_o),
     .wbs_cyc_i(wbs_cyc_i),
@@ -389,88 +425,103 @@ module user_project_wrapper (user_clock2,
     io_out[2],
     io_out[1],
     io_out[0]}),
-    .oram_addr({\oram_addr[8] ,
-    \oram_addr[7] ,
-    \oram_addr[6] ,
-    \oram_addr[5] ,
-    \oram_addr[4] ,
-    \oram_addr[3] ,
-    \oram_addr[2] ,
-    \oram_addr[1] ,
-    \oram_addr[0] }),
-    .oram_value({\oram_value[31] ,
-    \oram_value[30] ,
-    \oram_value[29] ,
-    \oram_value[28] ,
-    \oram_value[27] ,
-    \oram_value[26] ,
-    \oram_value[25] ,
-    \oram_value[24] ,
-    \oram_value[23] ,
-    \oram_value[22] ,
-    \oram_value[21] ,
-    \oram_value[20] ,
-    \oram_value[19] ,
-    \oram_value[18] ,
-    \oram_value[17] ,
-    \oram_value[16] ,
-    \oram_value[15] ,
-    \oram_value[14] ,
-    \oram_value[13] ,
-    \oram_value[12] ,
-    \oram_value[11] ,
-    \oram_value[10] ,
-    \oram_value[9] ,
-    \oram_value[8] ,
-    \oram_value[7] ,
-    \oram_value[6] ,
-    \oram_value[5] ,
-    \oram_value[4] ,
-    \oram_value[3] ,
-    \oram_value[2] ,
-    \oram_value[1] ,
-    \oram_value[0] }),
-    .ram_adrb({\ram_adrb[8] ,
-    \ram_adrb[7] ,
-    \ram_adrb[6] ,
-    \ram_adrb[5] ,
-    \ram_adrb[4] ,
-    \ram_adrb[3] ,
-    \ram_adrb[2] ,
-    \ram_adrb[1] ,
-    \ram_adrb[0] }),
-    .ram_val({\ram_val[31] ,
-    \ram_val[30] ,
-    \ram_val[29] ,
-    \ram_val[28] ,
-    \ram_val[27] ,
-    \ram_val[26] ,
-    \ram_val[25] ,
-    \ram_val[24] ,
-    \ram_val[23] ,
-    \ram_val[22] ,
-    \ram_val[21] ,
-    \ram_val[20] ,
-    \ram_val[19] ,
-    \ram_val[18] ,
-    \ram_val[17] ,
-    \ram_val[16] ,
-    \ram_val[15] ,
-    \ram_val[14] ,
-    \ram_val[13] ,
-    \ram_val[12] ,
-    \ram_val[11] ,
-    \ram_val[10] ,
-    \ram_val[9] ,
-    \ram_val[8] ,
-    \ram_val[7] ,
-    \ram_val[6] ,
-    \ram_val[5] ,
-    \ram_val[4] ,
-    \ram_val[3] ,
-    \ram_val[2] ,
-    \ram_val[1] ,
-    \ram_val[0] }),
+    .ram_addr({\ram_addr[6] ,
+    \ram_addr[5] ,
+    \ram_addr[4] ,
+    \ram_addr[3] ,
+    \ram_addr[2] ,
+    \ram_addr[1] ,
+    \ram_addr[0] }),
+    .ram_val_in({\ram_val_in[3] ,
+    \ram_val_in[2] ,
+    \ram_val_in[1] ,
+    \ram_val_in[0] }),
+    .ram_val_out({\ram_val_out[3] ,
+    \ram_val_out[2] ,
+    \ram_val_out[1] ,
+    \ram_val_out[0] }),
+    .rom_addr({\rom_addr[8] ,
+    \rom_addr[7] ,
+    \rom_addr[6] ,
+    \rom_addr[5] ,
+    \rom_addr[4] ,
+    \rom_addr[3] ,
+    \rom_addr[2] ,
+    \rom_addr[1] ,
+    \rom_addr[0] }),
+    .rom_value({\rom_value[31] ,
+    \rom_value[30] ,
+    \rom_value[29] ,
+    \rom_value[28] ,
+    \rom_value[27] ,
+    \rom_value[26] ,
+    \rom_value[25] ,
+    \rom_value[24] ,
+    \rom_value[23] ,
+    \rom_value[22] ,
+    \rom_value[21] ,
+    \rom_value[20] ,
+    \rom_value[19] ,
+    \rom_value[18] ,
+    \rom_value[17] ,
+    \rom_value[16] ,
+    \rom_value[15] ,
+    \rom_value[14] ,
+    \rom_value[13] ,
+    \rom_value[12] ,
+    \rom_value[11] ,
+    \rom_value[10] ,
+    \rom_value[9] ,
+    \rom_value[8] ,
+    \rom_value[7] ,
+    \rom_value[6] ,
+    \rom_value[5] ,
+    \rom_value[4] ,
+    \rom_value[3] ,
+    \rom_value[2] ,
+    \rom_value[1] ,
+    \rom_value[0] }),
+    .wb_rom_adrb({\wb_rom_adrb[8] ,
+    \wb_rom_adrb[7] ,
+    \wb_rom_adrb[6] ,
+    \wb_rom_adrb[5] ,
+    \wb_rom_adrb[4] ,
+    \wb_rom_adrb[3] ,
+    \wb_rom_adrb[2] ,
+    \wb_rom_adrb[1] ,
+    \wb_rom_adrb[0] }),
+    .wb_rom_val({\wb_rom_val[31] ,
+    \wb_rom_val[30] ,
+    \wb_rom_val[29] ,
+    \wb_rom_val[28] ,
+    \wb_rom_val[27] ,
+    \wb_rom_val[26] ,
+    \wb_rom_val[25] ,
+    \wb_rom_val[24] ,
+    \wb_rom_val[23] ,
+    \wb_rom_val[22] ,
+    \wb_rom_val[21] ,
+    \wb_rom_val[20] ,
+    \wb_rom_val[19] ,
+    \wb_rom_val[18] ,
+    \wb_rom_val[17] ,
+    \wb_rom_val[16] ,
+    \wb_rom_val[15] ,
+    \wb_rom_val[14] ,
+    \wb_rom_val[13] ,
+    \wb_rom_val[12] ,
+    \wb_rom_val[11] ,
+    \wb_rom_val[10] ,
+    \wb_rom_val[9] ,
+    \wb_rom_val[8] ,
+    \wb_rom_val[7] ,
+    \wb_rom_val[6] ,
+    \wb_rom_val[5] ,
+    \wb_rom_val[4] ,
+    \wb_rom_val[3] ,
+    \wb_rom_val[2] ,
+    \wb_rom_val[1] ,
+    \wb_rom_val[0] }),
     .wbs_adr_i({wbs_adr_i[31],
     wbs_adr_i[30],
     wbs_adr_i[29],

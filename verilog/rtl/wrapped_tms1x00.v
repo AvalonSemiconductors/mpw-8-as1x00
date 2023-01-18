@@ -7,9 +7,10 @@ module wrapped_tms1x00(
 	output [37:0] io_out,
 	output [37:0] io_oeb,
 
-	output [8:0] oram_addr,
-	output oram_csb,
-	input [31:0] oram_value,
+	//Program memory signals
+	output [8:0] rom_addr,
+	output rom_csb,
+	input [31:0] rom_value,
 
 	input wb_clk_i,
 	input wb_rst_i,
@@ -22,12 +23,18 @@ module wrapped_tms1x00(
 	input wbs_cyc_i,
 	input wbs_stb_i,
 	output wbs_ack_o,
+	
+	//RAM signals
+	output [6:0] ram_addr,
+	input [3:0] ram_val_in,
+	output [3:0] ram_val_out,
+	output ram_we,
 
-	//Program memory signals
-	output ram_csb,
-	output ram_web,
-	output [8:0] ram_adrb,
-	input [31:0] ram_val
+	//Program memory signals - for programming
+	output wb_rom_csb,
+	output wb_rom_web,
+	output [8:0] wb_rom_adrb,
+	input [31:0] wb_rom_val
 );
 
 reg wb_rst_override;
@@ -44,31 +51,31 @@ wire [31:0] pla_val_out;
 
 wire reset = wb_rst_i | wb_rst_override;
 wire [10:0] byte_address;
-assign oram_addr = byte_address[10:2];
+assign rom_addr = byte_address[10:2];
 reg [7:0] byte_value;
-always @(oram_value) begin
+always @(*) begin
 	case(byte_address[1:0])
-		0: byte_value = oram_value[7:0];
-		1: byte_value = oram_value[15:8];
-		2: byte_value = oram_value[23:16];
-		3: byte_value = oram_value[31:24];
+		0: byte_value = rom_value[7:0];
+		1: byte_value = rom_value[15:8];
+		2: byte_value = rom_value[23:16];
+		3: byte_value = rom_value[31:24];
 	endcase
 end
-assign oram_csb = reset;
+assign rom_csb = reset;
 
 assign io_oeb = 38'b00000000000000000000000000001111111111;
 
 /* Wishbone decode */
 assign valid = wbs_cyc_i && wbs_stb_i;
-assign ram_csb = ~wbs_adr_i[16] | ~valid;
-assign ram_web = ~wbs_we_i;
-assign ram_adrb = wbs_adr_i[10:2];
+assign wb_rom_csb = ~wbs_adr_i[16] | ~valid;
+assign wb_rom_web = ~wbs_we_i;
+assign wb_rom_adrb = wbs_adr_i[10:2];
 wire pla_write = wbs_adr_i[17] & valid & wbs_we_i;
 
 reg ready;
 reg feedback_delay;
 assign wbs_ack_o = ready;
-assign wbs_dat_o = wbs_adr_i[23] || wbs_adr_i[17] ? wbs_o_buff : ram_val;
+assign wbs_dat_o = wbs_adr_i[23] || wbs_adr_i[17] ? wbs_o_buff : wb_rom_val;
 always @(posedge wb_clk_i) begin
 	if(wb_rst_i) begin
 		wb_override <= 0;
@@ -115,6 +122,12 @@ tms1x00 tms1x00(
     .rom_addr(byte_address),
     .rom_value_raw(byte_value),
 	.chip_sel_o(io_out[36]),
+	
+	//RAM access
+	.ram_addr(ram_addr),
+	.ram_val_in(ram_val_in),
+	.ram_val_out(ram_val_out),
+	.ram_we(ram_we),
 
     //Wishbone overrides & debug signals
 	.wb_override(wb_override),
