@@ -15,3 +15,5 @@ mgmt_core_wrapper
 /deps/timing-scripts/
 *.hier
 *.vvp
+*.class
+a.out

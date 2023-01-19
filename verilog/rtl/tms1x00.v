@@ -1500,7 +1500,7 @@ wire STSL		=  ins_or_outs[15] & ~is_fixed;
 /* End instruction decoding */
 
 /* Clock phases + PC update */
-wire [5:0] next_pc = PC + 1; //Temp until I figure out the weird PC update logic
+wire [5:0] next_pc = { PC[4:0], (~((PC[5] ^ PC[4]) | (PC == 6'b111111))) | (PC == 6'h1F) };
 wire phi_one = cycle == 0 || cycle == 1;
 wire phi_two = cycle == 3 || cycle == 4;
 wire phi_five = cycle == 2;

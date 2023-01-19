@@ -28,6 +28,8 @@
 #define signal_progress { test_step++; reg_mprj_datal = test_step << 8; }
 #define error_out { reg_mprj_datal = (1 << 31) | (test_step << 8); test_reg_shadow |= (1 << 1); reg_mprj_wb = test_reg_shadow; while(1); }
 
+#define getNextAddr(addr) (((addr << 1) | (!((((addr >> 5) & 1) != ((addr >> 4) & 1)) | (addr == 0b111111)) | (addr == 0x1F) )) & 0b111111)
+
 /*
  * ; Test R output
  * 0D SETR
@@ -214,8 +216,10 @@ void main()
 #endif
 
     //Write
+    uint8_t addr = 0;
     for(int i = 0; i < rom_data1_len; i++) {
-        *(pram_addr + (15 * 64) + i) = rom_data1[i];
+        *(pram_addr + (15 * 64) + addr) = rom_data1[i];
+        addr = getNextAddr(addr);
     }
     reg_mprj_datal = 0;
 #ifdef UART_DEBUG
@@ -223,13 +227,15 @@ void main()
 #endif
 
     //Verify
+    addr = 0;
     for(int i = 0; i < rom_data1_len; i++) {
-        if(*(pram_addr + (15 * 64) + i) != rom_data1[i]) {
+        if(*(pram_addr + (15 * 64) + addr) != rom_data1[i]) {
 #ifdef UART_DEBUG
             print("SoC: Verification error!\n\n");
 #endif
             error_out;
         }
+        addr = getNextAddr(addr);
     }
     signal_progress
 

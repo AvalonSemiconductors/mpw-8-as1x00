@@ -5,6 +5,7 @@ public class LFSR {
 			boolean putZero = false;
 			if(((reg >> 5) & 1) != ((reg >> 4) & 1)) putZero = true;
 			if(reg == 0b111111) putZero = true;
+			if(reg == 0x1F) putZero = false;
 
 			if(putZero) reg = reg << 1;
 			else reg = (reg << 1) | 1;
