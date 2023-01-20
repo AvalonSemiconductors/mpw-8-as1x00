@@ -32,7 +32,7 @@ void main(void) {
 	for(int i = 0; i < 64; i++) {
 		ordered[addr] = rom_data1[i];
 		addr = getNextAddr(addr);
-		printf("%d\n", addr);
+		printf("%02x\n", addr);
 	}
 	printf("{");
 	for(int i = 0; i < 64; i++) {
