@@ -33,6 +33,8 @@
 #define signal_progress { test_step++; reg_mprj_datal = test_step << 8; }
 #define error_out { reg_mprj_datal = (1 << 31) | (test_step << 8); test_reg_shadow |= (1 << 1); reg_mprj_wb = test_reg_shadow; while(1); }
 
+#define getNextAddr(addr) (((addr << 1) | (!((((addr >> 5) & 1) != ((addr >> 4) & 1)) | (addr == 0b111111)) | (addr == 0x1F) )) & 0b111111)
+
 // Modification: extend TDO instruction to TDODYN as described in data manual page 170
 const uint32_t custom_ins_pla_ands[] = {
     0b0110101010101010,
@@ -236,14 +238,18 @@ void main()
     reg_mprj_wb = test_reg_shadow = 0b11011; //Assume control over the design using Wishbone. Its ours now!
 
     //Write
+    uint8_t addr = 0;
     for(int i = 0; i < rom_data1_len; i++) {
-        *(pram_addr + (15 * 64) + i) = rom_data1[i];
+        *(pram_addr + (15 * 64) + addr) = rom_data1[i];
+        addr = getNextAddr(addr);
     }
     reg_mprj_datal = 0;
 
     //Verify
+    addr = 0;
     for(int i = 0; i < rom_data1_len; i++) {
-        if(*(pram_addr + (15 * 64) + i) != rom_data1[i]) error_out
+        if(*(pram_addr + (15 * 64) + addr) != rom_data1[i]) error_out
+        addr = getNextAddr(addr);
     }
     signal_progress
 

@@ -143,7 +143,7 @@ module status_flag_tb;
 
 		last_stage <= 0;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
-		repeat (24000) begin
+		repeat (28000) begin
 			repeat (100) @(posedge clock);
 			if(error_flag) begin
 				$display("%c[1;31m",27);
