@@ -145,6 +145,7 @@ module freerun_tb;
 		// Repeat cycles of 1000 clock edges as needed to complete testbench
 		repeat (8000) begin
 			repeat (100) @(posedge clock);
+			$fflush();
 			if(error_flag) begin
 				$display("%c[1;31m",27);
 				$display("Monitor: Test failure was signaled");
