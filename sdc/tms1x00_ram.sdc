@@ -1,31 +1,31 @@
 ###############################################################################
 # Created by write_sdc
-# Thu Jan 19 17:39:41 2023
+# Tue Mar  7 18:41:08 2023
 ###############################################################################
 current_design tms1x00_ram
 ###############################################################################
 # Timing Constraints
 ###############################################################################
-create_clock -name clk -period 10.0000 [get_ports {clk}]
+create_clock -name clk -period 25.0000 [get_ports {clk}]
 set_clock_transition 0.1500 [get_clocks {clk}]
 set_clock_uncertainty 0.2500 clk
 set_propagated_clock [get_clocks {clk}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[0]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[1]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[2]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[3]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[4]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[5]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[6]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[0]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[1]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[2]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[3]}]
-set_input_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {wen}]
-set_output_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[0]}]
-set_output_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[1]}]
-set_output_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[2]}]
-set_output_delay 2.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[3]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[0]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[1]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[2]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[3]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[4]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[5]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {ram_addr[6]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[0]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[1]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[2]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {w_val[3]}]
+set_input_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {wen}]
+set_output_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[0]}]
+set_output_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[1]}]
+set_output_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[2]}]
+set_output_delay 5.0000 -clock [get_clocks {clk}] -add_delay [get_ports {r_val[3]}]
 ###############################################################################
 # Environment
 ###############################################################################

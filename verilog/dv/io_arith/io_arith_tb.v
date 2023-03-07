@@ -36,6 +36,7 @@ module io_arith_tb;
 	// would be the fast clock.
 
 	always #12.5 clock <= (clock === 1'b0);
+	assign mprj_io[3] = (CSB == 1'b1) ? 1'b1 : 1'bz;
 
 	initial begin
 		clock = 0;
@@ -195,9 +196,9 @@ module io_arith_tb;
 		RSTB <= 1'b0;
 		CSB  <= 1'b1;		// Force CSB high
 		#2000;
-		RSTB <= 1'b1;		// Release reset
-		#100000;
-		CSB = 1'b0;		// CSB can be released
+		RSTB <= 1'b1;	    	// Release reset
+		#3_000_000;
+		//CSB = 1'b0;		// CSB can be released
 	end
 
 	initial begin		// Power-up sequence
@@ -205,13 +206,13 @@ module io_arith_tb;
 		power2 <= 1'b0;
 		power3 <= 1'b0;
 		power4 <= 1'b0;
-		#200;
+		#100;
 		power1 <= 1'b1;
-		#200;
+		#100;
 		power2 <= 1'b1;
-		#200;
+		#100;
 		power3 <= 1'b1;
-		#200;
+		#100;
 		power4 <= 1'b1;
 	end
 

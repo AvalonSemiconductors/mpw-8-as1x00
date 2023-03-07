@@ -1,7 +1,7 @@
 {
     "DESIGN_NAME": "user_project_wrapper",
     "VERILOG_FILES": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/user_project_wrapper.v"],
-    "CLOCK_PERIOD": 10,
+    "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",
     "FP_PDN_MACRO_HOOKS": "wrapped_tms1x00 vccd1 vssd1 vccd1 vssd1, ram vccd1 vssd1 vccd1 vssd1, openram_2kB vccd1 vssd1 vccd1 vssd1",
@@ -9,14 +9,11 @@
     "VERILOG_FILES_BLACKBOX": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/wrapped_tms1x00.v", "dir::../../verilog/rtl/tms1x00.v", "dir::../../verilog/rtl/tms1x00_ram.v", "dir::../../verilog/rtl/sky130_sram_2kbyte_1rw1r_32x512_8.v"],
     "EXTRA_LEFS": ["dir::../../lef/wrapped_tms1x00.lef", "dir::../../lef/tms1x00_ram.lef", "dir::../../lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef"],
     "EXTRA_GDS_FILES": ["dir::../../gds/wrapped_tms1x00.gds", "dir::../../gds/tms1x00_ram.gds", "dir::../../gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds"],
+    "GLB_RT_OBS": "li1 100 2900 783.1 3316.54, met1 100 2900 783.1 3316.54, met2 100 2900 783.1 3316.54, met3 100 2900 783.1 3316.54, met4 100 2900 783.1 3316.54",
+	"BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
+    "IO_SYNC": 0,
     "FP_PDN_CHECK_NODES": 0,
     "SYNTH_ELABORATE_ONLY": 1,
-    "ROUTING_CORES": 8,
-    "RUN_MAGIC_DRC": 0,
-    "MAGIC_DRC_USE_GDS": 0,
-    "QUIT_ON_MAGIC_DRC": 0,
-    "RUN_KLAYOUT_XOR": 0,
-    "GLB_RT_OBS": "li1 100 2900 783.1 3316.54, met1 100 2900 783.1 3316.54, met2 100 2900 783.1 3316.54, met3 100 2900 783.1 3316.54, met4 100 2900 783.1 3316.54",
     "PL_RANDOM_GLB_PLACEMENT": 1,
     "PL_RESIZER_DESIGN_OPTIMIZATIONS": 0,
     "PL_RESIZER_TIMING_OPTIMIZATIONS": 0,
@@ -33,13 +30,14 @@
     "MAGIC_ZEROIZE_ORIGIN": 0,
     "FP_SIZING": "absolute",
     "RUN_CVC": 0,
-    "UNIT": "2.4",
+    "UNIT": 2.4,
     "FP_IO_VEXTEND": "expr::2 * $UNIT",
     "FP_IO_HEXTEND": "expr::2 * $UNIT",
-    "FP_IO_VLENGTH": "ref::$UNIT",
-    "FP_IO_HLENGTH": "ref::$UNIT",
+    "FP_IO_VLENGTH": "expr::$UNIT",
+    "FP_IO_HLENGTH": "expr::$UNIT",
     "FP_IO_VTHICKNESS_MULT": 4,
     "FP_IO_HTHICKNESS_MULT": 4,
+    "RUN_MAGIC_DRC": 0,
     "FP_PDN_CORE_RING": 1,
     "FP_PDN_CORE_RING_VWIDTH": 3.1,
     "FP_PDN_CORE_RING_HWIDTH": 3.1,
@@ -51,15 +49,25 @@
     "FP_PDN_HWIDTH": 3.1,
     "FP_PDN_VSPACING": "expr::(5 * $FP_PDN_CORE_RING_VWIDTH)",
     "FP_PDN_HSPACING": "expr::(5 * $FP_PDN_CORE_RING_HWIDTH)",
-    "VDD_NETS": ["vccd1", "vccd2","vdda1","vdda2"],
-    "GND_NETS": ["vssd1", "vssd2","vssa1","vssa2"],
+    "VDD_NETS": [
+        "vccd1",
+        "vccd2",
+        "vdda1",
+        "vdda2"
+    ],
+    "GND_NETS": [
+        "vssd1",
+        "vssd2",
+        "vssa1",
+        "vssa2"
+    ],
     "SYNTH_USE_PG_PINS_DEFINES": "USE_POWER_PINS",
     "pdk::sky130*": {
         "RT_MAX_LAYER": "met4",
         "DIE_AREA": "0 0 2920 3520",
         "FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
         "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 10
+            "CLOCK_PERIOD": 25
         },
         "scl::sky130_fd_sc_hdll": {
             "CLOCK_PERIOD": 10
