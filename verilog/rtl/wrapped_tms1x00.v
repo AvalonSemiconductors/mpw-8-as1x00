@@ -6,6 +6,7 @@ module wrapped_tms1x00(
 	input [37:0] io_in,
 	output [37:0] io_out,
 	output [37:0] io_oeb,
+	output [2:0] irq,
 
 	//Program memory signals
 	output [8:0] rom_addr,
@@ -36,6 +37,7 @@ module wrapped_tms1x00(
 	output [8:0] wb_rom_adrb,
 	input [31:0] wb_rom_val
 );
+assign irq = 3'b000; //Unused
 
 reg wb_rst_override;
 reg wb_step;

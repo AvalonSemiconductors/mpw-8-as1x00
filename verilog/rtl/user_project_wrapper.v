@@ -173,6 +173,7 @@ wrapped_tms1x00 wrapped_tms1x00(
     .wb_rst_i(wb_rst_i),
     .io_in (io_in),
     .io_out(io_out),
+    .irq(user_irq),
     .io_oeb(io_oeb),
     .rom_addr(rom_addr),
     .rom_csb(rom_csb),

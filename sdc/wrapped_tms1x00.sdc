@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Tue Mar  7 20:47:32 2023
+# Fri Mar 17 11:36:50 2023
 ###############################################################################
 current_design wrapped_tms1x00
 ###############################################################################
@@ -260,6 +260,9 @@ set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {io
 set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {io_out[7]}]
 set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {io_out[8]}]
 set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {io_out[9]}]
+set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {irq[0]}]
+set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {irq[1]}]
+set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {irq[2]}]
 set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ram_addr[0]}]
 set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ram_addr[1]}]
 set_output_delay 5.0000 -clock [get_clocks {wb_clk_i}] -add_delay [get_ports {ram_addr[2]}]
@@ -410,6 +413,9 @@ set_load -pin_load 0.0334 [get_ports {io_out[3]}]
 set_load -pin_load 0.0334 [get_ports {io_out[2]}]
 set_load -pin_load 0.0334 [get_ports {io_out[1]}]
 set_load -pin_load 0.0334 [get_ports {io_out[0]}]
+set_load -pin_load 0.0334 [get_ports {irq[2]}]
+set_load -pin_load 0.0334 [get_ports {irq[1]}]
+set_load -pin_load 0.0334 [get_ports {irq[0]}]
 set_load -pin_load 0.0334 [get_ports {ram_addr[6]}]
 set_load -pin_load 0.0334 [get_ports {ram_addr[5]}]
 set_load -pin_load 0.0334 [get_ports {ram_addr[4]}]
